@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 856 492" width="856" height="492">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F3EC"/>
+      <stop offset="100%" stop-color="#EAE4D7"/>
+    </linearGradient>
+    <filter id="sh3" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#14202B" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="856" height="492" fill="url(#bg3)" rx="12"/>
+  <!-- Ceiling WAN fiber -->
+  <polyline points="166.5,32.3 166.5,84.2 151.7,100.1" fill="none" stroke="#1F7A8C" stroke-width="3"/>
+  <text x="178" y="48" fill="#1F7A8C" font-family="system-ui,sans-serif" font-size="11" font-weight="700">Fibra WAN (techo)</text>
+  <!-- Rack -->
+  <g filter="url(#sh3)" font-family="system-ui,sans-serif">
+    <rect x="96" y="92" width="110" height="148" rx="8" fill="#16293A" stroke="#2A3B4B" stroke-width="1.5"/>
+    <text x="151" y="112" text-anchor="middle" fill="#E8A33D" font-size="10" font-weight="700">RACK TALLERES</text>
+    <text x="151" y="138" text-anchor="middle" fill="#F4F1EA" font-size="10">Router + FW</text>
+    <text x="151" y="160" text-anchor="middle" fill="#F4F1EA" font-size="10">Core L3</text>
+    <text x="151" y="182" text-anchor="middle" fill="#B9C5CF" font-size="9.5">Anillo fibra OT</text>
+  </g>
+  <!-- Industrial fiber ring on wall -->
+  <polyline points="151.7,152 210.4,104.5 319.2,129.8 491.4,170 663.6,210.1" fill="none" stroke="#1E7E53" stroke-width="3"/>
+  <!-- Drops to machines & camera -->
+  <g fill="none" stroke="#9AA5B0" stroke-width="2">
+    <polyline points="151.7,230 194,226.1 210.3,229.9 236.1,201.8"/>
+    <polyline points="210.3,229.9 252,223.9"/>
+    <polyline points="319.2,129.8 332.8,159 332.8,210.9 314.2,230.9 301.5,234.9"/>
+    <polyline points="491.4,170 505,199.1 505,251.1 486.4,271 473.7,283.7"/>
+    <polyline points="663.6,210.1 677.2,239.3 677.2,291.2 658.6,311.2 645.9,302.2"/>
+    <polyline points="663.6,210.1 690.8,233.8 766.9,251.5 766.9,225.5 762.7,224.9"/>
+  </g>
+  <!-- Industrial switches -->
+  <g filter="url(#sh3)" font-family="system-ui,sans-serif">
+    <rect x="278" y="114" width="84" height="28" rx="6" fill="#16293A" stroke="#1E7E53" stroke-width="1.4"/>
+    <text x="320" y="132" text-anchor="middle" fill="#4AD295" font-size="10" font-weight="700">SW Ind. 1</text>
+    <rect x="450" y="154" width="84" height="28" rx="6" fill="#16293A" stroke="#1E7E53" stroke-width="1.4"/>
+    <text x="492" y="172" text-anchor="middle" fill="#4AD295" font-size="10" font-weight="700">SW Ind. 2</text>
+    <rect x="622" y="194" width="84" height="28" rx="6" fill="#16293A" stroke="#1E7E53" stroke-width="1.4"/>
+    <text x="664" y="212" text-anchor="middle" fill="#4AD295" font-size="10" font-weight="700">SW Ind. 3</text>
+  </g>
+  <!-- Machines & workstation -->
+  <g filter="url(#sh3)" font-family="system-ui,sans-serif">
+    <rect x="192" y="190" width="96" height="44" rx="7" fill="#FBFAF6" stroke="#1F7A8C" stroke-width="1.5"/>
+    <text x="240" y="210" text-anchor="middle" fill="#14202B" font-size="10.5" font-weight="700">Puesto Mant.</text>
+    <text x="240" y="225" text-anchor="middle" fill="#4A5661" font-size="9">PC + Teléfono IP</text>
+
+    <rect x="252" y="236" width="110" height="44" rx="7" fill="#FBFAF6" stroke="#1E7E53" stroke-width="1.5"/>
+    <text x="307" y="256" text-anchor="middle" fill="#14202B" font-size="10.5" font-weight="700">Torno de ruedas</text>
+    <text x="307" y="271" text-anchor="middle" fill="#4A5661" font-size="9">Sensores OT</text>
+
+    <rect x="424" y="278" width="110" height="44" rx="7" fill="#FBFAF6" stroke="#1E7E53" stroke-width="1.5"/>
+    <text x="479" y="298" text-anchor="middle" fill="#14202B" font-size="10.5" font-weight="700">Compresor</text>
+    <text x="479" y="313" text-anchor="middle" fill="#4A5661" font-size="9">Sensores OT</text>
+
+    <rect x="596" y="302" width="116" height="44" rx="7" fill="#FBFAF6" stroke="#1E7E53" stroke-width="1.5"/>
+    <text x="654" y="322" text-anchor="middle" fill="#14202B" font-size="10.5" font-weight="700">Banco de pruebas</text>
+    <text x="654" y="337" text-anchor="middle" fill="#4A5661" font-size="9">Sensores OT</text>
+
+    <rect x="720" y="190" width="96" height="42" rx="7" fill="#FBFAF6" stroke="#7B5EA7" stroke-width="1.5"/>
+    <text x="768" y="209" text-anchor="middle" fill="#14202B" font-size="10.5" font-weight="700">Cámara nave</text>
+    <text x="768" y="224" text-anchor="middle" fill="#4A5661" font-size="9">VLAN 30 · Video</text>
+  </g>
+</svg>

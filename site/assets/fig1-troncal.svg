@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1327 533" width="1327" height="533">
+  <defs>
+    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F3EC"/>
+      <stop offset="100%" stop-color="#EAE4D7"/>
+    </linearGradient>
+    <filter id="sh1" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#14202B" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="1327" height="533" fill="url(#bg1)" rx="12"/>
+  <!-- Isometric ground grid -->
+  <g stroke="#D9D3C4" stroke-width="1" opacity="0.65">
+    <line x1="60" y1="130" x2="1260" y2="410"/>
+    <line x1="60" y1="210" x2="1260" y2="490"/>
+    <line x1="180" y1="60" x2="1280" y2="316"/>
+  </g>
+  <!-- Troncal fiber tray -->
+  <polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#1F7A8C" stroke-width="6" stroke-linecap="round" opacity="0.28"/>
+  <polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#1F7A8C" stroke-width="2.2" stroke-dasharray="6 4"/>
+  <!-- Secondary / backup path -->
+  <polyline points="240.3,105.1 240.3,188.2 1146.6,399.5" fill="none" stroke="#E8A33D" stroke-width="2" stroke-dasharray="5 5" opacity="0.85"/>
+  <!-- Retiro Data Center & CCO -->
+  <g filter="url(#sh1)">
+    <rect x="82" y="34" width="175" height="92" rx="10" fill="#16293A" stroke="#2A3B4B" stroke-width="1.5"/>
+    <text x="96" y="56" fill="#E8A33D" font-family="system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">RETIRO · CCO &amp; DC</text>
+    <text x="96" y="114" fill="#B9C5CF" font-family="system-ui,sans-serif" font-size="10.5">5 emisores + núcleo MPLS</text>
+  </g>
+  <!-- 5 service emitters -->
+  <g fill="#FBFAF6" stroke="#1F7A8C" stroke-width="1.5">
+    <circle cx="131.6" cy="69.3" r="6"/><circle cx="154.2" cy="74.6" r="6"/>
+    <circle cx="176.9" cy="79.9" r="6"/><circle cx="199.5" cy="85.1" r="6"/>
+    <circle cx="222.2" cy="90.4" r="6"/>
+  </g>
+  <!-- Stations along trunk -->
+  <g font-family="system-ui,sans-serif" filter="url(#sh1)">
+    <!-- Campana -->
+    <line x1="428.3" y1="207.1" x2="422.8" y2="226.8" stroke="#1F7A8C" stroke-width="2"/>
+    <rect x="372" y="226" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
+    <text x="426" y="247" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">Campana</text>
+    <text x="426" y="263" text-anchor="middle" fill="#4A5661" font-size="10">Km 80 · Estación</text>
+    <!-- San Pedro -->
+    <line x1="609.5" y1="249.3" x2="604.1" y2="269.1" stroke="#1F7A8C" stroke-width="2"/>
+    <rect x="553" y="268" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
+    <text x="607" y="289" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">San Pedro</text>
+    <text x="607" y="305" text-anchor="middle" fill="#4A5661" font-size="10">Km 171 · Estación</text>
+    <!-- San Nicolas -->
+    <line x1="790.8" y1="291.6" x2="785.3" y2="311.4" stroke="#1F7A8C" stroke-width="2"/>
+    <rect x="734" y="310" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
+    <text x="788" y="331" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">San Nicolás</text>
+    <text x="788" y="347" text-anchor="middle" fill="#4A5661" font-size="10">Km 238 · Estación</text>
+    <!-- Rosario -->
+    <line x1="972" y1="333.8" x2="966.6" y2="353.7" stroke="#1F7A8C" stroke-width="2"/>
+    <rect x="915" y="352" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
+    <text x="969" y="373" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">Rosario</text>
+    <text x="969" y="389" text-anchor="middle" fill="#4A5661" font-size="10">Km 303 · Terminal</text>
+    <!-- Talleres Rosario -->
+    <line x1="1135.2" y1="371.9" x2="1128.9" y2="386.5" stroke="#1F7A8C" stroke-width="2"/>
+    <rect x="1068" y="386" width="144" height="54" rx="8" fill="#16293A" stroke="#E8A33D" stroke-width="1.8"/>
+    <text x="1140" y="409" text-anchor="middle" fill="#F4F1EA" font-size="12" font-weight="700">Talleres Rosario</text>
+    <text x="1140" y="426" text-anchor="middle" fill="#E8A33D" font-size="10">Nave OT · 24 cám · 200 sens.</text>
+  </g>
+</svg>

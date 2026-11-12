@@ -14,9 +14,8 @@
       --line: #D9D3C4;
       --accent: #B26A00;
       --accent-soft: rgba(178, 106, 0, 0.12);
-      --ok: #1E7E53;
-      --warn: #A35B00;
       --shadow: 0 8px 24px rgba(20, 32, 43, 0.06);
+      --nav-h: 56px;
     }
     @media (prefers-color-scheme: dark) {
       :root {
@@ -28,15 +27,13 @@
         --line: #2A3B4B;
         --accent: #E8A33D;
         --accent-soft: rgba(232, 163, 61, 0.14);
-        --ok: #4AD295;
-        --warn: #F0B354;
         --shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
       }
     }
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
+    html, body {
       margin: 0;
+      padding: 0;
       background: var(--bg);
       color: var(--ink);
       font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
@@ -45,35 +42,38 @@
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
 
+    /* Top navigation bar */
     header.topbar {
       position: sticky;
       top: 0;
-      z-index: 20;
+      z-index: 30;
+      min-height: var(--nav-h);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
       backdrop-filter: blur(10px);
-      background: color-mix(in srgb, var(--bg) 88%, transparent);
       border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
     }
     .topbar-inner {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 12px 20px;
+      width: 100%;
+      padding: 8px 18px;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
     .brand {
       display: flex;
       align-items: center;
       gap: 10px;
       font-weight: 700;
-      letter-spacing: 0.3px;
       color: var(--ink);
+      cursor: pointer;
     }
     .brand-badge {
       font-size: 11px;
-      letter-spacing: 1.5px;
+      letter-spacing: 1.4px;
       text-transform: uppercase;
       padding: 3px 8px;
       border-radius: 999px;
@@ -81,25 +81,91 @@
       color: var(--accent);
       border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
     }
-    nav.navlinks {
+    nav.section-tabs {
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
-      font-size: 14px;
-      font-weight: 500;
+      gap: 6px;
+      align-items: center;
     }
-    nav.navlinks a { color: var(--muted); }
-    nav.navlinks a:hover { color: var(--ink); text-decoration: none; }
+    .nav-tab {
+      padding: 7px 12px;
+      border-radius: 8px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+    .nav-tab:hover {
+      color: var(--ink);
+      background: var(--bg-soft);
+    }
+    .nav-tab.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 7px 13px;
+      border-radius: 8px;
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: var(--bg-soft);
+      color: var(--ink);
+      text-decoration: none;
+    }
+    .btn:hover { border-color: var(--accent); text-decoration: none; }
+    .btn-primary {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover { filter: brightness(1.06); color: #fff; }
 
-    main {
-      max-width: 1180px;
+    /* Sections */
+    .page-section { display: none; }
+    .page-section.active { display: block; }
+
+    /* Full-bleed simulation section */
+    .sim-full-section {
+      display: none;
+      width: 100%;
+      height: calc(100vh - var(--nav-h));
+      background: #0F1F2E;
+    }
+    .sim-full-section.active {
+      display: block;
+    }
+    .sim-full-frame {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+      background: #0F1F2E;
+    }
+
+    /* Content container for Inicio & Documentacion */
+    .container {
+      max-width: 1220px;
       margin: 0 auto;
       padding: 32px 20px 64px;
       display: flex;
       flex-direction: column;
-      gap: 40px;
+      gap: 32px;
     }
-
     .hero {
       background: var(--card);
       border: 1px solid var(--line);
@@ -126,11 +192,7 @@
       max-width: 82ch;
       font-size: 16px;
     }
-    .chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
     .chip {
       font-size: 13px;
       padding: 5px 11px;
@@ -140,19 +202,14 @@
       color: var(--ink);
     }
 
-    section h2 {
-      margin: 0 0 6px;
-      font-size: 23px;
-    }
-    .section-sub {
-      margin: 0 0 18px;
-      color: var(--muted);
-      font-size: 15px;
-    }
-
     .sim-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 16px;
     }
     .card {
@@ -172,105 +229,10 @@
       text-transform: uppercase;
       color: var(--accent);
     }
-    .card h3 {
-      margin: 0;
-      font-size: 19px;
-    }
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14.5px;
-      flex: 1;
-    }
-    .btn-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 4px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 9px 14px;
-      border-radius: 9px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--line);
-      background: var(--bg-soft);
-      color: var(--ink);
-      text-decoration: none;
-      transition: border-color 0.15s ease, transform 0.1s ease;
-    }
-    .btn:hover {
-      border-color: var(--accent);
-      text-decoration: none;
-    }
-    .btn-primary {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .btn-primary:hover {
-      filter: brightness(1.06);
-      color: #fff;
-    }
+    .card h3 { margin: 0; font-size: 19px; }
+    .card p { margin: 0; color: var(--muted); font-size: 14.5px; flex: 1; }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
 
-    /* Embedded Viewer */
-    .viewer-shell {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-    .viewer-bar {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      padding: 12px 16px;
-      background: var(--bg-soft);
-      border-bottom: 1px solid var(--line);
-    }
-    .viewer-tabs {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .tab-btn {
-      padding: 7px 12px;
-      border-radius: 8px;
-      border: 1px solid var(--line);
-      background: var(--card);
-      color: var(--muted);
-      font-size: 13.5px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-    .tab-btn.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: #fff;
-    }
-    .viewer-frame {
-      width: 100%;
-      height: 76vh;
-      min-height: 540px;
-      border: 0;
-      display: block;
-      background: #0F1F2E;
-    }
-
-    /* Documentation grids & tables */
-    .two-col {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px;
-    }
     .table-wrap {
       overflow-x: auto;
       background: var(--card);
@@ -278,11 +240,7 @@
       border-radius: 14px;
       box-shadow: var(--shadow);
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 14px;
-    }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
     th, td {
       text-align: left;
       padding: 12px 14px;
@@ -318,267 +276,294 @@
       font-size: 14px;
       color: var(--ink);
     }
-
-    footer {
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 0 20px 40px;
-      color: var(--muted);
-      font-size: 13px;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 10px;
-    }
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
+      <div class="brand" onclick="showSection('inicio')">
         <span>Smart Rail</span>
         <span class="brand-badge">TA048 Redes</span>
       </div>
-      <nav class="navlinks">
-        <a href="#simulaciones">Simulaciones</a>
-        <a href="#visor">Visor integrado</a>
-        <a href="#indice-tp">Índice y estado del TP</a>
-        <a href="#cambios-sim">Cambios de la simulación</a>
-        <a href="#uso">Guía de uso</a>
+      <nav class="section-tabs" role="tablist">
+        <button class="nav-tab active" data-sec="inicio" onclick="showSection('inicio')">Inicio</button>
+        <button class="nav-tab" data-sec="recorrido" onclick="showSection('recorrido')">1 · Recorrido por paradas</button>
+        <button class="nav-tab" data-sec="por-dentro" onclick="showSection('por-dentro')">2 · La red por dentro</button>
+        <button class="nav-tab" data-sec="simulacion" onclick="showSection('simulacion')">3 · Simulación a escala</button>
+        <button class="nav-tab" data-sec="documentacion" onclick="showSection('documentacion')">Documentación y TP</button>
       </nav>
+      <div class="nav-actions">
+        <a id="popoutBtn" class="btn" href="SmartRail-1-Recorrido.html" target="_blank" rel="noopener" style="display:none;">Abrir en pestaña nueva ↗</a>
+      </div>
     </div>
   </header>
 
-  <main>
-    <section class="hero">
-      <p class="eyebrow">Red WAN Regional · Portal Interactivo</p>
-      <h1>Smart Rail — Recorrido y Simulación de la Red</h1>
-      <p class="lead">
-        Estrella con el CCO de Retiro como núcleo y seis sedes: Retiro (CCO y data center), Campana, San Pedro,
-        San Nicolás, Rosario (terminal) y Talleres Rosario. Enlace principal VPN MPLS (candidato Telecom) y respaldo
-        por Internet con VPN IPSec y SD-WAN de otro operador (candidato Claro).
-      </p>
-      <div class="chips">
-        <span class="chip">Topología estrella · 6 sedes</span>
-        <span class="chip">VLANs: 10 Datos · 20 Voz · 30 Video · 40 OT · 99 Gestión</span>
-        <span class="chip">OSPF por áreas + eBGP con operadores</span>
-        <span class="chip">CCO: ~301 Mbps (enlace 500 Mbps)</span>
-      </div>
-    </section>
-
-    <section id="simulaciones">
-      <h2>Pantallas de la simulación</h2>
-      <p class="section-sub">
-        Podés abrir cada pantalla en ventana completa o cargarla directamente en el visor integrado de abajo.
-        Las tres pantallas están enlazadas entre sí y funcionan de forma autónoma en el navegador.
-      </p>
-      <div class="sim-grid">
-        <article class="card">
-          <span class="sim-num">Pantalla 1</span>
-          <h3>Recorrido por paradas</h3>
-          <p>La red parada por parada, desde el data center y CCO de Retiro hasta la terminal de Rosario y Talleres Rosario.</p>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="SmartRail-1-Recorrido.html">Abrir pantalla completa</a>
-            <button class="btn" type="button" onclick="loadSim('SmartRail-1-Recorrido.html', this)" data-tab="0">Ver en visor</button>
-          </div>
-        </article>
-
-        <article class="card">
-          <span class="sim-num">Pantalla 2</span>
-          <h3>La red por dentro</h3>
-          <p>Figuras animadas para ver la red funcionando: Fig. 1 troncal animada, Fig. 2 estación tipo y Fig. 3 Talleres Rosario.</p>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="SmartRail-2-La-red-por-dentro.html">Abrir pantalla completa</a>
-            <button class="btn" type="button" onclick="loadSim('SmartRail-2-La-red-por-dentro.html', this)" data-tab="1">Ver en visor</button>
-          </div>
-        </article>
-
-        <article class="card">
-          <span class="sim-num">Pantalla 3</span>
-          <h3>Simulación a escala del mapa</h3>
-          <p>Tráfico en vivo, zoom hasta 14x, arrastre en el mapa y simulación de cortes de fibra en cualquier punto de la vía.</p>
-          <div class="btn-row">
-            <a class="btn btn-primary" href="SmartRail-3-Simulacion.html">Abrir pantalla completa</a>
-            <button class="btn" type="button" onclick="loadSim('SmartRail-3-Simulacion.html', this)" data-tab="2">Ver en visor</button>
-          </div>
-        </article>
-      </div>
-    </section>
-
-    <section id="visor">
-      <h2>Visor integrado</h2>
-      <p class="section-sub">Cambiá entre las tres pantallas de la simulación sin salir de esta página.</p>
-      <div class="viewer-shell">
-        <div class="viewer-bar">
-          <div class="viewer-tabs" role="tablist">
-            <button class="tab-btn active" type="button" onclick="selectTab(0, 'SmartRail-1-Recorrido.html')">1 · Recorrido por paradas</button>
-            <button class="tab-btn" type="button" onclick="selectTab(1, 'SmartRail-2-La-red-por-dentro.html')">2 · La red por dentro</button>
-            <button class="tab-btn" type="button" onclick="selectTab(2, 'SmartRail-3-Simulacion.html')">3 · Simulación a escala</button>
-          </div>
-          <a id="openCurrent" class="btn" href="SmartRail-1-Recorrido.html" target="_blank" rel="noopener">Abrir en pestaña nueva ↗</a>
-        </div>
-        <iframe id="simFrame" class="viewer-frame" src="SmartRail-1-Recorrido.html" title="Visor de simulación Smart Rail"></iframe>
-      </div>
-    </section>
-
-    <section id="indice-tp">
-      <h2>Índice y estado del TP (al 30/10/2026)</h2>
-      <p class="section-sub">Resumen de entregables, decisiones de diseño y pendientes del trabajo práctico.</p>
-
-      <div class="table-wrap" style="margin-bottom: 16px;">
-        <table>
-          <thead>
-            <tr>
-              <th>Pieza</th>
-              <th>Ubicación / Recurso</th>
-              <th>Notas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Enunciado</strong></td>
-              <td>TP FINAL REDES.pdf (carpeta Drive)</td>
-              <td>Pide una presentación de al menos 10 slides.</td>
-            </tr>
-            <tr>
-              <td><strong>Borrador inicial</strong></td>
-              <td>SmartRail_Red_WAN - borrador inicial (16-10).pdf</td>
-              <td>Versión de mediados de octubre, sin talleres ni proveedores.</td>
-            </tr>
-            <tr>
-              <td><strong>Presentación (16 slides)</strong></td>
-              <td><a href="https://claude.ai/artifact/KrenBAkAyYatUSXvUfcgnE" target="_blank" rel="noopener">Artefacto de presentación</a></td>
-              <td>Exportable como PowerPoint o PDF desde Compartir › Exportar.</td>
-            </tr>
-            <tr>
-              <td><strong>Web interactiva: recorrido por paradas</strong></td>
-              <td><a href="SmartRail-1-Recorrido.html">SmartRail-1-Recorrido.html</a></td>
-              <td>Página «Recorrido interactivo de la red» (también en <a href="https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA" target="_blank" rel="noopener">Claude Artifact</a>).</td>
-            </tr>
-            <tr>
-              <td><strong>Web interactiva: la red por dentro</strong></td>
-              <td><a href="SmartRail-2-La-red-por-dentro.html">SmartRail-2-La-red-por-dentro.html</a></td>
-              <td>Fig. 1 troncal animada, Fig. 2 estación, Fig. 3 Talleres Rosario.</td>
-            </tr>
-            <tr>
-              <td><strong>Simulación a escala del mapa</strong></td>
-              <td><a href="SmartRail-3-Simulacion.html">SmartRail-3-Simulacion.html</a></td>
-              <td>Tráfico en vivo y simulación de cortes de fibra con conmutación SD-WAN.</td>
-            </tr>
-            <tr>
-              <td><strong>Material de cátedra</strong></td>
-              <td>Carpeta REDES-VOLPI (clases 1 a 12)</td>
-              <td>Fuente de los criterios técnicos.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="two-col">
-        <div class="card">
-          <h3>Hecho</h3>
-          <ul class="clean">
-            <li><strong>Presentación de 16 slides</strong> cubriendo todos los puntos del enunciado: descripción, justificación, objetivos, alcance, servicios, ancho de banda, tecnologías, proveedores, topología física y lógica, direccionamiento y enrutamiento, equipamiento, seguridad perimetral, monitoreo (SNMP y NetFlow) y cierre.</li>
-            <li><strong>Web interactiva</strong> con el recorrido por paradas, tres figuras animadas de la red y simulación a escala del mapa.</li>
-          </ul>
-        </div>
-        <div class="card">
-          <h3>Para revisar y pendiente</h3>
-          <ul class="clean">
-            <li><strong>Supuestos de tráfico:</strong> cantidades de cámaras, llamadas y datos por sede, en especial Talleres Rosario (24 cámaras, 10 llamadas, ~200 sensores).</li>
-            <li><strong>Portada y formato:</strong> completar integrantes, cátedra, fecha y numeración de etiquetas de sección en las slides.</li>
-            <li><strong>Integración OSPF / MPLS:</strong> cómo se integra OSPF con el servicio MPLS del operador y agregados respecto del planteo original (VLAN 40 OT y subestaciones).</li>
-            <li><strong>Cobertura real:</strong> verificar Telecom y Claro en Campana, San Pedro y San Nicolás.</li>
-            <li><strong>Falta hacer:</strong> actualizar el documento de análisis (borrador de octubre) con talleres, proveedores y los 301 Mbps.</li>
-          </ul>
+  <!-- SECCIÓN: INICIO -->
+  <section id="sec-inicio" class="page-section active">
+    <div class="container">
+      <div class="hero">
+        <p class="eyebrow">Red WAN Regional · Portal Interactivo</p>
+        <h1>Smart Rail — Recorrido y Simulación de la Red</h1>
+        <p class="lead">
+          Estrella con el CCO de Retiro como núcleo y seis sedes: Retiro (CCO y data center), Campana, San Pedro,
+          San Nicolás, Rosario (terminal) y Talleres Rosario. Enlace principal VPN MPLS (candidato Telecom) y respaldo
+          por Internet con VPN IPSec y SD-WAN de otro operador (candidato Claro).
+        </p>
+        <div class="chips">
+          <span class="chip">Topología estrella · 6 sedes</span>
+          <span class="chip">VLANs: 10 Datos · 20 Voz · 30 Video · 40 OT · 99 Gestión</span>
+          <span class="chip">OSPF por áreas + eBGP con operadores</span>
+          <span class="chip">CCO: ~301 Mbps (enlace 500 Mbps)</span>
         </div>
       </div>
-    </section>
 
-    <section id="cambios-sim">
-      <h2>Cambios en «Simulación a escala del mapa» (30/10/2026)</h2>
-      <p class="section-sub">Detalles de interacción del mapa, leyenda y comportamiento ante cortes de fibra.</p>
-      <div class="two-col">
-        <div class="card">
-          <h3>Mapa y controles</h3>
-          <ul class="clean">
-            <li>Zoom de hasta ~14x y posibilidad de alejar más allá de la vista completa.</li>
-            <li>Arrastre del mapa en cualquier nivel de zoom y zoom con dos dedos (pellizcar) en celular.</li>
-            <li>Leyenda <strong>«Carriles de la fibra»</strong> desplegable (arranca cerrada para no tapar el mapa).</li>
-            <li>Botón <strong>«Cortar en el mapa»</strong>: permite cortar en cualquier punto de la vía, incluido el ramal a Talleres.</li>
-          </ul>
-          <h3 style="margin-top:8px;">Simulación de cortes de fibra</h3>
-          <ul class="clean">
-            <li>El respaldo no corre por la vía: cada sede afectada sale por su propio acceso a Internet (otro operador, candidato Claro) hacia la nube de Internet y de ahí a Retiro con <strong>VPN IPSec</strong>.</li>
-            <li>La fibra queda apagada desde el punto exacto del corte hasta el final de la línea, con el km indicado.</li>
-            <li>Fase de detección (~3 s): las sedes afectadas quedan en rojo y sin tráfico hasta que SD-WAN conmuta al respaldo.</li>
-            <li>Panel <strong>«Qué está pasando»</strong>: línea de tiempo (0 s, ≈50 ms, 1 a 3 s, después), sedes afectadas/no afectadas, km sin señal, tráfico desviado y RTT antes/después.</li>
-          </ul>
+      <div>
+        <h2 style="margin:0 0 6px;">Secciones de la simulación</h2>
+        <p style="margin:0 0 18px; color:var(--muted);">Elegí cualquier simulación para abrirla a pantalla completa dentro del portal o en una pestaña independiente.</p>
+        <div class="sim-grid">
+          <article class="card">
+            <span class="sim-num">Sección 1</span>
+            <h3>Recorrido por paradas</h3>
+            <p>La red parada por parada, desde el data center y CCO de Retiro hasta la terminal de Rosario y Talleres Rosario.</p>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="button" onclick="showSection('recorrido')">Abrir sección</button>
+              <a class="btn" href="SmartRail-1-Recorrido.html" target="_blank" rel="noopener">Pestaña aparte ↗</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="sim-num">Sección 2</span>
+            <h3>La red por dentro</h3>
+            <p>Figuras animadas para ver la red funcionando: Fig. 1 troncal animada, Fig. 2 estación tipo y Fig. 3 Talleres Rosario.</p>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="button" onclick="showSection('por-dentro')">Abrir sección</button>
+              <a class="btn" href="SmartRail-2-La-red-por-dentro.html" target="_blank" rel="noopener">Pestaña aparte ↗</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="sim-num">Sección 3</span>
+            <h3>Simulación a escala del mapa</h3>
+            <p>Tráfico en vivo, zoom hasta 14x, arrastre en el mapa y simulación de cortes de fibra en cualquier punto de la vía.</p>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="button" onclick="showSection('simulacion')">Abrir sección</button>
+              <a class="btn" href="SmartRail-3-Simulacion.html" target="_blank" rel="noopener">Pestaña aparte ↗</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <span class="sim-num">Sección 4</span>
+            <h3>Documentación y estado del TP</h3>
+            <p>Índice de entregables, supuestos de diseño, cambios de la simulación a escala y guía de uso offline.</p>
+            <div class="btn-row">
+              <button class="btn btn-primary" type="button" onclick="showSection('documentacion')">Ver documentación</button>
+            </div>
+          </article>
         </div>
-        <div class="card">
-          <h3>Ejemplos de resultado según el punto de corte</h3>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECCIÓN: SIMULACIÓN 1 (PANTALLA COMPLETA) -->
+  <section id="sec-recorrido" class="sim-full-section">
+    <iframe class="sim-full-frame" data-src="SmartRail-1-Recorrido.html?v=3" title="1 · Recorrido por paradas"></iframe>
+  </section>
+
+  <!-- SECCIÓN: SIMULACIÓN 2 (PANTALLA COMPLETA) -->
+  <section id="sec-por-dentro" class="sim-full-section">
+    <iframe class="sim-full-frame" data-src="SmartRail-2-La-red-por-dentro.html?v=3" title="2 · La red por dentro"></iframe>
+  </section>
+
+  <!-- SECCIÓN: SIMULACIÓN 3 (PANTALLA COMPLETA) -->
+  <section id="sec-simulacion" class="sim-full-section">
+    <iframe class="sim-full-frame" data-src="SmartRail-3-Simulacion.html?v=3" title="3 · Simulación a escala del mapa"></iframe>
+  </section>
+
+  <!-- SECCIÓN: DOCUMENTACIÓN Y TP -->
+  <section id="sec-documentacion" class="page-section">
+    <div class="container">
+      <div>
+        <h2 style="margin:0 0 6px;">Índice y estado del TP (al 30/10/2026)</h2>
+        <p style="margin:0 0 18px; color:var(--muted);">Resumen de entregables, decisiones de diseño y pendientes del trabajo práctico.</p>
+
+        <div class="table-wrap" style="margin-bottom: 16px;">
           <table>
             <thead>
               <tr>
-                <th>Punto de corte</th>
-                <th>Sedes por Internet (respaldo)</th>
+                <th>Pieza</th>
+                <th>Ubicación / Recurso</th>
+                <th>Notas</th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td><strong>Km ~38</strong> (Retiro–Campana)</td>
-                <td>5 de 5 sedes por Internet.</td>
+                <td><strong>Enunciado</strong></td>
+                <td>TP FINAL REDES.pdf (carpeta Drive)</td>
+                <td>Pide una presentación de al menos 10 slides.</td>
               </tr>
               <tr>
-                <td><strong>Km ~122</strong> (Campana–San Pedro)</td>
-                <td>4 sedes por Internet; Campana sigue por fibra.</td>
+                <td><strong>Borrador inicial</strong></td>
+                <td>SmartRail_Red_WAN - borrador inicial (16-10).pdf</td>
+                <td>Versión de mediados de octubre, sin talleres ni proveedores.</td>
               </tr>
               <tr>
-                <td><strong>Km ~202</strong> (San Pedro–San Nicolás)</td>
-                <td>3 sedes por Internet.</td>
+                <td><strong>Presentación (16 slides)</strong></td>
+                <td><a href="https://claude.ai/artifact/KrenBAkAyYatUSXvUfcgnE" target="_blank" rel="noopener">Artefacto de presentación</a></td>
+                <td>Exportable como PowerPoint o PDF desde Compartir › Exportar.</td>
               </tr>
               <tr>
-                <td><strong>Km ~269</strong> (San Nicolás–Rosario)</td>
-                <td>2 sedes por Internet (Rosario y Talleres).</td>
+                <td><strong>Web interactiva: recorrido por paradas</strong></td>
+                <td><a href="SmartRail-1-Recorrido.html?v=3" target="_blank" rel="noopener">SmartRail-1-Recorrido.html</a></td>
+                <td>Página «Recorrido interactivo de la red» (también en <a href="https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA" target="_blank" rel="noopener">Claude Artifact</a>).</td>
               </tr>
               <tr>
-                <td><strong>Ramal a Talleres</strong></td>
-                <td>Solo Talleres Rosario por Internet.</td>
+                <td><strong>Web interactiva: la red por dentro</strong></td>
+                <td><a href="SmartRail-2-La-red-por-dentro.html?v=3" target="_blank" rel="noopener">SmartRail-2-La-red-por-dentro.html</a></td>
+                <td>Fig. 1 troncal animada, Fig. 2 estación, Fig. 3 Talleres Rosario.</td>
+              </tr>
+              <tr>
+                <td><strong>Simulación a escala del mapa</strong></td>
+                <td><a href="SmartRail-3-Simulacion.html?v=3" target="_blank" rel="noopener">SmartRail-3-Simulacion.html</a></td>
+                <td>Tráfico en vivo y simulación de cortes de fibra con conmutación SD-WAN.</td>
+              </tr>
+              <tr>
+                <td><strong>Material de cátedra</strong></td>
+                <td>Carpeta REDES-VOLPI (clases 1 a 12)</td>
+                <td>Fuente de los criterios técnicos.</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </div>
-    </section>
 
-    <section id="uso">
-      <h2>Guía de uso offline y publicación</h2>
+        <div class="two-col">
+          <div class="card">
+            <h3>Hecho</h3>
+            <ul class="clean">
+              <li><strong>Presentación de 16 slides</strong> cubriendo todos los puntos del enunciado: descripción, justificación, objetivos, alcance, servicios, ancho de banda, tecnologías, proveedores, topología física y lógica, direccionamiento y enrutamiento, equipamiento, seguridad perimetral, monitoreo (SNMP y NetFlow) y cierre.</li>
+              <li><strong>Web interactiva</strong> con el recorrido por paradas, tres figuras animadas de la red y simulación a escala del mapa.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Para revisar y pendiente</h3>
+            <ul class="clean">
+              <li><strong>Supuestos de tráfico:</strong> cantidades de cámaras, llamadas y datos por sede, en especial Talleres Rosario (24 cámaras, 10 llamadas, ~200 sensores).</li>
+              <li><strong>Portada y formato:</strong> completar integrantes, cátedra, fecha y numeración de etiquetas de sección en las slides.</li>
+              <li><strong>Integración OSPF / MPLS:</strong> cómo se integra OSPF con el servicio MPLS del operador y agregados respecto del planteo original (VLAN 40 OT y subestaciones).</li>
+              <li><strong>Cobertura real:</strong> verificar Telecom y Claro en Campana, San Pedro y San Nicolás.</li>
+              <li><strong>Falta hacer:</strong> actualizar el documento de análisis (borrador de octubre) con talleres, proveedores y los 301 Mbps.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="margin:0 0 6px;">Cambios en «Simulación a escala del mapa» (30/10/2026)</h2>
+        <p style="margin:0 0 18px; color:var(--muted);">Detalles de interacción del mapa, leyenda y comportamiento ante cortes de fibra.</p>
+        <div class="two-col">
+          <div class="card">
+            <h3>Mapa y controles</h3>
+            <ul class="clean">
+              <li>Zoom de hasta ~14x y posibilidad de alejar más allá de la vista completa.</li>
+              <li>Arrastre del mapa en cualquier nivel de zoom y zoom con dos dedos (pellizcar) en celular.</li>
+              <li>Leyenda <strong>«Carriles de la fibra»</strong> desplegable (arranca cerrada para no tapar el mapa).</li>
+              <li>Botón <strong>«Cortar en el mapa»</strong>: permite cortar en cualquier punto de la vía, incluido el ramal a Talleres.</li>
+            </ul>
+            <h3 style="margin-top:8px;">Simulación de cortes de fibra</h3>
+            <ul class="clean">
+              <li>El respaldo no corre por la vía: cada sede afectada sale por su propio acceso a Internet (otro operador, candidato Claro) hacia la nube de Internet y de ahí a Retiro con <strong>VPN IPSec</strong>.</li>
+              <li>La fibra queda apagada desde el punto exacto del corte hasta el final de la línea, con el km indicado.</li>
+              <li>Fase de detección (~3 s): las sedes afectadas quedan en rojo y sin tráfico hasta que SD-WAN conmuta al respaldo.</li>
+              <li>Panel <strong>«Qué está pasando»</strong>: línea de tiempo (0 s, ≈50 ms, 1 a 3 s, después), sedes afectadas/no afectadas, km sin señal, tráfico desviado y RTT antes/después.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3>Ejemplos de resultado según el punto de corte</h3>
+            <table>
+              <thead>
+                <tr>
+                  <th>Punto de corte</th>
+                  <th>Sedes por Internet (respaldo)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Km ~38</strong> (Retiro–Campana)</td>
+                  <td>5 de 5 sedes por Internet.</td>
+                </tr>
+                <tr>
+                  <td><strong>Km ~122</strong> (Campana–San Pedro)</td>
+                  <td>4 sedes por Internet; Campana sigue por fibra.</td>
+                </tr>
+                <tr>
+                  <td><strong>Km ~202</strong> (San Pedro–San Nicolás)</td>
+                  <td>3 sedes por Internet.</td>
+                </tr>
+                <tr>
+                  <td><strong>Km ~269</strong> (San Nicolás–Rosario)</td>
+                  <td>2 sedes por Internet (Rosario y Talleres).</td>
+                </tr>
+                <tr>
+                  <td><strong>Ramal a Talleres</strong></td>
+                  <td>Solo Talleres Rosario por Internet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <div class="callout">
-        <strong>Autocontenido:</strong> cada archivo <code>SmartRail-*.html</code> incluye sus tipografías y motor de ejecución, por lo que funciona tanto online desde GitHub Pages como offline descargando la carpeta completa sin separar los archivos. También se conserva la portada original en <a href="ABRIR-AQUI.html">ABRIR-AQUI.html</a> y las notas en <a href="LEEME.txt">LEEME.txt</a>.
+        <strong>Modo autocontenido:</strong> cada archivo <code>SmartRail-*.html</code> incluye sus tipografías y motor de ejecución. También se conserva la portada original en <a href="ABRIR-AQUI.html" target="_blank" rel="noopener">ABRIR-AQUI.html</a> y las notas en <a href="LEEME.txt" target="_blank" rel="noopener">LEEME.txt</a>.
       </div>
-    </section>
-  </main>
-
-  <footer>
-    <span>Smart Rail · TA048 Redes</span>
-    <span>Desplegado automáticamente con GitHub Actions en GitHub Pages</span>
-  </footer>
+    </div>
+  </section>
 
   <script>
-    function selectTab(index, file) {
-      const frame = document.getElementById('simFrame');
-      const openLink = document.getElementById('openCurrent');
-      const tabs = document.querySelectorAll('.tab-btn');
-      tabs.forEach((btn, i) => btn.classList.toggle('active', i === index));
-      frame.src = file;
-      openLink.href = file;
+    const simFiles = {
+      'recorrido': 'SmartRail-1-Recorrido.html?v=3',
+      'por-dentro': 'SmartRail-2-La-red-por-dentro.html?v=3',
+      'simulacion': 'SmartRail-3-Simulacion.html?v=3'
+    };
+
+    function showSection(name) {
+      const valid = ['inicio', 'recorrido', 'por-dentro', 'simulacion', 'documentacion'];
+      if (!valid.includes(name)) name = 'inicio';
+
+      document.querySelectorAll('.nav-tab').forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-sec') === name);
+      });
+
+      valid.forEach(sec => {
+        const el = document.getElementById('sec-' + sec);
+        if (!el) return;
+        const isActive = sec === name;
+        el.classList.toggle('active', isActive);
+        if (isActive && simFiles[sec]) {
+          const frame = el.querySelector('iframe');
+          if (frame && !frame.getAttribute('src')) {
+            frame.setAttribute('src', frame.getAttribute('data-src'));
+          }
+        }
+      });
+
+      const pop = document.getElementById('popoutBtn');
+      if (simFiles[name]) {
+        pop.style.display = 'inline-flex';
+        pop.href = simFiles[name];
+      } else {
+        pop.style.display = 'none';
+      }
+
+      if (location.hash !== '#' + name) {
+        history.replaceState(null, '', '#' + name);
+      }
+      window.scrollTo(0, 0);
     }
 
-    function loadSim(file, button) {
-      const idx = Number(button.getAttribute('data-tab') || 0);
-      selectTab(idx, file);
-      document.getElementById('visor').scrollIntoView({ behavior: 'smooth' });
-    }
+    window.addEventListener('DOMContentLoaded', () => {
+      const h = (location.hash || '').replace('#', '');
+      if (h) showSection(h);
+    });
   </script>
 </body>
 </html>

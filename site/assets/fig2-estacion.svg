@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 837 466" width="837" height="466">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#F6F3EC"/>
+      <stop offset="100%" stop-color="#EAE4D7"/>
+    </linearGradient>
+    <filter id="sh2" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#14202B" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+  <rect width="837" height="466" fill="url(#bg2)" rx="12"/>
+  <!-- Ceiling WAN fiber entry -->
+  <polyline points="137.1,26.7 137.1,83.8 120.2,101.9" fill="none" stroke="#1F7A8C" stroke-width="3"/>
+  <text x="148" y="42" fill="#1F7A8C" font-family="system-ui,sans-serif" font-size="11" font-weight="700">Fibra WAN (techo)</text>
+  <!-- Rack -->
+  <g filter="url(#sh2)" font-family="system-ui,sans-serif">
+    <rect x="64" y="88" width="112" height="184" rx="8" fill="#16293A" stroke="#2A3B4B" stroke-width="1.5"/>
+    <text x="120" y="106" text-anchor="middle" fill="#E8A33D" font-size="10" font-weight="700">RACK ESTACIÓN</text>
+    <rect x="74" y="114" width="92" height="17" rx="3" fill="#22384D"/><text x="120" y="126" text-anchor="middle" fill="#F4F1EA" font-size="9.5">Router WAN</text>
+    <rect x="74" y="135" width="92" height="17" rx="3" fill="#22384D"/><text x="120" y="147" text-anchor="middle" fill="#F4F1EA" font-size="9.5">Firewall</text>
+    <rect x="74" y="156" width="92" height="17" rx="3" fill="#22384D"/><text x="120" y="168" text-anchor="middle" fill="#F4F1EA" font-size="9.5">Switch Capa 3</text>
+    <rect x="74" y="177" width="92" height="17" rx="3" fill="#22384D"/><text x="120" y="189" text-anchor="middle" fill="#F4F1EA" font-size="9.5">Switch PoE</text>
+    <rect x="74" y="198" width="92" height="17" rx="3" fill="#22384D"/><text x="120" y="210" text-anchor="middle" fill="#F4F1EA" font-size="9.5">Patchera</text>
+  </g>
+  <!-- Floor conduits -->
+  <g fill="none" stroke="#9AA5B0" stroke-width="2.2">
+    <polyline points="120.2,263 151.9,270.4 156.1,265.9 255.8,289.1 255.8,249.3 275.8,255.3"/>
+    <polyline points="151.9,270.4 164.6,256.8 409.3,313.9 409.3,274 441.3,273.2"/>
+    <polyline points="151.9,270.4 173,247.8 541,333.5 542.9,336.2 542.9,218.4 562.7,215.6"/>
+    <polyline points="151.9,270.4 181.5,238.7 661.8,350.7 698.1,336.6 718.9,341.5 719.8,310.5"/>
+  </g>
+  <!-- Endpoints -->
+  <g filter="url(#sh2)" font-family="system-ui,sans-serif">
+    <rect x="235" y="220" width="96" height="42" rx="7" fill="#FBFAF6" stroke="#E8A33D" stroke-width="1.5"/>
+    <text x="283" y="239" text-anchor="middle" fill="#14202B" font-size="11" font-weight="700">Teléfono IP</text>
+    <text x="283" y="254" text-anchor="middle" fill="#4A5661" font-size="9.5">VLAN 20 · Voz</text>
+
+    <rect x="394" y="238" width="100" height="42" rx="7" fill="#FBFAF6" stroke="#1F7A8C" stroke-width="1.5"/>
+    <text x="444" y="257" text-anchor="middle" fill="#14202B" font-size="11" font-weight="700">Boletería</text>
+    <text x="444" y="272" text-anchor="middle" fill="#4A5661" font-size="9.5">VLAN 10 · Datos</text>
+
+    <rect x="518" y="182" width="102" height="42" rx="7" fill="#FBFAF6" stroke="#7B5EA7" stroke-width="1.5"/>
+    <text x="569" y="201" text-anchor="middle" fill="#14202B" font-size="11" font-weight="700">Cámara poste</text>
+    <text x="569" y="216" text-anchor="middle" fill="#4A5661" font-size="9.5">VLAN 30 · Video</text>
+
+    <rect x="646" y="294" width="136" height="50" rx="7" fill="#16293A" stroke="#1E7E53" stroke-width="1.6"/>
+    <text x="714" y="316" text-anchor="middle" fill="#F4F1EA" font-size="11" font-weight="700">Gabinete OT</text>
+    <text x="714" y="332" text-anchor="middle" fill="#4AD295" font-size="9.5">VLAN 40 · Paso a nivel</text>
+  </g>
+</svg>
