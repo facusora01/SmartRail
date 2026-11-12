@@ -1,63 +1,99 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1327 533" width="1327" height="533">
-  <defs>
-    <linearGradient id="bg1" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#F6F3EC"/>
-      <stop offset="100%" stop-color="#EAE4D7"/>
-    </linearGradient>
-    <filter id="sh1" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#14202B" flood-opacity="0.12"/>
-    </filter>
-  </defs>
-  <rect width="1327" height="533" fill="url(#bg1)" rx="12"/>
-  <!-- Isometric ground grid -->
-  <g stroke="#D9D3C4" stroke-width="1" opacity="0.65">
-    <line x1="60" y1="130" x2="1260" y2="410"/>
-    <line x1="60" y1="210" x2="1260" y2="490"/>
-    <line x1="180" y1="60" x2="1280" y2="316"/>
-  </g>
-  <!-- Troncal fiber tray -->
-  <polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#1F7A8C" stroke-width="6" stroke-linecap="round" opacity="0.28"/>
-  <polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#1F7A8C" stroke-width="2.2" stroke-dasharray="6 4"/>
-  <!-- Secondary / backup path -->
-  <polyline points="240.3,105.1 240.3,188.2 1146.6,399.5" fill="none" stroke="#E8A33D" stroke-width="2" stroke-dasharray="5 5" opacity="0.85"/>
-  <!-- Retiro Data Center & CCO -->
-  <g filter="url(#sh1)">
-    <rect x="82" y="34" width="175" height="92" rx="10" fill="#16293A" stroke="#2A3B4B" stroke-width="1.5"/>
-    <text x="96" y="56" fill="#E8A33D" font-family="system-ui,sans-serif" font-size="11" font-weight="700" letter-spacing="1.2">RETIRO · CCO &amp; DC</text>
-    <text x="96" y="114" fill="#B9C5CF" font-family="system-ui,sans-serif" font-size="10.5">5 emisores + núcleo MPLS</text>
-  </g>
-  <!-- 5 service emitters -->
-  <g fill="#FBFAF6" stroke="#1F7A8C" stroke-width="1.5">
-    <circle cx="131.6" cy="69.3" r="6"/><circle cx="154.2" cy="74.6" r="6"/>
-    <circle cx="176.9" cy="79.9" r="6"/><circle cx="199.5" cy="85.1" r="6"/>
-    <circle cx="222.2" cy="90.4" r="6"/>
-  </g>
-  <!-- Stations along trunk -->
-  <g font-family="system-ui,sans-serif" filter="url(#sh1)">
-    <!-- Campana -->
-    <line x1="428.3" y1="207.1" x2="422.8" y2="226.8" stroke="#1F7A8C" stroke-width="2"/>
-    <rect x="372" y="226" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
-    <text x="426" y="247" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">Campana</text>
-    <text x="426" y="263" text-anchor="middle" fill="#4A5661" font-size="10">Km 80 · Estación</text>
-    <!-- San Pedro -->
-    <line x1="609.5" y1="249.3" x2="604.1" y2="269.1" stroke="#1F7A8C" stroke-width="2"/>
-    <rect x="553" y="268" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
-    <text x="607" y="289" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">San Pedro</text>
-    <text x="607" y="305" text-anchor="middle" fill="#4A5661" font-size="10">Km 171 · Estación</text>
-    <!-- San Nicolas -->
-    <line x1="790.8" y1="291.6" x2="785.3" y2="311.4" stroke="#1F7A8C" stroke-width="2"/>
-    <rect x="734" y="310" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
-    <text x="788" y="331" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">San Nicolás</text>
-    <text x="788" y="347" text-anchor="middle" fill="#4A5661" font-size="10">Km 238 · Estación</text>
-    <!-- Rosario -->
-    <line x1="972" y1="333.8" x2="966.6" y2="353.7" stroke="#1F7A8C" stroke-width="2"/>
-    <rect x="915" y="352" width="108" height="48" rx="8" fill="#FBFAF6" stroke="#B26A00" stroke-width="1.5"/>
-    <text x="969" y="373" text-anchor="middle" fill="#14202B" font-size="12" font-weight="700">Rosario</text>
-    <text x="969" y="389" text-anchor="middle" fill="#4A5661" font-size="10">Km 303 · Terminal</text>
-    <!-- Talleres Rosario -->
-    <line x1="1135.2" y1="371.9" x2="1128.9" y2="386.5" stroke="#1F7A8C" stroke-width="2"/>
-    <rect x="1068" y="386" width="144" height="54" rx="8" fill="#16293A" stroke="#E8A33D" stroke-width="1.8"/>
-    <text x="1140" y="409" text-anchor="middle" fill="#F4F1EA" font-size="12" font-weight="700">Talleres Rosario</text>
-    <text x="1140" y="426" text-anchor="middle" fill="#E8A33D" font-size="10">Nave OT · 24 cám · 200 sens.</text>
-  </g>
+<rect width="1327" height="533" fill="#F6F3EC"/>
+<polygon points="59.8,205.1 1169.8,463.9 1169.8,472.9 59.8,214.1" fill="#DFD8C8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="1250.0,377.7 1169.8,463.9 1169.8,472.9 1250.0,386.7" fill="#CFC7B4" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="140.0,119.0 1250.0,377.7 1169.8,463.9 59.8,205.1" fill="#EDE8DC" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<line x1="59.8" y1="205.1" x2="63.8" y2="201.1" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="87.8" y1="211.7" x2="91.8" y2="207.7" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="115.8" y1="218.2" x2="119.8" y2="214.2" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="143.8" y1="224.7" x2="147.8" y2="220.7" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="171.8" y1="231.2" x2="175.8" y2="227.2" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="199.8" y1="237.8" x2="203.8" y2="233.8" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="227.8" y1="244.3" x2="231.8" y2="240.3" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="255.8" y1="250.8" x2="259.8" y2="246.8" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="283.8" y1="257.4" x2="287.8" y2="253.4" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="311.8" y1="263.9" x2="315.8" y2="259.9" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="339.8" y1="270.4" x2="343.8" y2="266.4" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="367.8" y1="276.9" x2="371.8" y2="272.9" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="395.8" y1="283.5" x2="399.8" y2="279.5" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="423.8" y1="290.0" x2="427.8" y2="286.0" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="451.8" y1="296.5" x2="455.8" y2="292.5" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="479.8" y1="303.0" x2="483.8" y2="299.0" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="507.8" y1="309.6" x2="511.8" y2="305.6" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="535.8" y1="316.1" x2="539.8" y2="312.1" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="563.8" y1="322.6" x2="567.8" y2="318.6" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="591.8" y1="329.1" x2="595.8" y2="325.1" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="619.8" y1="335.7" x2="623.8" y2="331.7" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="647.8" y1="342.2" x2="651.8" y2="338.2" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="675.8" y1="348.7" x2="679.8" y2="344.7" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="703.8" y1="355.3" x2="707.8" y2="351.3" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="731.8" y1="361.8" x2="735.8" y2="357.8" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="759.8" y1="368.3" x2="763.8" y2="364.3" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="787.8" y1="374.8" x2="791.8" y2="370.8" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="815.8" y1="381.4" x2="819.8" y2="377.4" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="843.8" y1="387.9" x2="847.8" y2="383.9" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="871.8" y1="394.4" x2="875.8" y2="390.4" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="899.8" y1="400.9" x2="903.8" y2="396.9" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="927.8" y1="407.5" x2="931.8" y2="403.5" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="955.8" y1="414.0" x2="959.8" y2="410.0" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="983.8" y1="420.5" x2="987.8" y2="416.5" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1011.8" y1="427.1" x2="1015.8" y2="423.1" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1039.8" y1="433.6" x2="1043.8" y2="429.6" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1067.8" y1="440.1" x2="1071.8" y2="436.1" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1095.8" y1="446.6" x2="1099.8" y2="442.6" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1123.8" y1="453.2" x2="1127.8" y2="449.2" stroke="#9E9583" stroke-width="0.9"/>
+<line x1="1151.8" y1="459.7" x2="1155.8" y2="455.7" stroke="#9E9583" stroke-width="0.9"/>
+<polyline points="240.3,105.1 240.3,188.2 1146.6,399.5" fill="none" stroke="#8C96A0" stroke-width="1.3"/>
+<polygon points="374.1,183.7 396.1,188.8 396.1,214.8 374.1,209.7" fill="#E5DFD0" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="407.0,177.1 396.1,188.8 396.1,214.8 407.0,203.1" fill="#D4CCB9" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="385.0,172.0 407.0,177.1 396.1,188.8 374.1,183.7" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/>
+<line x1="411" y1="204" x2="411" y2="170" stroke="#4A5661" stroke-width="2"/>
+<rect x="407" y="166" width="8" height="7" fill="#C94A38" stroke="#2B3742" stroke-width="0.7"/>
+<polygon points="555.1,225.7 577.1,230.8 577.1,256.8 555.1,251.7" fill="#E5DFD0" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="588.0,219.1 577.1,230.8 577.1,256.8 588.0,245.1" fill="#D4CCB9" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="566.0,214.0 588.0,219.1 577.1,230.8 555.1,225.7" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/>
+<line x1="592" y1="246" x2="592" y2="212" stroke="#4A5661" stroke-width="2"/>
+<rect x="588" y="208" width="8" height="7" fill="#C94A38" stroke="#2B3742" stroke-width="0.7"/>
+<polygon points="736.1,267.7 758.1,272.8 758.1,298.8 736.1,293.7" fill="#E5DFD0" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="769.0,261.1 758.1,272.8 758.1,298.8 769.0,287.1" fill="#D4CCB9" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="747.0,256.0 769.0,261.1 758.1,272.8 736.1,267.7" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/>
+<line x1="773" y1="288" x2="773" y2="254" stroke="#4A5661" stroke-width="2"/>
+<rect x="769" y="250" width="8" height="7" fill="#C94A38" stroke="#2B3742" stroke-width="0.7"/>
+<polygon points="917.1,309.7 939.1,314.8 939.1,340.8 917.1,335.7" fill="#E5DFD0" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="950.0,303.1 939.1,314.8 939.1,340.8 950.0,329.1" fill="#D4CCB9" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/><polygon points="928.0,298.0 950.0,303.1 939.1,314.8 917.1,309.7" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.9" stroke-linejoin="round"/>
+<line x1="954" y1="330" x2="954" y2="296" stroke="#4A5661" stroke-width="2"/>
+<rect x="950" y="292" width="8" height="7" fill="#C94A38" stroke="#2B3742" stroke-width="0.7"/>
+<polygon points="93.1,102.2 211.1,129.7 211.1,205.7 93.1,178.2" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.2" stroke-linejoin="round"/><polygon points="256.0,81.5 211.1,129.7 211.1,205.7 256.0,157.5" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.2" stroke-linejoin="round"/><polygon points="138.0,54.0 256.0,81.5 211.1,129.7 93.1,102.2" fill="#EFECE3" stroke="#2B3742" stroke-width="1.2" stroke-linejoin="round"/>
+<polygon points="104,167 166,181.5 166,214 104,199.5" fill="#CFC8B7" stroke="#2B3742" stroke-width="0.9"/>
+<line x1="104" y1="173" x2="166" y2="187.5" stroke="#9E9583" stroke-width="0.7"/>
+<line x1="104" y1="179" x2="166" y2="193.5" stroke="#9E9583" stroke-width="0.7"/>
+<line x1="104" y1="185" x2="166" y2="199.5" stroke="#9E9583" stroke-width="0.7"/>
+<line x1="104" y1="191" x2="166" y2="205.5" stroke="#9E9583" stroke-width="0.7"/>
+<line x1="104" y1="197" x2="166" y2="211.5" stroke="#9E9583" stroke-width="0.7"/>
+<line x1="104" y1="203" x2="166" y2="217.5" stroke="#9E9583" stroke-width="0.7"/>
+<polygon points="175,188 189,191.3 189,219 175,215.7" fill="#B5AD9B" stroke="#2B3742" stroke-width="0.9"/>
+<polygon points="160.5,52.2 182.5,57.3 182.5,67.3 160.5,62.2" fill="#DFD9CA" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="192.0,47.1 182.5,57.3 182.5,67.3 192.0,57.1" fill="#CCC4B2" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="170.0,42.0 192.0,47.1 182.5,57.3 160.5,52.2" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="195.5,60.2 217.5,65.3 217.5,75.3 195.5,70.2" fill="#DFD9CA" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="227.0,55.1 217.5,65.3 217.5,75.3 227.0,65.1" fill="#CCC4B2" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="205.0,50.0 227.0,55.1 217.5,65.3 195.5,60.2" fill="#F6F3EC" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="120.1,71.3 133.1,74.4 133.1,85.4 120.1,82.3" fill="#1F7A8C" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="140.6,66.3 133.1,74.4 133.1,85.4 140.6,77.3" fill="#2B3742" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="127.6,63.3 140.6,66.3 133.1,74.4 120.1,71.3" fill="#1F7A8C" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="142.8,76.6 155.8,79.6 155.8,90.6 142.8,87.6" fill="#E8A33D" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="163.2,71.6 155.8,79.6 155.8,90.6 163.2,82.6" fill="#2B3742" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="150.2,68.6 163.2,71.6 155.8,79.6 142.8,76.6" fill="#E8A33D" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="165.4,81.9 178.4,84.9 178.4,95.9 165.4,92.9" fill="#7B5EA7" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="185.9,76.9 178.4,84.9 178.4,95.9 185.9,87.9" fill="#2B3742" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="172.9,73.8 185.9,76.9 178.4,84.9 165.4,81.9" fill="#7B5EA7" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="188.1,87.1 201.1,90.2 201.1,101.2 188.1,98.1" fill="#4A5661" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="208.5,82.1 201.1,90.2 201.1,101.2 208.5,93.1" fill="#2B3742" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="195.5,79.1 208.5,82.1 201.1,90.2 188.1,87.1" fill="#4A5661" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<polygon points="210.7,92.4 223.7,95.4 223.7,106.4 210.7,103.4" fill="#C94A38" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="231.2,87.4 223.7,95.4 223.7,106.4 231.2,98.4" fill="#2B3742" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/><polygon points="218.2,84.4 231.2,87.4 223.7,95.4 210.7,92.4" fill="#C94A38" stroke="#2B3742" stroke-width="0.8" stroke-linejoin="round"/>
+<text x="106.0" y="226.0" transform="rotate(13.1 106.0 226.0)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8.5" font-weight="600" letter-spacing="0.8">DATA CENTER</text>
+<polygon points="237.4,140.7 295.4,154.2 295.4,196.2 237.4,182.7" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="324.0,123.5 295.4,154.2 295.4,196.2 324.0,165.5" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="266.0,110.0 324.0,123.5 295.4,154.2 237.4,140.7" fill="#EFECE3" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<line x1="305" y1="105" x2="305" y2="82" stroke="#2B3742" stroke-width="1.3"/>
+<text x="276.0" y="118.0" transform="rotate(13.1 276.0 118.0)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8" font-weight="600" letter-spacing="0.8">CCO</text>
+<polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#2B3742" stroke-width="3.6" stroke-linecap="round"/>
+<polyline points="240.3,105.1 228.9,117.3 228.9,160.6 1135.2,371.9" fill="none" stroke="#EAE4D7" stroke-width="1.6" stroke-linecap="round"/>
+<line x1="428.3" y1="207.1" x2="422.8" y2="236.8" stroke="#2B3742" stroke-width="1.8"/>
+<polygon points="376.2,251.5 442.2,266.8 442.2,300.8 376.2,285.5" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="470.8,236.2 442.2,266.8 442.2,300.8 470.8,270.2" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="404.8,220.8 470.8,236.2 442.2,266.8 376.2,251.5" fill="#F3EFE6" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<text x="388.8" y="298.8" transform="rotate(13.1 388.8 298.8)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8" font-weight="600" letter-spacing="0.8">CAMPANA</text>
+<line x1="609.6" y1="249.4" x2="604.1" y2="279.1" stroke="#2B3742" stroke-width="1.8"/>
+<polygon points="557.5,293.8 623.5,309.1 623.5,343.1 557.5,327.8" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="652.1,278.5 623.5,309.1 623.5,343.1 652.1,312.5" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="586.1,263.1 652.1,278.5 623.5,309.1 557.5,293.8" fill="#F3EFE6" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<text x="570.1" y="341.1" transform="rotate(13.1 570.1 341.1)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8" font-weight="600" letter-spacing="0.8">SAN PEDRO</text>
+<line x1="790.8" y1="291.7" x2="785.3" y2="321.4" stroke="#2B3742" stroke-width="1.8"/>
+<polygon points="738.7,336.1 804.7,351.4 804.7,385.4 738.7,370.1" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="833.3,320.8 804.7,351.4 804.7,385.4 833.3,354.8" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="767.3,305.4 833.3,320.8 804.7,351.4 738.7,336.1" fill="#F3EFE6" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<text x="751.3" y="383.4" transform="rotate(13.1 751.3 383.4)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8" font-weight="600" letter-spacing="0.8">SAN NICOLÁS</text>
+<line x1="972.1" y1="334.0" x2="966.6" y2="363.7" stroke="#2B3742" stroke-width="1.8"/>
+<polygon points="920.0,378.4 986.0,393.7 986.0,427.7 920.0,412.4" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="1014.6,363.1 986.0,393.7 986.0,427.7 1014.6,397.1" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="948.6,347.7 1014.6,363.1 986.0,393.7 920.0,378.4" fill="#F3EFE6" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<text x="932.6" y="425.7" transform="rotate(13.1 932.6 425.7)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="8" font-weight="600" letter-spacing="0.8">ROSARIO</text>
+<line x1="1135.2" y1="371.9" x2="1128.9" y2="386.5" stroke="#2B3742" stroke-width="1.8"/>
+<polygon points="1070.9,405.0 1162.9,426.4 1162.9,462.4 1070.9,441.0" fill="#E3DDD0" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="1196.9,389.9 1162.9,426.4 1162.9,462.4 1196.9,425.9" fill="#D1C9B8" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/><polygon points="1104.9,368.5 1196.9,389.9 1162.9,426.4 1070.9,405.0" fill="#EFECE3" stroke="#2B3742" stroke-width="1.1" stroke-linejoin="round"/>
+<polygon points="1090.9,366.5 1104.9,352.5 1114.9,372.1" fill="#E3DDD0" stroke="#2B3742" stroke-width="0.9"/>
+<polygon points="1114.9,372.1 1128.9,358.1 1138.9,377.70000000000005" fill="#E3DDD0" stroke="#2B3742" stroke-width="0.9"/>
+<polygon points="1138.9,377.7 1152.9,363.7 1162.9,383.3" fill="#E3DDD0" stroke="#2B3742" stroke-width="0.9"/>
+<line x1="1058.9" y1="431.5" x2="1198.9" y2="464.1" stroke="#4A5661" stroke-width="1.3"/>
+<line x1="1053.9" y1="436.5" x2="1193.9" y2="469.1" stroke="#4A5661" stroke-width="1.3"/>
+<text x="1070.9" y="462.5" transform="rotate(13.1 1070.9 462.5)" fill="#4A5661" font-family="system-ui,Arial,sans-serif" font-size="7.5" font-weight="600" letter-spacing="0.8">TALLERES ROSARIO</text>
 </svg>
