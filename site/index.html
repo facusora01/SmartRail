@@ -540,8 +540,14 @@
         el.classList.toggle('active', isActive);
         if (isActive && simFiles[sec]) {
           const frame = el.querySelector('iframe');
-          if (frame && !frame.getAttribute('src')) {
-            frame.setAttribute('src', frame.getAttribute('data-src'));
+          const expectedSrc = frame ? frame.getAttribute('data-src') : '';
+          const expectedFile = expectedSrc.split('?')[0];
+          let currentPath = '';
+          try {
+            currentPath = frame && frame.contentWindow ? frame.contentWindow.location.pathname : '';
+          } catch (_) {}
+          if (frame && (!frame.getAttribute('src') || !currentPath.endsWith('/' + expectedFile))) {
+            frame.setAttribute('src', expectedSrc);
           }
         }
       });
