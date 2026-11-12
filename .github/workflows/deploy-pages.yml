@@ -26,11 +26,27 @@ jobs:
         run: |
           required_files=(
             "site/index.html"
+            "site/styles.css"
+            "site/app.js"
             "site/ABRIR-AQUI.html"
             "site/SmartRail-1-Recorrido.html"
             "site/SmartRail-2-La-red-por-dentro.html"
             "site/SmartRail-3-Simulacion.html"
             "site/LEEME.txt"
+            "site/assets/fig1-troncal.svg"
+            "site/assets/fig2-estacion.svg"
+            "site/assets/fig3-talleres.svg"
+            "site/assets/pdf/topologia-fisica.png"
+            "site/assets/pdf/sat-retiro.jpg"
+            "site/assets/pdf/sat-campana.jpg"
+            "site/assets/pdf/sat-san-pedro.jpg"
+            "site/assets/pdf/sat-san-nicolas.jpg"
+            "site/assets/pdf/sat-rosario-norte.jpg"
+            "site/assets/pdf/sat-pasos-a-nivel-193.jpg"
+            "site/assets/pdf/esquema-paso-nivel-854.png"
+            "site/assets/pdf/esquema-piloto-20-pan.png"
+            "site/assets/pdf/esquema-gabinete-borde.png"
+            "site/assets/pdf/esquema-arquitectura-linea.png"
           )
           for f in "${required_files[@]}"; do
             if [ ! -s "$f" ]; then
