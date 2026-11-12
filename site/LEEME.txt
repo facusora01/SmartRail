@@ -1,0 +1,19 @@
+SMART RAIL - RECORRIDO DE LA RED (TA048 Redes)
+
+COMO USARLO
+1. Descomprimi esta carpeta en el Escritorio (o donde quieras).
+2. Abri "ABRIR-AQUI.html" con doble clic (Chrome, Edge o Firefox).
+3. Desde ahi entras a las tres pantallas.
+
+IMPORTANTE
+- No separes los archivos: los links entre pantallas buscan los otros archivos en esta misma carpeta.
+- Funciona sin internet: las tipografias y el motor de la pagina van incluidos en cada archivo.
+- No abras los archivos desde adentro del ZIP sin descomprimir: algunos navegadores no los cargan bien asi.
+
+CONTENIDO
+- ABRIR-AQUI.html: pagina de inicio.
+- SmartRail-1-Recorrido.html: recorrido por paradas.
+- SmartRail-2-La-red-por-dentro.html: la red por dentro.
+- SmartRail-3-Simulacion.html: simulacion a escala del mapa, con cortes de fibra.
+
+Version editable online: https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA
