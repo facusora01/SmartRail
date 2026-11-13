@@ -19,6 +19,7 @@
         <button class="nav-tab sim-pill" data-sec="recorrido" onclick="showSection('recorrido')">1 · Recorrido</button>
         <button class="nav-tab sim-pill" data-sec="por-dentro" onclick="showSection('por-dentro')">2 · La red por dentro</button>
         <button class="nav-tab sim-pill" data-sec="simulacion" onclick="showSection('simulacion')">3 · Simulación mapa</button>
+        <button class="nav-tab sim-pill" data-sec="sedes-menores" onclick="showSection('sedes-menores')">4 · Sedes menores (Facu)</button>
         <button class="nav-tab" data-sec="diseno-wan" onclick="showSection('diseno-wan')">Diseño WAN</button>
         <button class="nav-tab" data-sec="diagnostico" onclick="showSection('diagnostico')">Diagnóstico &amp; Satelitales</button>
         <button class="nav-tab" data-sec="pasos-nivel" onclick="showSection('pasos-nivel')">Pasos a Nivel OT &amp; Costos</button>
@@ -93,13 +94,13 @@
             <p>Visualizá el recorrido por paradas, la red por dentro y los cortes de fibra a escala real del mapa.</p>
           </div>
         </div>
-        <div class="grid-3">
+        <div class="grid-4">
           <article class="card">
             <span class="badge b-accent">Simulación 1</span>
             <h3>Recorrido por paradas</h3>
             <p>Anatomía de la red parada por parada, desde el data center de Retiro hasta la terminal y talleres de Rosario.</p>
             <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('recorrido')">Abrir en pantalla completa</button>
+              <button class="btn btn-primary" type="button" onclick="showSection('recorrido')">Abrir</button>
               <a class="btn" href="SmartRail-1-Recorrido.html?v=4" target="_blank" rel="noopener">↗</a>
             </div>
           </article>
@@ -108,7 +109,7 @@
             <h3>La red por dentro</h3>
             <p>Tres figuras isométricas animadas: troncal de servicios, rack y andén de estación, y nave industrial de Talleres Rosario.</p>
             <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('por-dentro')">Abrir en pantalla completa</button>
+              <button class="btn btn-primary" type="button" onclick="showSection('por-dentro')">Abrir</button>
               <a class="btn" href="SmartRail-2-La-red-por-dentro.html?v=4" target="_blank" rel="noopener">↗</a>
             </div>
           </article>
@@ -117,8 +118,17 @@
             <h3>Simulación a escala del mapa</h3>
             <p>Mapa interactivo con zoom 14×, arrastre y simulación de cortes de fibra con conmutación SD-WAN hacia VPN IPSec.</p>
             <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('simulacion')">Abrir en pantalla completa</button>
+              <button class="btn btn-primary" type="button" onclick="showSection('simulacion')">Abrir</button>
               <a class="btn" href="SmartRail-3-Simulacion.html?v=4" target="_blank" rel="noopener">↗</a>
+            </div>
+          </article>
+          <article class="card">
+            <span class="badge b-warn">Simulación 4 · Facu</span>
+            <h3>Sedes menores &amp; Lógica</h3>
+            <p>LAN tipo (Campana, San Pedro, San Nicolás), gabinete de andén OM3, respaldo 4G/radio, QoS, OSPF/BGP, BOM y 2 slides.</p>
+            <div style="display:flex;gap:8px;margin-top:auto;">
+              <button class="btn btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir</button>
+              <a class="btn" href="SmartRail-4-Sedes-Menores.html?v=4" target="_blank" rel="noopener">↗</a>
             </div>
           </article>
         </div>
@@ -262,6 +272,17 @@
       <span class="sim-sources-links">
         <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OSM Ramal Retiro–Rosario</a>
         <a href="https://claude.ai/artifact/MS6nqW3vwam3ENE5mPdtyG" target="_blank" rel="noopener">Mapa interactivo 193 PaN</a>
+      </span>
+    </div>
+  </section>
+
+  <section id="sec-sedes-menores" class="sim-full-section">
+    <iframe class="sim-full-frame" data-src="SmartRail-4-Sedes-Menores.html?v=4" title="4 · Sedes menores (Campana, San Pedro, San Nicolás)"></iframe>
+    <div class="sim-sources-bar">
+      <span><strong>Fuentes utilizadas:</strong> SmartRail_Red_WAN.pdf (Secciones 4.1, 5.1, 7.2, 7.3, 8.2, 8.3, 8.5.3 y p. 14 Facu), ENACOM, ARSAT REFEFO</span>
+      <span class="sim-sources-links">
+        <a href="SmartRail-4-Sedes-Menores.html?v=4" target="_blank" rel="noopener">Abrir independiente ↗</a>
+        <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OSM 7549995</a>
       </span>
     </div>
   </section>
@@ -906,9 +927,12 @@
           <p>LAN de Rosario (talleres, SCADA, 100 tel, 30 cám, gabinete andén, 8 PaN), subredes <code>10.50.V.0/24</code>, 3 escenarios de caída (enlace, equipo Retiro, DC) y 2 slides.</p>
         </article>
         <article class="card">
-          <span class="badge b-accent">Secciones 8.2, 8.3, 8.5.3</span>
+          <span class="badge b-ok">Secciones 8.2, 8.3, 8.5.3 · Simulación 4</span>
           <h3>Facu · Sedes menores + Lógico</h3>
-          <p>LAN tipo para Campana/San Pedro/San Nicolás, respaldo 4G/radio en San Pedro, tabla completa de direccionamiento, OSPF ABR + BGP, QoS y 2 slides.</p>
+          <p>LAN tipo para Campana/San Pedro/San Nicolás, respaldo 4G/radio en San Pedro, tabla completa de direccionamiento, OSPF ABR + BGP, QoS, BOM y 2 slides.</p>
+          <div style="margin-top:auto;">
+            <button class="btn btn-sm btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir simulación y entregables</button>
+          </div>
         </article>
         <article class="card">
           <span class="badge b-accent">Sección 8.5.4 + Integración</span>

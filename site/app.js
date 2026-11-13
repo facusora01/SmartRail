@@ -1,7 +1,8 @@
 const SIM_ROUTES = {
   recorrido: 'SmartRail-1-Recorrido.html?v=4',
   'por-dentro': 'SmartRail-2-La-red-por-dentro.html?v=4',
-  simulacion: 'SmartRail-3-Simulacion.html?v=4'
+  simulacion: 'SmartRail-3-Simulacion.html?v=4',
+  'sedes-menores': 'SmartRail-4-Sedes-Menores.html?v=4'
 };
 
 const VALID_SECTIONS = [
@@ -9,6 +10,7 @@ const VALID_SECTIONS = [
   'recorrido',
   'por-dentro',
   'simulacion',
+  'sedes-menores',
   'diseno-wan',
   'diagnostico',
   'pasos-nivel',

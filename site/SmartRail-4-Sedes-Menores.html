@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Rail · 4 · Sedes Menores (Campana, San Pedro, San Nicolás)</title>
+  <style>
+    :root {
+      --bg: #F5F2EB;
+      --elev: #FFFFFF;
+      --soft: #ECE7DC;
+      --ink: #13202B;
+      --ink2: #2E3D4B;
+      --muted: #566370;
+      --line: #DCD5C6;
+      --accent: #B26A00;
+      --accent2: #1F7A8C;
+      --ot: #C94A38;
+      --voz: #D98A16;
+      --video: #7B5EA7;
+      --datos: #1F7A8C;
+      --mgmt: #4A5661;
+      --inet: #197A4E;
+      --shadow: 0 6px 22px rgba(19, 32, 43, 0.07);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0C1824;
+        --elev: #132334;
+        --soft: #182C40;
+        --ink: #F2EFE7;
+        --ink2: #D5DCE3;
+        --muted: #9FB0C0;
+        --line: #273C52;
+        --accent: #E8A33D;
+        --accent2: #4FB3C7;
+        --ot: #F07167;
+        --voz: #F0B354;
+        --video: #B197FC;
+        --datos: #4FB3C7;
+        --mgmt: #9FB0C0;
+        --inet: #4AD295;
+        --shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+      line-height: 1.55;
+    }
+    code {
+      font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--soft);
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+    }
+    .wrap {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 24px 20px 56px;
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+    }
+    .top-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 14px;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+    }
+    .eyebrow {
+      font-size: 11.5px;
+      font-weight: 800;
+      letter-spacing: 1.8px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 4px;
+    }
+    h1 { margin: 0; font-size: clamp(22px, 3vw, 32px); letter-spacing: -0.4px; }
+    .sub { margin: 4px 0 0; color: var(--muted); font-size: 14.5px; max-width: 82ch; }
+
+    /* Controls bar */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--elev);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow);
+    }
+    .btn-group { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+    .group-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      color: var(--muted);
+      margin-right: 4px;
+    }
+    button.pill {
+      padding: 7px 13px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: var(--ink2);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    button.pill:hover { border-color: var(--accent); }
+    button.pill.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    button.pill.danger.active {
+      background: var(--ot);
+      border-color: var(--ot);
+    }
+    button.pill.warn.active {
+      background: var(--voz);
+      border-color: var(--voz);
+      color: #13202B;
+    }
+
+    /* Simulation Canvas */
+    .sim-stage {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 980px) { .sim-stage { grid-template-columns: 1fr; } }
+
+    .card {
+      background: var(--elev);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .card h2, .card h3 { margin: 0; font-size: 17px; }
+
+    .svg-box {
+      background: #F6F3EC;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .svg-box svg { width: 100%; height: auto; display: block; }
+
+    .legend-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 12.5px;
+      color: var(--ink2);
+    }
+    .dot {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+
+    /* Telemetry & QoS panel */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+    }
+    .stat {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 10px 12px;
+    }
+    .stat-k { font-size: 11px; text-transform: uppercase; letter-spacing: 0.6px; color: var(--muted); font-weight: 700; }
+    .stat-v { font-size: 18px; font-weight: 800; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+    .qos-bars { display: flex; flex-direction: column; gap: 8px; }
+    .qos-item { display: flex; flex-direction: column; gap: 3px; font-size: 12.5px; }
+    .qos-head { display: flex; justify-content: space-between; font-weight: 600; }
+    .bar-bg {
+      height: 10px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      overflow: hidden;
+    }
+    .bar-fill { height: 100%; border-radius: 999px; transition: width 0.35s ease, opacity 0.35s ease; }
+
+    .callout {
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: color-mix(in srgb, var(--accent2) 12%, var(--elev));
+      border-left: 4px solid var(--accent2);
+      font-size: 13.5px;
+      color: var(--ink2);
+    }
+    .callout.alert {
+      background: color-mix(in srgb, var(--ot) 12%, var(--elev));
+      border-left-color: var(--ot);
+    }
+
+    /* Tables */
+    .table-card {
+      background: var(--elev);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .table-head {
+      padding: 13px 18px;
+      background: var(--soft);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .table-head h3 { margin: 0; font-size: 15.5px; }
+    .table-head span { font-size: 12.5px; color: var(--muted); }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13.2px; font-variant-numeric: tabular-nums; }
+    th, td { padding: 9px 13px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); background: color-mix(in srgb, var(--soft) 60%, var(--elev)); }
+    tr:last-child td { border-bottom: 0; }
+    .num { text-align: right; white-space: nowrap; }
+
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; }
+
+    /* Slides preview */
+    .slide-card {
+      background: linear-gradient(155deg, #132334 0%, #1B334B 100%);
+      color: #F2EFE7;
+      border: 1px solid #2A435C;
+      border-radius: 14px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .slide-tag {
+      align-self: flex-start;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1.4px;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: rgba(232, 163, 61, 0.18);
+      color: #E8A33D;
+    }
+    .slide-card h3 { margin: 0; color: #fff; font-size: 18px; }
+    .slide-card ul { margin: 0; padding-left: 18px; font-size: 13.5px; color: #D5DCE3; display: flex; flex-direction: column; gap: 6px; }
+    .slide-card code { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2); color: #F2EFE7; }
+
+    /* Sources box */
+    .sources-box {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 18px 22px;
+    }
+    .sources-box h3 { margin: 0 0 8px; font-size: 13.5px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); }
+    .sources-box ul { margin: 0; padding-left: 18px; font-size: 13px; color: var(--ink2); display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 6px 20px; }
+    .sources-box a { color: var(--accent2); text-decoration: none; }
+    .sources-box a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top-head">
+      <div>
+        <p class="eyebrow">Facu · Sedes Menores y Parte Lógica Global · Secciones 8.2, 8.3 y 8.5.3</p>
+        <h1>Simulación de Sedes Menores: Campana, San Pedro y San Nicolás</h1>
+        <p class="sub">
+          Diseño único replicable para las 3 estaciones regionales (LAN tipo con router/firewall SD-WAN, switch PoE+ y gabinete de andén con fibra multimodo &gt;100 m),
+          respaldo diferencial en San Pedro sin nodo REFEFO, direccionamiento completo <code>10.S.V.0/24</code>, OSPF ABR + eBGP, política QoS y coordinación de puertos OT con Joa.
+        </p>
+      </div>
+    </header>
+
+    <!-- CONTROLES DE SIMULACIÓN -->
+    <div class="controls">
+      <div class="btn-group">
+        <span class="group-label">Sede:</span>
+        <button class="pill active" data-sede="campana" onclick="setSede('campana', this)">Campana (Área 1 · 10.20)</button>
+        <button class="pill" data-sede="sanpedro" onclick="setSede('sanpedro', this)">San Pedro (Área 2 · 10.30)</button>
+        <button class="pill" data-sede="sannicolas" onclick="setSede('sannicolas', this)">San Nicolás (Área 3 · 10.40)</button>
+      </div>
+      <div class="btn-group">
+        <span class="group-label">Escenario:</span>
+        <button class="pill active" data-mode="normal" onclick="setMode('normal', this)">Operación normal (MPLS)</button>
+        <button class="pill danger" data-mode="failover" onclick="setMode('failover', this)">Corte MPLS (SD-WAN respaldo)</button>
+        <button class="pill warn" data-mode="congestion" onclick="setMode('congestion', this)">Congestión QoS</button>
+      </div>
+    </div>
+
+    <!-- ESCENARIO INTERACTIVO + TELEMETRÍA -->
+    <div class="sim-stage">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <h2 id="diagTitle">Campana · LAN tipo + Gabinete de andén (fibra multimodo OM3)</h2>
+          <span id="diagBadge" style="font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;background:var(--soft);border:1px solid var(--line);">MPLS 50 Mbps activo</span>
+        </div>
+
+        <div class="svg-box">
+          <svg id="lanSvg" viewBox="0 0 900 470" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="470" fill="#F6F3EC"/>
+            <!-- Zonas -->
+            <rect x="16" y="16" width="320" height="200" rx="10" fill="#EFECE3" stroke="#C9C1AE" stroke-width="1.2"/>
+            <text x="28" y="36" fill="#4A5661" font-size="11" font-weight="700" font-family="system-ui,sans-serif">BORDE WAN &amp; ENRUTAMIENTO (OSPF ABR + eBGP)</text>
+
+            <rect x="354" y="16" width="530" height="200" rx="10" fill="#EFECE3" stroke="#C9C1AE" stroke-width="1.2"/>
+            <text x="368" y="36" fill="#4A5661" font-size="11" font-weight="700" font-family="system-ui,sans-serif">SALA DE EQUIPOS / EDIFICIO DE ESTACIÓN</text>
+
+            <rect x="16" y="232" width="480" height="222" rx="10" fill="#EFECE3" stroke="#C9C1AE" stroke-width="1.2"/>
+            <text id="andenZoneTitle" x="28" y="252" fill="#4A5661" font-size="11" font-weight="700" font-family="system-ui,sans-serif">ANDÉN (EXTREMO ~130–145 m &gt; 100 m → GABINETE + FIBRA OM3)</text>
+
+            <rect x="512" y="232" width="372" height="222" rx="10" fill="#FDF3F1" stroke="#D9A79F" stroke-width="1.2"/>
+            <text x="524" y="252" fill="#9E3324" font-size="11" font-weight="700" font-family="system-ui,sans-serif">ZONA OT AISLADA · PASOS A NIVEL (COORDINACIÓN CON JOA)</text>
+
+            <!-- Nubes WAN arriba izquierda -->
+            <rect x="30" y="54" width="128" height="48" rx="8" fill="#16293A" stroke="#1F7A8C" stroke-width="1.5"/>
+            <text x="94" y="75" text-anchor="middle" fill="#F4F1EA" font-size="11" font-weight="700">MPLS Principal</text>
+            <text id="mplsSub" x="94" y="92" text-anchor="middle" fill="#4FB3C7" font-size="10">50 Mbps · eBGP PE</text>
+
+            <rect x="30" y="152" width="128" height="48" rx="8" fill="#16293A" stroke="#D98A16" stroke-width="1.5"/>
+            <text id="bkTitle" x="94" y="173" text-anchor="middle" fill="#F4F1EA" font-size="11" font-weight="700">Respaldo IPSec</text>
+            <text id="bkSub" x="94" y="190" text-anchor="middle" fill="#F0B354" font-size="10">20 Mbps · Cable/2° op.</text>
+
+            <!-- Router/Firewall SD-WAN -->
+            <rect x="196" y="88" width="126" height="84" rx="10" fill="#16293A" stroke="#E8A33D" stroke-width="2"/>
+            <text x="259" y="114" text-anchor="middle" fill="#E8A33D" font-size="11.5" font-weight="800">Router / FW</text>
+            <text x="259" y="130" text-anchor="middle" fill="#F4F1EA" font-size="11" font-weight="700">SD-WAN ABR</text>
+            <text id="routerAreaTxt" x="259" y="148" text-anchor="middle" fill="#B9C5CF" font-size="9.5">OSPF Área 1 ↔ Área 0</text>
+            <text x="259" y="162" text-anchor="middle" fill="#4AD295" font-size="9.5">QoS + Zona OT FW</text>
+
+            <!-- Enlaces WAN -->
+            <line id="linkMpls" x1="158" y1="78" x2="196" y2="112" stroke="#1F7A8C" stroke-width="4"/>
+            <line id="linkBk" x1="158" y1="176" x2="196" y2="148" stroke="#D98A16" stroke-width="2.5" stroke-dasharray="6 4"/>
+            <text id="cutMark" x="176" y="90" text-anchor="middle" fill="#C94A38" font-size="18" font-weight="900" display="none">✕</text>
+
+            <!-- Salida Internet Local -->
+            <rect x="212" y="182" width="94" height="26" rx="6" fill="#197A4E"/>
+            <text id="inetLocalTxt" x="259" y="199" text-anchor="middle" fill="#fff" font-size="9.5" font-weight="700">Internet local 20M</text>
+            <line x1="259" y1="172" x2="259" y2="182" stroke="#197A4E" stroke-width="2"/>
+
+            <!-- Switch de acceso PoE+ edificio -->
+            <rect x="378" y="88" width="166" height="84" rx="10" fill="#FBFAF6" stroke="#2B3742" stroke-width="1.8"/>
+            <text x="461" y="112" text-anchor="middle" fill="#13202B" font-size="12" font-weight="800">Switch Acceso PoE+</text>
+            <text x="461" y="129" text-anchor="middle" fill="#566370" font-size="10">48p PoE+ · 4× SFP+ 10G/1G</text>
+            <text id="swPortsTxt" x="461" y="146" text-anchor="middle" fill="#1F7A8C" font-size="9.5" font-weight="700">Trunk 802.1Q: VLAN 10,20,30,50,99</text>
+            <text x="461" y="161" text-anchor="middle" fill="#C94A38" font-size="9.5" font-weight="700">SFP Gi1/0/49–52 → PaN &amp; Andén</text>
+
+            <!-- Trunk Router <-> Switch -->
+            <line x1="322" y1="130" x2="378" y2="130" stroke="#2B3742" stroke-width="3.5"/>
+
+            <!-- Dispositivos edificio (Boleteria, Tel IP, Camaras edificio, Wi-Fi) -->
+            <rect x="576" y="54" width="135" height="44" rx="7" fill="#FBFAF6" stroke="#1F7A8C" stroke-width="1.4"/>
+            <text x="643" y="74" text-anchor="middle" fill="#13202B" font-size="11" font-weight="700">Boletería / PCs</text>
+            <text id="pcSub" x="643" y="89" text-anchor="middle" fill="#566370" font-size="9.5">VLAN 10 · Datos IT</text>
+
+            <rect x="730" y="54" width="135" height="44" rx="7" fill="#FBFAF6" stroke="#D98A16" stroke-width="1.4"/>
+            <text x="797" y="74" text-anchor="middle" fill="#13202B" font-size="11" font-weight="700">Teléfonos IP</text>
+            <text id="telSub" x="797" y="89" text-anchor="middle" fill="#566370" font-size="9.5">30 tel. · VLAN 20</text>
+
+            <rect x="576" y="114" width="135" height="44" rx="7" fill="#FBFAF6" stroke="#7B5EA7" stroke-width="1.4"/>
+            <text x="643" y="134" text-anchor="middle" fill="#13202B" font-size="11" font-weight="700">Cámaras Edificio</text>
+            <text id="camEdSub" x="643" y="149" text-anchor="middle" fill="#566370" font-size="9.5">VLAN 30 · PoE+</text>
+
+            <rect x="730" y="114" width="135" height="44" rx="7" fill="#FBFAF6" stroke="#197A4E" stroke-width="1.4"/>
+            <text x="797" y="134" text-anchor="middle" fill="#13202B" font-size="11" font-weight="700">AP Wi-Fi + Gestión</text>
+            <text x="797" y="149" text-anchor="middle" fill="#566370" font-size="9.5">VLAN 50 / VLAN 99</text>
+
+            <line x1="544" y1="112" x2="576" y2="76" stroke="#1F7A8C" stroke-width="2"/>
+            <line x1="544" y1="122" x2="730" y2="76" stroke="#D98A16" stroke-width="1.8"/>
+            <line x1="544" y1="136" x2="576" y2="136" stroke="#7B5EA7" stroke-width="2"/>
+            <line x1="544" y1="146" x2="730" y2="136" stroke="#197A4E" stroke-width="1.8"/>
+
+            <!-- Fibra multimodo al Gabinete de Anden -->
+            <polyline id="fiberAnden" points="420,172 420,284 260,284" fill="none" stroke="#B26A00" stroke-width="3.5"/>
+            <rect x="275" y="264" width="135" height="20" rx="5" fill="#FFF7E6" stroke="#B26A00" stroke-width="1"/>
+            <text id="fiberAndenLbl" x="342" y="278" text-anchor="middle" fill="#8C5200" font-size="9.5" font-weight="700">Fibra OM3 (&gt;100 m)</text>
+
+            <!-- Gabinete de anden -->
+            <g id="andenCabinet">
+              <rect x="34" y="274" width="226" height="82" rx="10" fill="#16293A" stroke="#B26A00" stroke-width="2"/>
+              <text id="andenCabTitle" x="147" y="297" text-anchor="middle" fill="#E8A33D" font-size="11.5" font-weight="800">Gabinete de Andén (Switch PoE)</text>
+              <text id="andenCabSub" x="147" y="315" text-anchor="middle" fill="#F4F1EA" font-size="10">A mitad de andén → todo UTP &lt; 90 m</text>
+              <text x="147" y="332" text-anchor="middle" fill="#B9C5CF" font-size="9.5">8–12 puertos PoE+ + 2 SFP OM3 + UPS</text>
+              <text x="147" y="346" text-anchor="middle" fill="#4AD295" font-size="9.5">Cubre extremo ~130–145 m sin pérdida</text>
+            </g>
+
+            <!-- Camaras de anden conectadas al gabinete o directo -->
+            <rect x="34" y="384" width="180" height="52" rx="8" fill="#FBFAF6" stroke="#7B5EA7" stroke-width="1.5"/>
+            <text id="camAndenTitle" x="124" y="406" text-anchor="middle" fill="#13202B" font-size="11" font-weight="700">Cámaras de Andén (12 total)</text>
+            <text id="camAndenSub" x="124" y="423" text-anchor="middle" fill="#566370" font-size="9.5">UTP Cat6 PoE+ &lt; 90 m desde gabinete</text>
+            <line x1="124" y1="356" x2="124" y2="384" stroke="#7B5EA7" stroke-width="2.2"/>
+
+            <rect x="234" y="384" width="244" height="52" rx="8" fill="#FBFAF6" stroke="#2B3742" stroke-width="1.3"/>
+            <text x="356" y="405" text-anchor="middle" fill="#13202B" font-size="10.5" font-weight="700">Regla de medio físico interno</text>
+            <text id="ruleTxt" x="356" y="422" text-anchor="middle" fill="#566370" font-size="9.5">UTP ≤ 90 m · &gt;100 m = Fibra OM3 + gabinete</text>
+
+            <!-- Zona OT: Pasos a nivel coordinados con Joa -->
+            <polyline id="fiberOtLink" points="295,172 295,310 532,310" fill="none" stroke="#C94A38" stroke-width="3"/>
+            <rect x="532" y="272" width="334" height="164" rx="10" fill="#FBFAF6" stroke="#C94A38" stroke-width="1.8"/>
+            <text id="otTitle" x="546" y="294" fill="#9E3324" font-size="11.5" font-weight="800">Entrada de Pasos a Nivel (Joa) → Puertos dedicados</text>
+            <text id="otLine1" x="546" y="316" fill="#13202B" font-size="10.5" font-weight="600">• Interfaz física: SFP LX monomodo en Switch/FW (p. 49–52)</text>
+            <text id="otLine2" x="546" y="336" fill="#2E3D4B" font-size="10">• Zona FW: «OT-PaN» (solo permite hacia SCADA y VMS del CCO)</text>
+            <text id="otLine3" x="546" y="356" fill="#2E3D4B" font-size="10">• VLAN OT 40–49 · Bloque 10.60.x.0/28 por cruce (sin ruta a IT/Voz)</text>
+            <text id="otLine4" x="546" y="376" fill="#C94A38" font-size="10" font-weight="700">• Piloto Campana: 3 PaN (310, 320, 520 m) · &lt;5 km: 6 PaN</text>
+            <text x="546" y="398" fill="#566370" font-size="9.5">• QoS: LLQ/Prioridad 1 (OT) · Barrera manejada por PLC local</text>
+            <text x="546" y="416" fill="#566370" font-size="9.5">• Respaldo ante corte de fibra local: 5G dual-SIM directo al CCO</text>
+
+            <!-- Paquetes animados -->
+            <g id="packetsGroup">
+              <!-- OT (rojo) -->
+              <circle r="4.5" fill="#C94A38" stroke="#fff" stroke-width="1.3">
+                <animateMotion id="animOt" dur="3.0s" repeatCount="indefinite" path="M532,310 L295,310 L295,172 L259,130 L196,112 L158,78"/>
+              </circle>
+              <!-- Voz (naranja) -->
+              <circle r="4.5" fill="#D98A16" stroke="#fff" stroke-width="1.3">
+                <animateMotion id="animVoz" dur="3.4s" begin="-1.1s" repeatCount="indefinite" path="M730,76 L544,122 L378,130 L259,130 L196,112 L158,78"/>
+              </circle>
+              <!-- Video (violeta) -->
+              <circle id="pktVideo" r="4.5" fill="#7B5EA7" stroke="#fff" stroke-width="1.3">
+                <animateMotion id="animVid" dur="4.2s" begin="-0.5s" repeatCount="indefinite" path="M124,384 L124,315 L260,284 L420,284 L420,172 L378,130 L259,130 L196,112 L158,78"/>
+              </circle>
+              <!-- Datos IT (azul) -->
+              <circle id="pktDatos" r="4.2" fill="#1F7A8C" stroke="#fff" stroke-width="1.3">
+                <animateMotion id="animDat" dur="3.8s" begin="-2.0s" repeatCount="indefinite" path="M576,76 L544,112 L378,130 L259,130 L196,112 L158,78"/>
+              </circle>
+              <!-- Internet local (verde) -->
+              <circle r="4" fill="#197A4E" stroke="#fff" stroke-width="1.2">
+                <animateMotion dur="2.6s" repeatCount="indefinite" path="M730,136 L544,146 L378,130 L259,130 L259,195"/>
+              </circle>
+            </g>
+          </svg>
+        </div>
+
+        <div class="legend-row">
+          <span><i class="dot" style="background:var(--ot)"></i>OT / PaN (VLAN 40 · Crítica)</span>
+          <span><i class="dot" style="background:var(--voz)"></i>Voz VoIP (VLAN 20 · Alta)</span>
+          <span><i class="dot" style="background:var(--video)"></i>Video CCTV (VLAN 30 · Media)</span>
+          <span><i class="dot" style="background:var(--datos)"></i>Datos IT (VLAN 10 · Media)</span>
+          <span><i class="dot" style="background:var(--inet)"></i>Internet local (VLAN 50 · Best effort)</span>
+        </div>
+      </div>
+
+      <!-- PANEL DERECHO: TELEMETRÍA, QOS Y RESPALDO -->
+      <div class="card">
+        <h3>Estado de sede y simulación QoS</h3>
+        <div class="stat-grid">
+          <div class="stat"><div class="stat-k">Teléfonos / Cámaras</div><div id="stTelCam" class="stat-v">30 / 12</div></div>
+          <div class="stat"><div class="stat-k">Extremo andén</div><div id="stAnden" class="stat-v">~130–145 m</div></div>
+          <div class="stat"><div class="stat-k">Nodo REFEFO</div><div id="stRefefo" class="stat-v">Sí (y Zárate)</div></div>
+          <div class="stat"><div class="stat-k">Enlace activo</div><div id="stLink" class="stat-v">MPLS 50 Mbps</div></div>
+        </div>
+
+        <div id="scenarioCallout" class="callout">
+          <strong>Operación normal:</strong> MPLS Telecom activo hacia el CCO. En <strong>Campana</strong>, el andén llega a ~130–145 m (supera los 100 m de cobre), por lo que se instala un gabinete intermedio en el andén unido por fibra multimodo OM3.
+        </div>
+
+        <div>
+          <div style="font-size:12.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(--muted);margin-bottom:8px;">
+            Política QoS en acción: OT &gt; Voz &gt; Video/IT &gt; Internet
+          </div>
+          <div class="qos-bars">
+            <div class="qos-item">
+              <div class="qos-head"><span>1. Datos OT (VLAN 40 · LLQ Crítica)</span><span id="qOtTxt">100 % garantizado</span></div>
+              <div class="bar-bg"><div id="qOtBar" class="bar-fill" style="width:100%;background:var(--ot)"></div></div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-head"><span>2. Voz VoIP (VLAN 20 · EF Alta)</span><span id="qVozTxt">100 % garantizado</span></div>
+              <div class="bar-bg"><div id="qVozBar" class="bar-fill" style="width:100%;background:var(--voz)"></div></div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-head"><span>3. Video CCTV + Datos IT (VLAN 30/10)</span><span id="qVidTxt">100 % (en vivo al CCO)</span></div>
+              <div class="bar-bg"><div id="qVidBar" class="bar-fill" style="width:100%;background:var(--video)"></div></div>
+            </div>
+            <div class="qos-item">
+              <div class="qos-head"><span>4. Wi-Fi / Internet (VLAN 50 · Salida local)</span><span id="qNetTxt">No compite en WAN</span></div>
+              <div class="bar-bg"><div id="qNetBar" class="bar-fill" style="width:75%;background:var(--inet)"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div style="font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;">
+          <strong>Enrutamiento compartido:</strong> El router SD-WAN de cada sede actúa como <strong>ABR de OSPF</strong> (resume su área 1/2/3 hacia el Área 0 de Retiro) y ejecuta <strong>eBGP</strong> con el operador MPLS/ISP para conmutar rutas ante falla.
+        </div>
+      </div>
+    </div>
+
+    <!-- TABLA DE CANTIDADES DE LAS 3 SEDES MENORES -->
+    <div class="table-card">
+      <div class="table-head">
+        <h3>1 · Cantidades, enlaces y estrategia física por sede menor</h3>
+        <span>Teléfonos 30/24/40 · Cámaras 12/10/16 · Respaldo diferencial San Pedro</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sede menor</th><th>Subred / Área OSPF</th><th class="num">Teléfonos IP</th><th class="num">Cámaras (al CCO)</th>
+              <th class="num">Extremo andén</th><th>Medio interno andén</th><th>Principal MPLS</th><th>Respaldo SD-WAN</th><th>PaN (piloto / &lt;5 km)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Campana</strong></td><td><code>10.20.0.0/16</code> · Área <code>1</code></td><td class="num"><strong>30</strong></td><td class="num"><strong>12</strong> (4)</td>
+              <td class="num">~130–145 m</td><td><strong>Gabinete andén + fibra OM3</strong></td><td>50 Mbps (REFEFO / op.)</td><td>20 Mbps cablemódem / 2° op.</td><td>3 piloto / 6 a &lt;5 km</td>
+            </tr>
+            <tr>
+              <td><strong>San Pedro</strong></td><td><code>10.30.0.0/16</code> · Área <code>2</code></td><td class="num"><strong>24</strong></td><td class="num"><strong>10</strong> (4)</td>
+              <td class="num">~95 m</td><td>UTP Cat6 directo (≤90 m) o fibra si supera</td><td>50 Mbps (op. local / tramo)</td><td><strong>20 Mbps 4G/5G o radioenlace</strong> (sin REFEFO)</td><td>4 piloto / 8 a &lt;5 km</td>
+            </tr>
+            <tr>
+              <td><strong>San Nicolás</strong></td><td><code>10.40.0.0/16</code> · Área <code>3</code></td><td class="num"><strong>40</strong></td><td class="num"><strong>16</strong> (6)</td>
+              <td class="num">~100 m</td><td>UTP límite; gabinete + OM3 en tramo largo</td><td>50 Mbps (REFEFO / op.)</td><td>30 Mbps cablemódem / 2° op.</td><td>5 piloto / 11 a &lt;5 km</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- TABLA DE DIRECCIONAMIENTO COMPLETA DE TODAS LAS SEDES -->
+    <div class="table-card">
+      <div class="table-head">
+        <h3>2 · Tabla de direccionamiento IP completa de TODAS las sedes (uso común del equipo)</h3>
+        <span>Regla <code>10.S.V.0/24</code> · Bloque PaN <code>10.60.0.0/16</code> (/28) · P2P <code>172.16.0.0/24</code> (/30)</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Sede / Bloque</th><th>Área OSPF</th><th>Resumen sede</th>
+              <th>VLAN 10 · Datos IT</th><th>VLAN 20 · Voz</th><th>VLAN 30 · Video</th>
+              <th>VLAN 40 · OT/SCADA</th><th>VLAN 50 · Wi-Fi/Inet</th><th>VLAN 99 · Gestión</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Retiro (CCO + DC)</strong></td><td><code>Área 0</code></td><td><code>10.10.0.0/16</code></td>
+              <td><code>10.10.10.0/24</code></td><td><code>10.10.20.0/24</code></td><td><code>10.10.30.0/24</code></td>
+              <td><code>10.10.40.0/24</code></td><td><code>10.10.50.0/24</code></td><td><code>10.10.99.0/24</code></td>
+            </tr>
+            <tr>
+              <td><strong>Campana</strong></td><td><code>Área 1</code> (ABR)</td><td><code>10.20.0.0/16</code></td>
+              <td><code>10.20.10.0/24</code></td><td><code>10.20.20.0/24</code></td><td><code>10.20.30.0/24</code></td>
+              <td><code>10.20.40.0/24</code></td><td><code>10.20.50.0/24</code></td><td><code>10.20.99.0/24</code></td>
+            </tr>
+            <tr>
+              <td><strong>San Pedro</strong></td><td><code>Área 2</code> (ABR)</td><td><code>10.30.0.0/16</code></td>
+              <td><code>10.30.10.0/24</code></td><td><code>10.30.20.0/24</code></td><td><code>10.30.30.0/24</code></td>
+              <td><code>10.30.40.0/24</code></td><td><code>10.30.50.0/24</code></td><td><code>10.30.99.0/24</code></td>
+            </tr>
+            <tr>
+              <td><strong>San Nicolás</strong></td><td><code>Área 3</code> (ABR)</td><td><code>10.40.0.0/16</code></td>
+              <td><code>10.40.10.0/24</code></td><td><code>10.40.20.0/24</code></td><td><code>10.40.30.0/24</code></td>
+              <td><code>10.40.40.0/24</code></td><td><code>10.40.50.0/24</code></td><td><code>10.40.99.0/24</code></td>
+            </tr>
+            <tr>
+              <td><strong>Rosario + Talleres</strong></td><td><code>Área 4 / 5</code> (ABR)</td><td><code>10.50.0.0/16</code></td>
+              <td><code>10.50.10.0/24</code></td><td><code>10.50.20.0/24</code></td><td><code>10.50.30.0/24</code></td>
+              <td><code>10.50.40–49.0/24</code></td><td><code>10.50.50.0/24</code></td><td><code>10.50.99.0/24</code></td>
+            </tr>
+            <tr>
+              <td><strong>Pasos a nivel (×193)</strong></td><td>Aislada en FW OT</td><td><code>10.60.0.0/16</code></td>
+              <td>—</td><td>—</td><td>En <code>/28</code> PaN (<code>.6</code>)</td>
+              <td><code>10.60.x.0/28</code> (14 IPs)</td><td>Sin salida Internet</td><td>En <code>/28</code> PaN (<code>.1–.2</code>)</td>
+            </tr>
+            <tr>
+              <td><strong>Enlaces P2P / VPN</strong></td><td>Área 0 / WAN</td><td><code>172.16.0.0/24</code></td>
+              <td colspan="6">Subredes <code>/30</code> para vínculos MPLS PE–CE y túneles IPSec SD-WAN hacia concentrador del CCO Retiro.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ARQUITECTURA LÓGICA + COORDINACIÓN CON JOA + LISTA DE EQUIPOS -->
+    <div class="grid-2">
+      <div class="card">
+        <h3>3 · Enrutamiento (OSPF ABR + eBGP) y Política QoS</h3>
+        <ul style="margin:0;padding-left:18px;font-size:13.8px;color:var(--ink2);display:flex;flex-direction:column;gap:7px;">
+          <li><strong>OSPF multi-área:</strong> Retiro es <code>Área 0</code> (backbone). Cada router de sede menor (Campana <code>Área 1</code>, San Pedro <code>Área 2</code>, San Nicolás <code>Área 3</code>) actúa como <strong>ABR</strong> (Area Border Router), resumiendo su bloque <code>10.S.0.0/16</code> hacia el backbone y aislando cambios de topología internos.</li>
+          <li><strong>eBGP con el proveedor:</strong> En el borde WAN, el router establece sesión <strong>eBGP</strong> con el PE del operador MPLS (para anunciar el bloque de la sede y recibir las rutas del CCO/otras sedes) y usa <strong>SD-WAN + SLA</strong> para conmutar al túnel VPN IPSec de respaldo si sube la latencia/pérdida o cae BGP.</li>
+          <li><strong>QoS estricta:</strong> <code>OT (LLQ) &gt; Voz (EF) &gt; Video/IT (AF) &gt; Internet (Best Effort, salida local)</code>. Ante caída del enlace principal, se corta el video en vivo hacia el CCO (graba local) para garantizar cero pérdida en OT y Voz.</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <h3>4 · Coordinación con Joa: ingreso de Pasos a Nivel en sede</h3>
+        <ul style="margin:0;padding-left:18px;font-size:13.8px;color:var(--ink2);display:flex;flex-direction:column;gap:7px;">
+          <li><strong>Puerto de entrada:</strong> Cada paso a nivel cercano (A1) llega por fibra monomodo con transceptor <strong>SFP LX</strong> a los puertos SFP dedicados del <strong>Switch de acceso (<code>Gi1/0/49–52</code>)</strong> en VLAN OT (<code>40–49</code>), o directo a interfaz dedicada del Firewall SD-WAN.</li>
+          <li><strong>Aislamiento en Firewall:</strong> El sub-interface / puerto pertenece a la <strong>Zona OT-PaN</strong>, sin enrutamiento hacia VLANs 10 (IT), 20 (Voz) o 50 (Internet). Solo permite tráfico hacia SCADA y VMS del CCO Retiro.</li>
+          <li><strong>Cantidad por sede:</strong> Campana recibe <strong>3 piloto</strong> (6 a &lt;5 km); San Pedro recibe <strong>4 piloto</strong> (8 a &lt;5 km); San Nicolás recibe <strong>5 piloto</strong> (11 a &lt;5 km).</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- LISTA DE EQUIPOS (BOM) DE LAS 3 SEDES -->
+    <div class="table-card">
+      <div class="table-head">
+        <h3>5 · Lista de equipos (BOM) de las 3 sedes menores</h3>
+        <span>Equipamiento común replicable + diferencia de andén (Campana) y respaldo (San Pedro)</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Equipo / Elemento</th><th>Rol técnico</th><th class="num">Campana</th><th class="num">San Pedro</th><th class="num">San Nicolás</th><th class="num">Total 3 sedes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Router / Firewall SD-WAN</strong> (dual-WAN + SFP + 4G/5G opt.)</td><td>Borde WAN, ABR OSPF, eBGP, VPN IPSec y firewall Zona OT</td><td class="num">1</td><td class="num">1 (+mód. 4G/5G)</td><td class="num">1</td><td class="num"><strong>3</strong></td></tr>
+            <tr><td><strong>Switch Acceso L2/L3 PoE+ 48p + 4× SFP+</strong></td><td>Alimenta teléfonos IP, cámaras y recibe enlaces PaN</td><td class="num">1</td><td class="num">1</td><td class="num">2 (40 tel+16 cám)</td><td class="num"><strong>4</strong></td></tr>
+            <tr><td><strong>Gabinete de andén IP65 + Switch PoE 12p + 2× SFP</strong></td><td>Evita superar 90 m de UTP en andenes largos</td><td class="num"><strong>1</strong> (obligatorio)</td><td class="num">0 (≤95 m)</td><td class="num">1 (opc. tramo 100 m)</td><td class="num"><strong>1–2</strong></td></tr>
+            <tr><td><strong>Fibra multimodo OM3 + transceptores SFP SR</strong></td><td>Enlace edificio ↔ gabinete de andén (&gt;100 m)</td><td class="num">1 tramo (~150 m)</td><td class="num">—</td><td class="num">1 opc. (~110 m)</td><td class="num"><strong>1–2</strong></td></tr>
+            <tr><td><strong>Módulos SFP LX monomodo (entrada PaN Joa)</strong></td><td>Recepción de pasos a nivel cercanos A1 en VLAN OT</td><td class="num">3 (hasta 6)</td><td class="num">4 (hasta 8)</td><td class="num">5 (hasta 11)</td><td class="num"><strong>12 (hasta 25)</strong></td></tr>
+            <tr><td><strong>Enlace respaldo diferencial (4G/5G o Radioenlace)</strong></td><td>Mitiga ausencia de nodo REFEFO en San Pedro</td><td class="num">Cablemódem</td><td class="num"><strong>Antena / Dual-SIM</strong></td><td class="num">Cablemódem</td><td class="num"><strong>3</strong></td></tr>
+            <tr><td><strong>Teléfonos IP / Cámaras PoE / AP Wi-Fi 6 / Rack + UPS</strong></td><td>Terminales de usuario, videovigilancia y respaldo eléctrico</td><td class="num">30 tel · 12 cám · 2 AP · 1 UPS</td><td class="num">24 tel · 10 cám · 2 AP · 1 UPS</td><td class="num">40 tel · 16 cám · 3 AP · 1 UPS</td><td class="num"><strong>94 tel · 38 cám</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2 SLIDES LISTAS PARA PRESENTAR -->
+    <div class="grid-2">
+      <article class="slide-card">
+        <span class="slide-tag">Slide 1 / 2 · Sedes Menores (Física &amp; LAN)</span>
+        <h3>LAN Tipo y Respaldo para Campana, San Pedro y San Nicolás</h3>
+        <ul>
+          <li><strong>Diseño único replicable:</strong> Router/FW SD-WAN + Switch PoE+ 48p + Rack/UPS; se escala por cantidad de puertos (<strong>30/24/40 tel. IP</strong> y <strong>12/10/16 cámaras</strong>).</li>
+          <li><strong>Regla de andén (&gt;100 m):</strong> En <strong>Campana</strong> (~130–145 m) se instala gabinete intermedio en el andén unido por <strong>fibra multimodo OM3</strong> para dejar todo el UTP PoE bajo 90 m.</li>
+          <li><strong>Caso crítico San Pedro:</strong> Al no tener nodo REFEFO, el respaldo es <strong>4G/5G dual-SIM o radioenlace</strong> hacia Baradero/Ramallo por camino físico independiente.</li>
+          <li><strong>Coordinación PaN (Joa):</strong> Los pasos a nivel cercanos ingresan por SFP LX a puertos dedicados en <strong>Zona OT</strong> aislada del tráfico IT/Voz.</li>
+        </ul>
+      </article>
+
+      <article class="slide-card">
+        <span class="slide-tag">Slide 2 / 2 · Parte Lógica Compartida</span>
+        <h3>Direccionamiento <code>10.S.V.0/24</code>, OSPF ABR, eBGP y QoS</h3>
+        <ul>
+          <li><strong>Plan IP unificado:</strong> <code>10.S.V.0/24</code> (Retiro <code>10</code>, Campana <code>20</code>, San Pedro <code>30</code>, San Nicolás <code>40</code>, Rosario <code>50</code>), VLANs <code>10/20/30/40/50/99</code>, PaN en <code>10.60.x.0/28</code> y P2P en <code>172.16.0.0/24 (/30)</code>.</li>
+          <li><strong>OSPF + eBGP:</strong> Cada router de sede es <strong>ABR</strong> (resume su Área 1/2/3 hacia el Área 0 de Retiro) y habla <strong>eBGP</strong> con el PE del operador MPLS; SD-WAN conmuta a VPN IPSec ante falla.</li>
+          <li><strong>Política QoS única:</strong> <code>OT (Crítica) &gt; Voz (Alta) &gt; Video/IT (Media) &gt; Internet local (Best Effort)</code>; en respaldo se suspende video en vivo y sigue grabando local.</li>
+        </ul>
+      </article>
+    </div>
+
+    <aside class="sources-box">
+      <h3>📚 Fuentes utilizadas en esta sección</h3>
+      <ul>
+        <li>Documento interno: <strong>SmartRail_Red_WAN.pdf</strong> — Secciones 4.1, 5.1, 7.2, 7.3 (pp. 2–4), Sección 8.2/8.3 (pp. 5–10) y Reparto del trabajo · Facu (p. 14).</li>
+        <li><a href="https://indicadores.enacom.gob.ar/Files/DatosAbiertos/internet_accesos_tecnologias_localidades.csv" target="_blank" rel="noopener">ENACOM — Datos abiertos de accesos fijos por localidad</a> (Campana 37.608, San Pedro 18.448, San Nicolás 40.816).</li>
+        <li><a href="https://datos.arsat.com.ar/dataset/8f0b4da0-a40d-4b2b-8fe0-dac06d64152a/resource/15713af0-f384-44c5-8397-c8050162312d/download/202602_nodos_activos_portal.csv" target="_blank" rel="noopener">ARSAT — Nodos activos REFEFO</a> (confirmación de ausencia de nodo en San Pedro; nodos en Baradero/Ramallo).</li>
+        <li><a href="https://www.peeringdb.com/org/35847" target="_blank" rel="noopener">PeeringDB — IFRANET (Campana)</a> · <a href="https://dplnews.com/argentina-gigared-llega-a-san-pedro-con-todo-su-potencial-en-telefonia-tv-e-internet/" target="_blank" rel="noopener">DPL News — Gigared (San Pedro)</a> · <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OpenStreetMap — Distancias de andenes y pasos a nivel</a>.</li>
+      </ul>
+    </aside>
+  </div>
+
+  <script>
+    const SEDES = {
+      campana: {
+        title: 'Campana · LAN tipo + Gabinete de andén (fibra multimodo OM3)',
+        area: 'OSPF Área 1 ↔ Área 0',
+        mpls: '50 Mbps · eBGP PE',
+        bkTitle: 'Respaldo IPSec',
+        bkSub: '20 Mbps · Cablemódem',
+        inet: 'Internet local 20M',
+        telCam: '30 / 12',
+        telSub: '30 tel. · VLAN 20',
+        camSub: 'Cámaras (12 tot · 4 CCO)',
+        anden: '~130–145 m',
+        refefo: 'Sí (y Zárate)',
+        hasAndenCab: true,
+        andenZone: 'ANDÉN (~130–145 m > 100 m → GABINETE + FIBRA OM3)',
+        fiberLbl: 'Fibra OM3 (~150 m)',
+        rule: 'Supera 100 m: obligatorio gabinete de andén + OM3',
+        otLine4: '• Piloto Campana: 3 PaN (310, 320, 520 m) · <5 km: 6 PaN',
+        normalNote: 'Operación normal: MPLS 50 Mbps activo (con nodo REFEFO propio e ISP local IFRANET). Como el andén llega a ~130–145 m (>100 m), usa gabinete intermedio con fibra multimodo OM3.',
+        failoverNote: 'Falla MPLS: SD-WAN conmuta al respaldo VPN IPSec de 20 Mbps (cablemódem de 2.º operador). Se corta video en vivo al CCO (graba local) y prioriza OT > Voz > Datos IT.'
+      },
+      sanpedro: {
+        title: 'San Pedro · LAN tipo + Respaldo 4G/5G o Radioenlace (sin REFEFO)',
+        area: 'OSPF Área 2 ↔ Área 0',
+        mpls: '50 Mbps · Op. local/tramo',
+        bkTitle: 'Respaldo 4G / Radio',
+        bkSub: '20 Mbps · Sin nodo REFEFO',
+        inet: 'Internet local 20M',
+        telCam: '24 / 10',
+        telSub: '24 tel. · VLAN 20',
+        camSub: 'Cámaras (10 tot · 4 CCO)',
+        anden: '~95 m',
+        refefo: 'No (Baradero/Ramallo)',
+        hasAndenCab: false,
+        andenZone: 'ANDÉN (~95 m · EN EL LÍMITE DEL COBRE UTP 90 m)',
+        fiberLbl: 'UTP Cat6 directo (≤90 m)',
+        rule: 'Andén ~95 m: cubre UTP directo (OM3 si supera 90 m)',
+        otLine4: '• Piloto San Pedro: 4 PaN (270–1290 m) · <5 km: 8 PaN',
+        normalNote: 'Operación normal: San Pedro es la única sede sin nodo REFEFO propio (más cercanos: Baradero y Ramallo), por eso requiere tramo extra a operador local y respaldo por 4G/5G o radioenlace.',
+        failoverNote: 'Falla MPLS en San Pedro: SD-WAN conmuta por 4G/5G dual-SIM o radioenlace hacia Baradero/Ramallo (20 Mbps IPSec) por un camino físico distinto, protegiendo OT y Voz.'
+      },
+      sannicolas: {
+        title: 'San Nicolás · LAN tipo + 16 cámaras / 40 teléfonos IP',
+        area: 'OSPF Área 3 ↔ Área 0',
+        mpls: '50 Mbps · eBGP PE',
+        bkTitle: 'Respaldo IPSec',
+        bkSub: '30 Mbps · Cablemódem/4G',
+        inet: 'Internet local 30M',
+        telCam: '40 / 16',
+        telSub: '40 tel. · VLAN 20',
+        camSub: 'Cámaras (16 tot · 6 CCO)',
+        anden: '~100 m',
+        refefo: 'Sí (y Ramallo)',
+        hasAndenCab: true,
+        andenZone: 'ANDÉN (~100 m · RECOMENDABLE GABINETE + OM3 EN EXTREMO)',
+        fiberLbl: 'Fibra OM3 opcional (~110 m)',
+        rule: 'Andén ~100 m: switch/gabinete en extremo si supera 90 m',
+        otLine4: '• Piloto San Nicolás: 5 PaN (240–1230 m) · <5 km: 11 PaN',
+        normalNote: 'Operación normal: San Nicolás tiene mayor dotación (40 tel. IP, 16 cámaras, 2 switches PoE+ en edificio) y nodo REFEFO propio. En el andén (~100 m) se prevé fibra OM3 si supera 90 m reales.',
+        failoverNote: 'Falla MPLS: SD-WAN conmuta al respaldo VPN IPSec de 30 Mbps por segundo operador (HFC o 4G). Video en vivo pausado; OT, Voz y datos críticos garantizados por QoS.'
+      }
+    };
+
+    let currentSede = 'campana';
+    let currentMode = 'normal';
+
+    function setSede(sede, btn) {
+      currentSede = sede;
+      document.querySelectorAll('[data-sede]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      render();
+    }
+
+    function setMode(mode, btn) {
+      currentMode = mode;
+      document.querySelectorAll('[data-mode]').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      render();
+    }
+
+    function render() {
+      const s = SEDES[currentSede];
+      document.getElementById('diagTitle').textContent = s.title;
+      document.getElementById('routerAreaTxt').textContent = s.area;
+      document.getElementById('mplsSub').textContent = s.mpls;
+      document.getElementById('bkTitle').textContent = s.bkTitle;
+      document.getElementById('bkSub').textContent = s.bkSub;
+      document.getElementById('inetLocalTxt').textContent = s.inet;
+      document.getElementById('stTelCam').textContent = s.telCam;
+      document.getElementById('telSub').textContent = s.telSub;
+      document.getElementById('camAndenTitle').textContent = s.camSub;
+      document.getElementById('stAnden').textContent = s.anden;
+      document.getElementById('stRefefo').textContent = s.refefo;
+      document.getElementById('andenZoneTitle').textContent = s.andenZone;
+      document.getElementById('fiberAndenLbl').textContent = s.fiberLbl;
+      document.getElementById('ruleTxt').textContent = s.rule;
+      document.getElementById('otLine4').textContent = s.otLine4;
+      document.getElementById('andenCabinet').style.opacity = s.hasAndenCab ? '1' : '0.45';
+
+      const linkMpls = document.getElementById('linkMpls');
+      const linkBk = document.getElementById('linkBk');
+      const cutMark = document.getElementById('cutMark');
+      const callout = document.getElementById('scenarioCallout');
+      const badge = document.getElementById('diagBadge');
+      const pktVid = document.getElementById('pktVideo');
+      const pktDat = document.getElementById('pktDatos');
+
+      const animOt = document.getElementById('animOt');
+      const animVoz = document.getElementById('animVoz');
+      const animVid = document.getElementById('animVid');
+      const animDat = document.getElementById('animDat');
+
+      if (currentMode === 'normal') {
+        linkMpls.setAttribute('stroke', '#1F7A8C');
+        linkMpls.setAttribute('stroke-dasharray', '');
+        linkBk.setAttribute('stroke-width', '2.2');
+        linkBk.setAttribute('stroke-dasharray', '6 4');
+        cutMark.setAttribute('display', 'none');
+        badge.textContent = 'MPLS ' + s.mpls.split('·')[0].trim() + ' activo';
+        document.getElementById('stLink').textContent = 'MPLS ' + s.mpls.split('·')[0].trim();
+        callout.className = 'callout';
+        callout.innerHTML = '<strong>' + s.normalNote + '</strong>';
+        pktVid.style.display = '';
+        pktDat.style.display = '';
+
+        animOt.setAttribute('path', 'M532,310 L295,310 L295,172 L259,130 L196,112 L158,78');
+        animVoz.setAttribute('path', 'M730,76 L544,122 L378,130 L259,130 L196,112 L158,78');
+        animVid.setAttribute('path', 'M124,384 L124,315 L260,284 L420,284 L420,172 L378,130 L259,130 L196,112 L158,78');
+        animDat.setAttribute('path', 'M576,76 L544,112 L378,130 L259,130 L196,112 L158,78');
+
+        setQos(100, '100 % garantizado', 100, '100 % garantizado', 100, '100 % (en vivo al CCO)', 80, 'Salida local (no usa WAN)');
+      } else if (currentMode === 'failover') {
+        linkMpls.setAttribute('stroke', '#C94A38');
+        linkMpls.setAttribute('stroke-dasharray', '3 5');
+        linkBk.setAttribute('stroke-width', '4');
+        linkBk.setAttribute('stroke-dasharray', '');
+        cutMark.setAttribute('display', 'inline');
+        badge.textContent = 'Respaldo SD-WAN activo (' + s.bkSub.split('·')[0].trim() + ')';
+        document.getElementById('stLink').textContent = s.bkTitle + ' (' + s.bkSub.split('·')[0].trim() + ')';
+        callout.className = 'callout alert';
+        callout.innerHTML = '<strong>' + s.failoverNote + '</strong>';
+        pktVid.style.display = 'none';
+        pktDat.style.display = '';
+
+        animOt.setAttribute('path', 'M532,310 L295,310 L295,172 L259,130 L196,148 L158,176');
+        animVoz.setAttribute('path', 'M730,76 L544,122 L378,130 L259,130 L196,148 L158,176');
+        animDat.setAttribute('path', 'M576,76 L544,112 L378,130 L259,130 L196,148 L158,176');
+
+        setQos(100, '100 % por túnel IPSec', 100, '100 % por túnel IPSec', 18, 'Video en vivo pausado (graba local)', 80, 'Salida local independiente');
+      } else {
+        linkMpls.setAttribute('stroke', '#1F7A8C');
+        linkMpls.setAttribute('stroke-dasharray', '');
+        linkBk.setAttribute('stroke-width', '2.2');
+        linkBk.setAttribute('stroke-dasharray', '6 4');
+        cutMark.setAttribute('display', 'none');
+        badge.textContent = 'Saturación WAN → QoS activa';
+        document.getElementById('stLink').textContent = 'MPLS saturado (QoS)';
+        callout.className = 'callout';
+        callout.innerHTML = '<strong>Simulación de congestión:</strong> Aunque Datos IT y Video intenten saturar el enlace, la cola estricta <code>OT &gt; Voz &gt; Video/IT &gt; Internet</code> reserva ancho de banda para sensores/barreras (VLAN 40) y VoIP (VLAN 20).';
+        pktVid.style.display = '';
+        pktDat.style.display = '';
+
+        animOt.setAttribute('path', 'M532,310 L295,310 L295,172 L259,130 L196,112 L158,78');
+        animVoz.setAttribute('path', 'M730,76 L544,122 L378,130 L259,130 L196,112 L158,78');
+        animVid.setAttribute('path', 'M124,384 L124,315 L260,284 L420,284 L420,172 L378,130 L259,130 L196,112 L158,78');
+        animDat.setAttribute('path', 'M576,76 L544,112 L378,130 L259,130 L196,112 L158,78');
+
+        setQos(100, '100 % (Prioridad 1 LLQ)', 100, '100 % (Prioridad 2 EF)', 42, '42 % (shaping en ráfagas)', 60, 'Limitado localmente en sede');
+      }
+    }
+
+    function setQos(w1, t1, w2, t2, w3, t3, w4, t4) {
+      document.getElementById('qOtBar').style.width = w1 + '%';
+      document.getElementById('qOtTxt').textContent = t1;
+      document.getElementById('qVozBar').style.width = w2 + '%';
+      document.getElementById('qVozTxt').textContent = t2;
+      document.getElementById('qVidBar').style.width = w3 + '%';
+      document.getElementById('qVidTxt').textContent = t3;
+      document.getElementById('qNetBar').style.width = w4 + '%';
+      document.getElementById('qNetTxt').textContent = t4;
+    }
+
+    render();
+  </script>
+</body>
+</html>
