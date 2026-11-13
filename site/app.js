@@ -2,7 +2,7 @@ const SIM_ROUTES = {
   recorrido: 'SmartRail-1-Recorrido.html?v=4',
   'por-dentro': 'SmartRail-2-La-red-por-dentro.html?v=4',
   simulacion: 'SmartRail-3-Simulacion.html?v=4',
-  'sedes-menores': 'SmartRail-4-Sedes-Menores.html?v=5'
+  'sedes-menores': 'SmartRail-4-Sedes-Menores.html?v=6'
 };
 
 const VALID_SECTIONS = [
@@ -46,12 +46,8 @@ function showSection(name) {
 
   const pop = document.getElementById('popoutBtn');
   if (pop) {
-    if (SIM_ROUTES[name]) {
-      pop.style.display = 'inline-flex';
-      pop.href = SIM_ROUTES[name];
-    } else {
-      pop.style.display = 'none';
-    }
+    pop.hidden = !SIM_ROUTES[name];
+    if (SIM_ROUTES[name]) pop.href = SIM_ROUTES[name];
   }
 
   if (location.hash !== '#' + name) {
@@ -84,21 +80,6 @@ function closeLightbox() {
   if (modal) modal.classList.remove('open');
 }
 
-function applyTheme(theme) {
-  document.documentElement.setAttribute('data-theme', theme);
-  const btn = document.getElementById('themeBtn');
-  if (btn) {
-    btn.textContent = theme === 'dark' ? '☀️ Claro' : '🌙 Oscuro';
-  }
-}
-
-function toggleTheme() {
-  const cur = document.documentElement.getAttribute('data-theme') || 'light';
-  const next = cur === 'dark' ? 'light' : 'dark';
-  localStorage.setItem('smartrail-theme', next);
-  applyTheme(next);
-}
-
 function filterPlanTable(query) {
   const q = (query || '').trim().toLowerCase();
   document.querySelectorAll('#planTable tbody tr').forEach((row) => {
@@ -108,10 +89,6 @@ function filterPlanTable(query) {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  const saved = localStorage.getItem('smartrail-theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(saved || (prefersDark ? 'dark' : 'light'));
-
   document.querySelectorAll('.fig-thumb img').forEach((img) => {
     img.parentElement.addEventListener('click', () => {
       const captionEl = img.closest('.fig-card')?.querySelector('.fig-caption');
@@ -123,6 +100,7 @@ window.addEventListener('DOMContentLoaded', () => {
     if (e.key === 'Escape') closeLightbox();
   });
 
-  const h = (location.hash || '').replace('#', '');
-  if (h) showSection(h);
+  const fromHash = () => showSection((location.hash || '').replace('#', ''));
+  window.addEventListener('hashchange', fromHash);
+  if (location.hash) fromHash();
 });

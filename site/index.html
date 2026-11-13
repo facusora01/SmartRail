@@ -4,30 +4,30 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Smart Rail · Red WAN Regional y Simulación (TA048 Redes)</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="styles.css?v=6">
 </head>
 <body>
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand" onclick="showSection('inicio')">
-        <span class="brand-dot"></span>
         <span>Smart Rail</span>
         <span class="brand-badge">TA048 Redes</span>
       </div>
-      <nav class="section-tabs" role="tablist">
+      <nav class="section-tabs" aria-label="Secciones">
         <button class="nav-tab active" data-sec="inicio" onclick="showSection('inicio')">Resumen</button>
-        <button class="nav-tab sim-pill" data-sec="recorrido" onclick="showSection('recorrido')">1 · Recorrido</button>
-        <button class="nav-tab sim-pill" data-sec="por-dentro" onclick="showSection('por-dentro')">2 · La red por dentro</button>
-        <button class="nav-tab sim-pill" data-sec="simulacion" onclick="showSection('simulacion')">3 · Simulación mapa</button>
-        <button class="nav-tab sim-pill" data-sec="sedes-menores" onclick="showSection('sedes-menores')">4 · Sedes menores</button>
+        <span class="nav-group">Simulaciones</span>
+        <button class="nav-tab" data-sec="recorrido" onclick="showSection('recorrido')">1 · Recorrido</button>
+        <button class="nav-tab" data-sec="por-dentro" onclick="showSection('por-dentro')">2 · Por dentro</button>
+        <button class="nav-tab" data-sec="simulacion" onclick="showSection('simulacion')">3 · Mapa</button>
+        <button class="nav-tab" data-sec="sedes-menores" onclick="showSection('sedes-menores')">4 · Sedes menores</button>
+        <span class="nav-group">Documento</span>
         <button class="nav-tab" data-sec="diseno-wan" onclick="showSection('diseno-wan')">Diseño WAN</button>
-        <button class="nav-tab" data-sec="diagnostico" onclick="showSection('diagnostico')">Diagnóstico &amp; Satelitales</button>
-        <button class="nav-tab" data-sec="pasos-nivel" onclick="showSection('pasos-nivel')">Pasos a Nivel OT &amp; Costos</button>
+        <button class="nav-tab" data-sec="diagnostico" onclick="showSection('diagnostico')">Diagnóstico</button>
+        <button class="nav-tab" data-sec="pasos-nivel" onclick="showSection('pasos-nivel')">Pasos a nivel</button>
         <button class="nav-tab" data-sec="planificacion" onclick="showSection('planificacion')">Planificación</button>
       </nav>
       <div class="nav-actions">
-        <a id="popoutBtn" class="btn btn-sm" href="SmartRail-1-Recorrido.html?v=4" target="_blank" rel="noopener" style="display:none;">Pestaña nueva ↗</a>
-        <button id="themeBtn" class="btn btn-sm" type="button" onclick="toggleTheme()">🌙 Oscuro</button>
+        <a id="popoutBtn" class="btn btn-sm" href="SmartRail-1-Recorrido.html?v=4" target="_blank" rel="noopener" hidden>Abrir aparte ↗</a>
       </div>
     </div>
   </header>
@@ -38,130 +38,101 @@
   <section id="sec-inicio" class="page-section active">
     <div class="container">
       <div class="hero">
-        <p class="eyebrow">Operador Ferroviario Regional · Ramal Retiro–Rosario Norte</p>
-        <h1>Diseño e Implementación de una Red WAN Regional para Smart Rail</h1>
+        <p class="eyebrow">TA048 Redes · Ramal Retiro–Rosario Norte</p>
+        <h1>Red WAN regional para Smart Rail</h1>
         <p class="lead">
-          Arquitectura de red de área amplia para interconectar el Centro de Control de Operaciones (CCO) y data center en
-          Retiro con las estaciones regionales de Campana, San Pedro y San Nicolás, los talleres y terminal de Rosario, y
-          los 193 pasos a nivel vehiculares del ramal.
+          Une el Centro de Control de Operaciones (CCO) de Retiro con Campana, San Pedro, San Nicolás, la terminal y
+          los talleres de Rosario, y los 193 pasos a nivel del ramal.
         </p>
         <div class="chips">
-          <span class="chip">Topología estrella · CCO Retiro núcleo</span>
-          <span class="chip">Principal: VPN MPLS (Telecom)</span>
-          <span class="chip">Respaldo: SD-WAN + VPN IPSec (Claro)</span>
+          <span class="chip">Estrella con núcleo en el CCO</span>
+          <span class="chip">Principal: MPLS (Telecom)</span>
+          <span class="chip">Respaldo: SD-WAN + IPSec (Claro)</span>
           <span class="chip">6 VLANs · OSPF por áreas + eBGP</span>
-          <span class="chip">Operación objetivo: 150 km/h (~3 h)</span>
         </div>
       </div>
 
       <div class="kpi-grid">
         <div class="kpi">
-          <div class="kpi-label">Sedes del ramal</div>
-          <div class="kpi-val">5 sedes</div>
+          <div class="kpi-label">Sedes</div>
+          <div class="kpi-val">5</div>
           <div class="kpi-sub">Retiro, Campana, San Pedro, San Nicolás, Rosario</div>
         </div>
         <div class="kpi">
-          <div class="kpi-label">Pasos a nivel (OSM)</div>
-          <div class="kpi-val">193 PaN</div>
-          <div class="kpi-sub">+ 95 cruces peatonales · Piloto de 20 PaN</div>
+          <div class="kpi-label">Pasos a nivel</div>
+          <div class="kpi-val">193</div>
+          <div class="kpi-sub">37 por fibra a su estación · 156 por 5G/fijo</div>
         </div>
         <div class="kpi">
-          <div class="kpi-label">Personal y dispositivos</div>
-          <div class="kpi-val">415 pers.</div>
-          <div class="kpi-sub">207 simultáneos · 354 tel. IP · 108 cámaras</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Tráfico WAN CCO (+30%)</div>
-          <div class="kpi-val">298,2 Mbps</div>
-          <div class="kpi-sub">229,4 Mbps netos · MPLS 200 + Internet 200</div>
+          <div class="kpi-label">Tráfico WAN CCO</div>
+          <div class="kpi-val">298 Mbps</div>
+          <div class="kpi-sub">Con 30 % de margen</div>
         </div>
         <div class="kpi">
           <div class="kpi-label">CAPEX línea completa</div>
           <div class="kpi-val">USD 2,87 M</div>
-          <div class="kpi-sub">193 gabinetes OT + ~31 km fibra A1 + CCO</div>
-        </div>
-        <div class="kpi">
-          <div class="kpi-label">Costo total a 3 años</div>
-          <div class="kpi-val">USD 3,76 M</div>
-          <div class="kpi-sub">OPEX USD 296.579/año · ~USD 19.500/PaN</div>
+          <div class="kpi-sub">USD 3,76 M a 3 años</div>
         </div>
       </div>
 
       <div>
-        <div class="section-header" style="margin-bottom:14px;">
-          <div>
-            <h2>Simulaciones interactivas</h2>
-            <p>Visualizá el recorrido por paradas, la red por dentro y los cortes de fibra a escala real del mapa.</p>
-          </div>
-        </div>
+        <h2 class="block-title">Simulaciones</h2>
+        <p class="block-sub">Cuatro recorridos interactivos. Cada uno se abre dentro de esta página.</p>
         <div class="grid-4">
-          <article class="card">
-            <span class="badge b-accent">Simulación 1</span>
+          <article class="card sim-card">
+            <span class="num-tag">1</span>
             <h3>Recorrido por paradas</h3>
-            <p>Anatomía de la red parada por parada, desde el data center de Retiro hasta la terminal y talleres de Rosario.</p>
-            <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('recorrido')">Abrir</button>
-              <a class="btn" href="SmartRail-1-Recorrido.html?v=4" target="_blank" rel="noopener">↗</a>
-            </div>
+            <p>La red parada por parada, desde el data center de Retiro hasta los talleres de Rosario.</p>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" type="button" onclick="showSection('recorrido')">Abrir</button></div>
           </article>
-          <article class="card">
-            <span class="badge b-info">Simulación 2</span>
+          <article class="card sim-card">
+            <span class="num-tag">2</span>
             <h3>La red por dentro</h3>
-            <p>Tres figuras isométricas animadas: troncal de servicios, rack y andén de estación, y nave industrial de Talleres Rosario.</p>
-            <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('por-dentro')">Abrir</button>
-              <a class="btn" href="SmartRail-2-La-red-por-dentro.html?v=4" target="_blank" rel="noopener">↗</a>
-            </div>
+            <p>Troncal de servicios, rack de estación y nave de Talleres Rosario, animados.</p>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" type="button" onclick="showSection('por-dentro')">Abrir</button></div>
           </article>
-          <article class="card">
-            <span class="badge b-ok">Simulación 3</span>
-            <h3>Simulación a escala del mapa</h3>
-            <p>Mapa interactivo con zoom 14×, arrastre y simulación de cortes de fibra con conmutación SD-WAN hacia VPN IPSec.</p>
-            <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('simulacion')">Abrir</button>
-              <a class="btn" href="SmartRail-3-Simulacion.html?v=4" target="_blank" rel="noopener">↗</a>
-            </div>
+          <article class="card sim-card">
+            <span class="num-tag">3</span>
+            <h3>Mapa a escala</h3>
+            <p>Cortes de fibra en cualquier punto de la vía y conmutación SD-WAN al respaldo.</p>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" type="button" onclick="showSection('simulacion')">Abrir</button></div>
           </article>
-          <article class="card">
-            <span class="badge b-warn">Simulación 4</span>
-            <h3>Sedes menores &amp; Lógica</h3>
-            <p>LAN tipo (Campana, San Pedro, San Nicolás), gabinete de andén OM3, respaldo 4G/radio, QoS, OSPF/BGP, BOM y 2 slides.</p>
-            <div style="display:flex;gap:8px;margin-top:auto;">
-              <button class="btn btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir</button>
-              <a class="btn" href="SmartRail-4-Sedes-Menores.html?v=5" target="_blank" rel="noopener">↗</a>
-            </div>
+          <article class="card sim-card">
+            <span class="num-tag">4</span>
+            <h3>Sedes menores</h3>
+            <p>LAN de Campana, San Pedro y San Nicolás, llegada de los pasos a nivel, QoS y direccionamiento.</p>
+            <div class="card-actions"><button class="btn btn-primary btn-sm" type="button" onclick="showSection('sedes-menores')">Abrir</button></div>
           </article>
         </div>
       </div>
 
       <div class="grid-2">
         <div class="card">
-          <h3>1. Descripción y 2. Justificación</h3>
+          <h3>Descripción y justificación</h3>
           <p>
-            La red WAN interconecta el CCO de Retiro con Campana, San Pedro, San Nicolás y Rosario, transportando datos
-            (despacho, señalización y venta de pasajes), voz (VoIP de despacho y telefonía administrativa) y video
-            (cámaras de seguridad hacia el CCO).
+            La WAN transporta datos (despacho, señalización, venta de pasajes), voz (VoIP de despacho y administrativa)
+            y video (cámaras hacia el CCO).
           </p>
           <ul class="clean">
-            <li><strong>Eficiencia operativa:</strong> el CCO gestiona todas las estaciones desde un único punto.</li>
+            <li><strong>Eficiencia:</strong> el CCO gestiona todas las estaciones desde un único punto.</li>
             <li><strong>Seguridad operacional:</strong> voz de despacho y video de andenes y pasos a nivel en tiempo real.</li>
-            <li><strong>Costos:</strong> una red compartida reemplaza infraestructura redundante y aislada en cada sede.</li>
+            <li><strong>Costos:</strong> una red compartida reemplaza infraestructura aislada en cada sede.</li>
           </ul>
         </div>
         <div class="card">
-          <h3>3. Objetivos y 4. Alcance</h3>
-          <p>
-            <strong>Objetivo general:</strong> diseñar e implementar una red WAN regional segura, disponible y de alto
-            rendimiento para comunicaciones ferroviarias. Se presupuesta una red nueva desde cero (alcance CAPEX).
-          </p>
+          <h3>Objetivos y alcance</h3>
+          <p>Diseñar una WAN regional segura, disponible y de alto rendimiento. Se presupuesta una red nueva desde cero.</p>
           <ul class="clean">
-            <li>Levantar diagnóstico remoto de infraestructura actual en cada estación y taller.</li>
-            <li>Determinar ancho de banda por servicio (voz, datos, video, OT y gestión) y seleccionar tecnologías WAN.</li>
-            <li>Diseñar topología física/lógica y conectar las 5 sedes + 193 pasos a nivel (37 &lt;5 km por fibra a estación, 156 con router 5G/fijo y VPN IPSec al CCO).</li>
+            <li>Diagnóstico remoto de la infraestructura de cada estación y taller.</li>
+            <li>Ancho de banda por servicio y selección de tecnologías WAN.</li>
+            <li>Topología física y lógica para las 5 sedes y los 193 pasos a nivel.</li>
           </ul>
         </div>
       </div>
 
+      <details class="more">
+        <summary>Tablas de alcance, usuarios y tráfico <small>Tablas 4, 4.1 y 4.2</small></summary>
+        <div class="more-body">
       <div class="table-card">
         <div class="table-title">
           <h3>Tabla 4 · Alcance por sede y pasos a nivel</h3>
@@ -229,14 +200,19 @@
         </div>
       </div>
 
-      <aside class="sources-box">
-        <h3>📚 Fuentes utilizadas en esta sección</h3>
+        </div>
+      </details>
+
+      <details class="more sources-box">
+        <summary>Fuentes de esta sección</summary>
+        <div class="more-body">
         <ul class="sources-list">
           <li>Documento interno: <strong>SmartRail_Red_WAN.pdf</strong> — Secciones 1 a 4.2 (pp. 1–2) e Informe preliminar OT/SCADA (p. 27).</li>
           <li><a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OpenStreetMap — Relación «Ramal ferroviario Retiro–Rosario» (7549995)</a> (conteo de 193 pasos a nivel y 95 peatonales).</li>
           <li><a href="https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA" target="_blank" rel="noopener">Artefacto interactivo Smart Rail — Recorrido de la red</a> y <a href="https://claude.ai/artifact/KrenBAkAyYatUSXvUfcgnE" target="_blank" rel="noopener">Presentación de 16 slides</a>.</li>
         </ul>
-      </aside>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -246,7 +222,7 @@
   <section id="sec-recorrido" class="sim-full-section">
     <iframe class="sim-full-frame" data-src="SmartRail-1-Recorrido.html?v=4" title="1 · Recorrido por paradas"></iframe>
     <div class="sim-sources-bar">
-      <span><strong>Fuentes utilizadas:</strong> SmartRail_Red_WAN.pdf (Secciones 4–7), SmartRail.zip (TA048 Redes)</span>
+      <span><strong>Fuentes:</strong> SmartRail_Red_WAN.pdf (Secciones 4–7), SmartRail.zip (TA048 Redes)</span>
       <span class="sim-sources-links">
         <a href="https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA" target="_blank" rel="noopener">Artefacto original</a>
         <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">Traza OSM 7549995</a>
@@ -257,7 +233,7 @@
   <section id="sec-por-dentro" class="sim-full-section">
     <iframe class="sim-full-frame" data-src="SmartRail-2-La-red-por-dentro.html?v=4" title="2 · La red por dentro"></iframe>
     <div class="sim-sources-bar">
-      <span><strong>Fuentes utilizadas:</strong> SmartRail_Red_WAN.pdf (Secciones 5–7, Topología física/lógica), Figuras isométricas SVG locales</span>
+      <span><strong>Fuentes:</strong> SmartRail_Red_WAN.pdf (Secciones 5–7, Topología física/lógica), Figuras isométricas SVG locales</span>
       <span class="sim-sources-links">
         <a href="https://claude.ai/artifact/Tqfz3P1DcKxAJ39bvfxhKA" target="_blank" rel="noopener">Artefacto original</a>
         <a href="SmartRail-2-La-red-por-dentro.html?v=4" target="_blank" rel="noopener">Abrir independiente ↗</a>
@@ -268,7 +244,7 @@
   <section id="sec-simulacion" class="sim-full-section">
     <iframe class="sim-full-frame" data-src="SmartRail-3-Simulacion.html?v=4" title="3 · Simulación a escala del mapa"></iframe>
     <div class="sim-sources-bar">
-      <span><strong>Fuentes utilizadas:</strong> SmartRail_Red_WAN.pdf (Secciones 5.1, 7.1, 8), Esri World Imagery &amp; OpenStreetMap, Cambios 30/10/2026</span>
+      <span><strong>Fuentes:</strong> SmartRail_Red_WAN.pdf (Secciones 5.1, 7.1, 8), Esri World Imagery &amp; OpenStreetMap, Cambios 30/10/2026</span>
       <span class="sim-sources-links">
         <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OSM Ramal Retiro–Rosario</a>
         <a href="https://claude.ai/artifact/MS6nqW3vwam3ENE5mPdtyG" target="_blank" rel="noopener">Mapa interactivo 193 PaN</a>
@@ -277,11 +253,11 @@
   </section>
 
   <section id="sec-sedes-menores" class="sim-full-section">
-    <iframe class="sim-full-frame" data-src="SmartRail-4-Sedes-Menores.html?v=5" title="4 · Sedes menores (Campana, San Pedro, San Nicolás)"></iframe>
+    <iframe class="sim-full-frame" data-src="SmartRail-4-Sedes-Menores.html?v=6" title="4 · Sedes menores (Campana, San Pedro, San Nicolás)"></iframe>
     <div class="sim-sources-bar">
-      <span><strong>Fuentes utilizadas:</strong> SmartRail_Red_WAN.pdf (Secciones 4.1, 5.1, 7.2, 7.3, 8.2, 8.3, 8.5.3 y p. 14), ENACOM, ARSAT REFEFO</span>
+      <span><strong>Fuentes:</strong> SmartRail_Red_WAN.pdf (4.1, 5.1, 7.2, 7.3, 8.2, 8.3, 8.5.3), Informe pasos a nivel (3.1 y 5), ENACOM, ARSAT REFEFO</span>
       <span class="sim-sources-links">
-        <a href="SmartRail-4-Sedes-Menores.html?v=5" target="_blank" rel="noopener">Abrir independiente ↗</a>
+        <a href="SmartRail-4-Sedes-Menores.html?v=6" target="_blank" rel="noopener">Abrir independiente ↗</a>
         <a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OSM 7549995</a>
       </span>
     </div>
@@ -293,11 +269,9 @@
   <section id="sec-diseno-wan" class="page-section">
     <div class="container">
       <div class="section-header">
-        <div>
-          <p class="eyebrow">Secciones 5, 6 y 7 del documento</p>
-          <h1>Dimensionamiento WAN, Enlaces y Diseño de Red</h1>
+        <p class="eyebrow">Secciones 5, 6 y 7 del documento</p>
+          <h1>Dimensionamiento WAN y diseño de red</h1>
           <p>Cálculo de tráfico por servicio, enlaces recomendados, topología física/lógica, VLANs, OSPF y BGP.</p>
-        </div>
       </div>
 
       <div class="callout">
@@ -306,6 +280,35 @@
         y se redondea al enlace comercial siguiente. Por gabinete de paso a nivel: <code>0,065 Mbps</code> OT + <code>0,035 Mbps</code> gestión + <code>4 Mbps</code> video en ráfaga (10 % simultáneo = 20 gabinetes).
       </div>
 
+      <div class="table-card">
+        <div class="table-title">
+          <h3>Tabla 5.1 · Enlaces recomendados por sede</h3>
+          <span>Incluye los 37 PaN &lt;5 km sumados al MPLS de su estación</span>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Sede</th><th class="num">WAN +30 %</th><th>Enlace principal (MPLS)</th><th class="num">Crítico +30 %</th><th>Respaldo (IPSec)</th><th class="num">Internet +30 %</th><th>Internet local</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Campana</strong> (+6 PaN)</td><td class="num">34,2</td><td><strong>50 Mbps</strong></td><td class="num">18,6</td><td>20 Mbps</td><td class="num">19,5</td><td>20 Mbps</td></tr>
+              <tr><td><strong>San Pedro</strong> (+8 PaN)</td><td class="num">32,6</td><td><strong>50 Mbps</strong></td><td class="num">17,0</td><td>20 Mbps</td><td class="num">15,6</td><td>20 Mbps</td></tr>
+              <tr><td><strong>San Nicolás</strong> (+11 PaN)</td><td class="num">44,2</td><td><strong>50 Mbps</strong></td><td class="num">23,4</td><td>30 Mbps</td><td class="num">27,3</td><td>30 Mbps</td></tr>
+              <tr><td><strong>Rosario</strong> (+12 PaN)</td><td class="num">83,8</td><td><strong>100 Mbps</strong></td><td class="num">52,6</td><td>100 Mbps</td><td class="num">78,0</td><td>100 Mbps</td></tr>
+              <tr class="total-row"><td>CCO Retiro</td><td class="num">194,7</td><td>200 Mbps</td><td class="num">111,5</td><td>200 Mbps (otro prov.)</td><td class="num">136,5</td><td>200 Mbps*</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p class="table-note">
+        * Los 156 pasos a nivel restantes llegan por 5G o Internet fijo al concentrador VPN del CCO con <code>103,5 Mbps (+30 %)</code>, por lo que se recomienda un acceso dedicado de <strong>200 Mbps</strong> en el CCO separado del Internet de usuarios. Durante una caída del enlace principal se cortan las cámaras en vivo (siguen grabando localmente) y por el respaldo IPSec solo viaja lo crítico (OT, voz, datos IT y gestión).
+      </p>
+
+      <details class="more">
+        <summary>Detalle del cálculo por servicio <small>Tabla 5</small></summary>
+        <div class="more-body">
       <div class="table-card">
         <div class="table-title">
           <h3>Tabla 5 · Tráfico WAN por sede y pasos a nivel (Mbps)</h3>
@@ -328,32 +331,13 @@
         </div>
       </div>
 
-      <div class="table-card">
-        <div class="table-title">
-          <h3>Tabla 5.1 · Enlaces recomendados por sede (principal MPLS, respaldo IPSec e Internet local)</h3>
-          <span>Incluye los 37 PaN &lt;5 km sumados al MPLS de su estación</span>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Sede</th><th class="num">WAN +30 %</th><th>Enlace principal (MPLS)</th><th class="num">Crítico +30 %</th><th>Respaldo (IPSec)</th><th class="num">Internet +30 %</th><th>Internet local</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr><td><strong>Campana</strong> (+6 PaN)</td><td class="num">34,2</td><td><strong>50 Mbps</strong></td><td class="num">18,6</td><td>20 Mbps</td><td class="num">19,5</td><td>20 Mbps</td></tr>
-              <tr><td><strong>San Pedro</strong> (+8 PaN)</td><td class="num">32,6</td><td><strong>50 Mbps</strong></td><td class="num">17,0</td><td>20 Mbps</td><td class="num">15,6</td><td>20 Mbps</td></tr>
-              <tr><td><strong>San Nicolás</strong> (+11 PaN)</td><td class="num">44,2</td><td><strong>50 Mbps</strong></td><td class="num">23,4</td><td>30 Mbps</td><td class="num">27,3</td><td>30 Mbps</td></tr>
-              <tr><td><strong>Rosario</strong> (+12 PaN)</td><td class="num">83,8</td><td><strong>100 Mbps</strong></td><td class="num">52,6</td><td>100 Mbps</td><td class="num">78,0</td><td>100 Mbps</td></tr>
-              <tr class="total-row"><td>CCO Retiro</td><td class="num">194,7</td><td>200 Mbps</td><td class="num">111,5</td><td>200 Mbps (otro prov.)</td><td class="num">136,5</td><td>200 Mbps*</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <p style="margin:-16px 0 0; font-size:13px; color:var(--muted);">
-        * Los 156 pasos a nivel restantes llegan por 5G o Internet fijo al concentrador VPN del CCO con <code>103,5 Mbps (+30 %)</code>, por lo que se recomienda un acceso dedicado de <strong>200 Mbps</strong> en el CCO separado del Internet de usuarios. Durante una caída del enlace principal se cortan las cámaras en vivo (siguen grabando localmente) y por el respaldo IPSec solo viaja lo crítico (OT, voz, datos IT y gestión).
-      </p>
+      </details>
 
+
+      <details class="more">
+        <summary>Topología física y tecnologías <small>Figura 1 y Tabla 6</small></summary>
+        <div class="more-body">
       <div class="grid-2">
         <div class="fig-card">
           <div class="fig-thumb">
@@ -387,6 +371,12 @@
         </div>
       </div>
 
+        </div>
+      </details>
+
+      <details class="more">
+        <summary>VLANs, direccionamiento y áreas OSPF <small>Tablas 7.2 y 7.3</small></summary>
+        <div class="more-body">
       <div class="grid-2">
         <div class="table-card">
           <div class="table-title">
@@ -422,21 +412,25 @@
                 <tr><td><strong>San Pedro</strong></td><td><code>10.30.0.0/16</code></td><td class="num"><code>2</code></td></tr>
                 <tr><td><strong>San Nicolás</strong></td><td><code>10.40.0.0/16</code></td><td class="num"><code>3</code></td></tr>
                 <tr><td><strong>Rosario</strong></td><td><code>10.50.0.0/16</code></td><td class="num"><code>4</code> (5 para Talleres)</td></tr>
-                <tr><td><strong>Pasos a nivel OT</strong></td><td><code>10.60.0.0/16</code> (subredes <code>/28</code>)</td><td class="num">Aislada tras FW OT</td></tr>
+                <tr><td><strong>Pasos a nivel OT</strong></td><td><code>10.60.0.0/16</code>, un <code>/28</code> por paso a nivel; los cercanos a una estación usan <code>10.60.S.0/24</code> (Campana <code>10.60.20</code>, San Pedro <code>10.60.30</code>, San Nicolás <code>10.60.40</code>)</td><td class="num">Zona OT-PaN del firewall de su sede</td></tr>
               </tbody>
             </table>
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
-      <aside class="sources-box">
-        <h3>📚 Fuentes utilizadas en esta sección</h3>
+      <details class="more sources-box">
+        <summary>Fuentes de esta sección</summary>
+        <div class="more-body">
         <ul class="sources-list">
           <li>Documento interno: <strong>SmartRail_Red_WAN.pdf</strong> — Secciones 5, 5.1, 6, 7.1, 7.2 y 7.3 (pp. 2–4), y Sección 5.1 OT (p. 30).</li>
           <li>Figura extraída del PDF: <code>topologia-fisica.png</code> (página 4 del documento).</li>
           <li>Material de cátedra <strong>TA048 Redes (REDES-VOLPI)</strong> — Criterios de OSPF por áreas, eBGP en borde, VLANs y QoS.</li>
         </ul>
-      </aside>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -446,13 +440,14 @@
   <section id="sec-diagnostico" class="page-section">
     <div class="container">
       <div class="section-header">
-        <div>
-          <p class="eyebrow">Sección 8 y 9 · Relevamiento Remoto</p>
-          <h1>Diagnóstico de Conectividad e Imágenes Satelitales</h1>
+        <p class="eyebrow">Sección 8 y 9 · Relevamiento Remoto</p>
+          <h1>Diagnóstico de conectividad</h1>
           <p>Datos oficiales de ENACOM, nodos REFEFO de ARSAT, relevamiento en OpenStreetMap e infraestructura interna de cada estación.</p>
-        </div>
       </div>
 
+      <details class="more">
+        <summary>Metodología del relevamiento remoto <small>Tabla 8.1</small></summary>
+        <div class="more-body">
       <div class="table-card">
         <div class="table-title">
           <h3>Tabla 8.1 · Metodología de relevamiento remoto</h3>
@@ -471,9 +466,12 @@
           </table>
         </div>
       </div>
+        </div>
+      </details>
 
       <div>
-        <h3 style="margin:0 0 10px;">8.2 Conectividad externa por sede (seleccioná una estación)</h3>
+        <h2 class="block-title">Conectividad por sede</h2>
+        <p class="block-sub">Elegí una estación.</p>
         <div class="sub-tabs">
           <button class="sub-tab active" onclick="selectSede('retiro', this)">Retiro (CABA)</button>
           <button class="sub-tab" onclick="selectSede('campana', this)">Campana</button>
@@ -483,7 +481,7 @@
         </div>
 
         <div id="sede-retiro" class="sede-panel active card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="panel-head">
             <h3>Retiro (CABA) — Centro de Control y Data Center</h3>
             <span class="badge b-ok">21 nodos REFEFO</span>
           </div>
@@ -497,13 +495,12 @@
         </div>
 
         <div id="sede-campana" class="sede-panel card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="panel-head">
             <h3>Campana — Estación Regional</h3>
             <span class="badge b-ok">Nodo REFEFO propio</span>
           </div>
           <div class="kpi-grid">
-            <div class="kpi-label" style="display:none;"></div>
-            <div class="kpi"><div class="kpi-label">Accesos fijos (ENACOM)</div><div class="kpi-val">37.608</div><div class="kpi-sub">Partido de Campana</div></div>
+                        <div class="kpi"><div class="kpi-label">Accesos fijos (ENACOM)</div><div class="kpi-val">37.608</div><div class="kpi-sub">Partido de Campana</div></div>
             <div class="kpi"><div class="kpi-label">Fibra s/ total</div><div class="kpi-val">46 %</div><div class="kpi-sub">Doble infraestructura (FTTH + HFC)</div></div>
             <div class="kpi"><div class="kpi-label">≥ 100 Mbps</div><div class="kpi-val">86 %</div><div class="kpi-sub">Cubre los 50 Mbps MPLS</div></div>
             <div class="kpi"><div class="kpi-label">Operador identificado</div><div class="kpi-val">IFRANET</div><div class="kpi-sub">ISP local (PeeringDB)</div></div>
@@ -512,7 +509,7 @@
         </div>
 
         <div id="sede-san-pedro" class="sede-panel card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="panel-head">
             <h3>San Pedro — Punto crítico del corredor</h3>
             <span class="badge b-warn">Sin nodo REFEFO propio</span>
           </div>
@@ -526,7 +523,7 @@
         </div>
 
         <div id="sede-san-nicolas" class="sede-panel card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="panel-head">
             <h3>San Nicolás — Estación Regional</h3>
             <span class="badge b-ok">Nodo REFEFO propio</span>
           </div>
@@ -540,7 +537,7 @@
         </div>
 
         <div id="sede-rosario" class="sede-panel card">
-          <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">
+          <div class="panel-head">
             <h3>Rosario Norte — Terminal y Talleres</h3>
             <span class="badge b-ok">2 nodos REFEFO</span>
           </div>
@@ -575,6 +572,9 @@
         </div>
       </div>
 
+      <details class="more">
+        <summary>Relevamiento físico e imágenes satelitales <small>Tabla 8.3 y 6 imágenes</small></summary>
+        <div class="more-body">
       <div class="table-card">
         <div class="table-title">
           <h3>Tabla 8.3 · Relevamiento físico de las 5 estaciones (OpenStreetMap, ±20 m)</h3>
@@ -597,12 +597,7 @@
       </div>
 
       <div>
-        <div class="section-header" style="margin-bottom:14px;">
-          <div>
-            <h2>8.3 Imágenes satelitales de las estaciones (clic para ampliar)</h2>
-            <p>Amarillo: andenes · Naranja: pasos a nivel · Celeste: radio práctico de 90 m para UTP · Escala: 100 m.</p>
-          </div>
-        </div>
+        <p class="block-sub">Amarillo: andenes · Naranja: pasos a nivel · Celeste: radio práctico de 90 m para UTP · Escala: 100 m.</p>
         <div class="grid-3">
           <div class="fig-card">
             <div class="fig-thumb"><img src="assets/pdf/sat-retiro.jpg" alt="Satelital Retiro"><span class="fig-zoom-hint">Ampliar</span></div>
@@ -630,9 +625,12 @@
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
-      <aside class="sources-box">
-        <h3>📚 Fuentes utilizadas en esta sección</h3>
+      <details class="more sources-box">
+        <summary>Fuentes de esta sección</summary>
+        <div class="more-body">
         <ul class="sources-list">
           <li><a href="https://indicadores.enacom.gob.ar/Files/DatosAbiertos/internet_accesos_tecnologias_localidades.csv" target="_blank" rel="noopener">ENACOM — Internet fija por tecnología y localidad (septiembre 2026)</a></li>
           <li><a href="https://indicadores.enacom.gob.ar/Files/DatosAbiertos/internet_accesos_velocidad_localidades.csv" target="_blank" rel="noopener">ENACOM — Internet fija por velocidad y localidad (septiembre 2026)</a></li>
@@ -641,7 +639,8 @@
           <li><a href="https://www.openstreetmap.org" target="_blank" rel="noopener">OpenStreetMap (consulta Overpass 21/10/2026)</a> y Esri World Imagery (Esri, Maxar, Earthstar Geographics).</li>
           <li><a href="https://www.canal26.com/general/2026/04/27/viajar-a-rosario-en-tren-desde-buenos-aires-que-cambio-en-el-servicio-y-cuales-son-los-nuevos-horarios/" target="_blank" rel="noopener">Canal 26 — Horarios desde abril 2026</a> · <a href="https://www.argentina.gob.ar/node/25242" target="_blank" rel="noopener">Presidencia — Obras San Pedro y San Nicolás (2017)</a> · <a href="https://www.argentina.gob.ar/node/167177" target="_blank" rel="noopener">Presidencia — Cámaras, boleterías y Wi-Fi</a> · <a href="https://www.cadena3.com/noticia/sociedad/los-trenes-de-la-linea-mitre-regresan-a-retiro-tras-mejoras-en-senalamiento_528309" target="_blank" rel="noopener">Cadena 3 — Señalamiento Retiro (marzo 2026)</a>.</li>
         </ul>
-      </aside>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -651,11 +650,9 @@
   <section id="sec-pasos-nivel" class="page-section">
     <div class="container">
       <div class="section-header">
-        <div>
-          <p class="eyebrow">Informe Preliminar OT/SCADA · Páginas 16–39</p>
-          <h1>Red OT/SCADA de Pasos a Nivel, Arquitectura y Costos</h1>
+        <p class="eyebrow">Informe Preliminar OT/SCADA · Páginas 16–39</p>
+          <h1>Red OT de pasos a nivel y costos</h1>
           <p>Preparación de la red para automatizar los 193 pasos a nivel y operar a 150 km/h (~3 h Retiro–Rosario), normativa SETOP 7/81 y presupuesto CAPEX/OPEX.</p>
-        </div>
       </div>
 
       <div class="callout info">
@@ -702,13 +699,11 @@
         </div>
       </div>
 
+      <details class="more">
+        <summary>Esquemas de la arquitectura OT/SCADA <small>4 diagramas, clic para ampliar</small></summary>
+        <div class="more-body">
       <div>
-        <div class="section-header" style="margin-bottom:14px;">
-          <div>
-            <h2>Esquemas técnicos de la arquitectura OT/SCADA (clic para ampliar)</h2>
-            <p>Diagramas extraídos del informe preliminar: paso a nivel tipo, piloto de 20 PaN, gabinete de borde y línea completa.</p>
-          </div>
-        </div>
+        <p class="block-sub">Diagramas extraídos del informe preliminar: paso a nivel tipo, piloto de 20 PaN, gabinete de borde y línea completa.</p>
         <div class="grid-2">
           <div class="fig-card">
             <div class="fig-thumb"><img src="assets/pdf/esquema-paso-nivel-854.png" alt="Esquema paso a nivel tipo 8.5.4"><span class="fig-zoom-hint">Ampliar esquema</span></div>
@@ -728,7 +723,12 @@
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
+      <details class="more">
+        <summary>Tráfico por gabinete y propuestas de conectividad <small>Flujos y opciones A, A4, B, C</small></summary>
+        <div class="more-body">
       <div class="grid-2">
         <div class="table-card">
           <div class="table-title">
@@ -768,7 +768,12 @@
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
+      <details class="more">
+        <summary>Costos CAPEX y OPEX <small>USD 2,87 M + USD 296.579/año</small></summary>
+        <div class="more-body">
       <div class="grid-2">
         <div class="table-card">
           <div class="table-title">
@@ -816,7 +821,12 @@
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
+      <details class="more">
+        <summary>Anexos C, D y E <small>TAVe 2008, Wi-Fi a bordo, prototipo</small></summary>
+        <div class="more-body">
       <div class="grid-2">
         <div class="table-card">
           <div class="table-title">
@@ -841,15 +851,18 @@
           <h3>Anexos D y E · Wi-Fi a bordo y Prototipo interactivo</h3>
           <p><strong>Anexo D (exploración fuera de alcance):</strong> AP Wi-Fi 6 por coche + router de cabina combinando 5G multi-operador y satélite de órbita baja como respaldo, totalmente aislado de la red OT.</p>
           <p><strong>Anexo E (prototipo paso a nivel tipo):</strong> maqueta isométrica interactiva con secuencia de tren (tecla Espacio), selección de piezas y conmutación A1/A4.</p>
-          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;">
+          <div class="card-actions">
             <a class="btn btn-sm" href="https://claude.ai/artifact/MS6nqW3vwam3ENE5mPdtyG" target="_blank" rel="noopener">Mapa interactivo 193 PaN ↗</a>
             <a class="btn btn-sm" href="https://claude.ai/artifact/4mXbHvQSAErjUWSUZxnvsf" target="_blank" rel="noopener">Prototipo paso a nivel tipo ↗</a>
           </div>
         </div>
       </div>
+        </div>
+      </details>
 
-      <aside class="sources-box">
-        <h3>📚 Fuentes utilizadas en esta sección</h3>
+      <details class="more sources-box">
+        <summary>Fuentes de esta sección</summary>
+        <div class="more-body">
         <ul class="sources-list">
           <li><a href="https://www.openstreetmap.org/relation/7549995" target="_blank" rel="noopener">OpenStreetMap — Relación «Ramal ferroviario Retiro-Rosario» (7549995)</a> y <a href="https://nominatim.openstreetmap.org/" target="_blank" rel="noopener">Nominatim</a></li>
           <li><a href="https://www.argentina.gob.ar/sites/default/files/setop_7-81.pdf" target="_blank" rel="noopener">Resolución SETOP 7/81 — Norma para cruces entre caminos y vías férreas</a> y <a href="https://argentina.gob.ar/sites/default/files/2021/12/proyecto_de_estudio_setop_7_81_1.pdf" target="_blank" rel="noopener">Proyecto de estudio SETOP 7/81</a></li>
@@ -859,7 +872,8 @@
           <li><a href="https://idbinvest.org/es/medios-y-prensa/bid-invest-cierra-la-financiacion-para-la-construccion-de-la-linea-ferrocarril-central-en" target="_blank" rel="noopener">BID Invest — Ferrocarril Central Uruguay (24/10/2019)</a> · <a href="https://valenciaplaza.com/cvalenciana/cada-kilometro-de-la-red-ave-entre-madrid-valencia-y-alicante-costo-135-millones" target="_blank" rel="noopener">Valencia Plaza — AVE €13,5 M/km</a></li>
           <li><a href="https://www.iprofesional.com/tecnologia/296136-Trenes-Argentinos-convoca-a-telcos-para-desplegar-redes-junto-a-las-vias" target="_blank" rel="noopener">iProfesional — Trenes Argentinos telcos</a> · <a href="https://store.bluewireless.com/products/teltonika-rutx50-industrial-5g-router" target="_blank" rel="noopener">Blue Wireless — Teltonika RUTX50</a> · <a href="https://onomondo.com/iot-sim/the-best-iot-sim-cards-for-argentina" target="_blank" rel="noopener">Onomondo — Conectividad IoT Argentina (LTE-M)</a></li>
         </ul>
-      </aside>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -869,11 +883,9 @@
   <section id="sec-planificacion" class="page-section">
     <div class="container">
       <div class="section-header">
-        <div>
-          <p class="eyebrow">Planificación del TP · Páginas 12–15</p>
-          <h1>Estado de Secciones y Reparto del Equipo</h1>
+        <p class="eyebrow">Planificación del TP · Páginas 12–15</p>
+          <h1>Estado del TP y reparto del equipo</h1>
           <p>Matriz completa del índice propuesto del trabajo práctico, pendientes por capítulo y asignación por integrante.</p>
-        </div>
       </div>
 
       <div class="table-card">
@@ -929,9 +941,9 @@
         <article class="card">
           <span class="badge b-ok">Secciones 8.2, 8.3, 8.5.3 · Simulación 4</span>
           <h3>Facu · Sedes menores + Lógico</h3>
-          <p>LAN tipo para Campana/San Pedro/San Nicolás, respaldo 4G/radio en San Pedro, tabla completa de direccionamiento, OSPF ABR + BGP, QoS, BOM y 2 slides.</p>
-          <div style="margin-top:auto;">
-            <button class="btn btn-sm btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir simulación y entregables</button>
+          <p>LAN tipo para Campana, San Pedro y San Nicolás, llegada de 6/8/11 pasos a nivel por fibra (switch de agregación OT, bandeja de fibra, zona OT-PaN del firewall), respaldo 4G/radio en San Pedro, direccionamiento, OSPF ABR + BGP, QoS, BOM y 2 slides.</p>
+          <div class="card-actions">
+            <button class="btn btn-sm btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir simulación 4</button>
           </div>
         </article>
         <article class="card">
@@ -946,14 +958,16 @@
         </article>
       </div>
 
-      <aside class="sources-box">
-        <h3>📚 Fuentes utilizadas en esta sección</h3>
+      <details class="more sources-box">
+        <summary>Fuentes de esta sección</summary>
+        <div class="more-body">
         <ul class="sources-list">
           <li>Documento interno: <strong>SmartRail_Red_WAN.pdf</strong> — Índice propuesto y reparto del trabajo (pp. 12–15).</li>
           <li>Documento de seguimiento del Drive: <strong>Smart Rail – Índice y estado del TP</strong> (30/10/2026).</li>
           <li>Entregables vinculados: <a href="https://claude.ai/artifact/KrenBAkAyYatUSXvUfcgnE" target="_blank" rel="noopener">Presentación de 16 slides</a> y <a href="LEEME.txt" target="_blank" rel="noopener">Guía de uso offline (LEEME.txt)</a>.</li>
         </ul>
-      </aside>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -968,6 +982,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
