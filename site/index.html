@@ -385,14 +385,15 @@
           </div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>VLAN</th><th>Uso</th><th>Prioridad QoS</th></tr></thead>
+              <thead><tr><th>VLAN</th><th>Uso</th><th>Prioridad</th><th>DSCP</th><th>Cola WAN</th></tr></thead>
               <tbody>
-                <tr><td><code>10</code></td><td>Datos IT (venta de pasajes, ERP, correo)</td><td>Media</td></tr>
-                <tr><td><code>20</code></td><td>Voz (VoIP de despacho y administrativa)</td><td>Alta</td></tr>
-                <tr><td><code>30</code></td><td>Video CCTV</td><td>Media</td></tr>
-                <tr><td><code>40</code></td><td>Datos OT (señalización, sensores, pasos a nivel, SCADA)</td><td><strong>Crítica</strong></td></tr>
-                <tr><td><code>50</code></td><td>Wi-Fi e Internet</td><td>Best effort</td></tr>
-                <tr><td><code>99</code></td><td>Gestión de equipos</td><td>Alta</td></tr>
+                <tr><td><code>10</code></td><td>Datos IT (venta de pasajes, ERP, correo)</td><td>Media</td><td>AF21</td><td>Ponderada 20 %</td></tr>
+                <tr><td><code>20</code></td><td>Voz (VoIP de despacho y administrativa)</td><td>Alta</td><td>EF (señal. CS3)</td><td>Estricta 10 %</td></tr>
+                <tr><td><code>30</code></td><td>Video CCTV</td><td>Media</td><td>AF41 clips / AF42 en vivo</td><td>Ponderada 35 %</td></tr>
+                <tr><td><code>40</code></td><td>Datos OT (señalización, sensores, SCADA)</td><td><strong>Crítica</strong></td><td>CS5</td><td>Estricta 20 %</td></tr>
+                <tr><td><code>41</code></td><td>Tránsito OT-PaN al firewall (solo sedes con pasos a nivel)</td><td><strong>Crítica</strong></td><td>CS5</td><td>Estricta (con la 40)</td></tr>
+                <tr><td><code>50</code></td><td>Wi-Fi e Internet</td><td>Best effort</td><td>DF</td><td>Sale local</td></tr>
+                <tr><td><code>99</code></td><td>Gestión de equipos</td><td>Media</td><td>CS2</td><td>Ponderada, mínimo 5 %</td></tr>
               </tbody>
             </table>
           </div>
@@ -401,7 +402,7 @@
         <div class="table-card">
           <div class="table-title">
             <h3>Tabla 7.3 · Direccionamiento IP y áreas OSPF</h3>
-            <span>Regla <code>10.S.V.0/24</code> + P2P <code>172.16.0.0/24</code> (/30)</span>
+            <span>Regla <code>10.S.V.0/24</code>, gateway <code>.1</code> en el FortiGate</span>
           </div>
           <div class="table-wrap">
             <table>
@@ -412,6 +413,9 @@
                 <tr><td><strong>San Pedro</strong></td><td><code>10.30.0.0/16</code></td><td class="num"><code>2</code></td></tr>
                 <tr><td><strong>San Nicolás</strong></td><td><code>10.40.0.0/16</code></td><td class="num"><code>3</code></td></tr>
                 <tr><td><strong>Rosario</strong></td><td><code>10.50.0.0/16</code></td><td class="num"><code>4</code> (5 para Talleres)</td></tr>
+                <tr><td><strong>Loopbacks</strong></td><td><code>10.255.0.S/32</code> (router-ID y origen de los túneles; Retiro <code>.10</code>/<code>.11</code>, Talleres <code>.51</code>)</td><td class="num">Publicadas por eBGP</td></tr>
+                <tr><td><strong>Enlaces CE–PE MPLS</strong></td><td><code>172.16.0.0/24</code> en <code>/30</code>: Retiro <code>.0</code>, Campana <code>.4</code>, San Pedro <code>.8</code>, San Nicolás <code>.12</code>, Rosario <code>.16</code>, Talleres <code>.20</code>, Retiro R2 <code>.24</code></td><td class="num">eBGP</td></tr>
+                <tr><td><strong>Túneles SD-WAN</strong></td><td><code>172.17.1.0/24</code> sobre MPLS y <code>172.17.2.0/24</code> IPSec sobre Internet; hub <code>.1</code>, sede <code>.S</code></td><td class="num"><code>0</code></td></tr>
                 <tr><td><strong>Pasos a nivel OT</strong></td><td><code>10.60.0.0/16</code>, un <code>/28</code> por paso a nivel; los cercanos a una estación usan <code>10.60.S.0/24</code> (Campana <code>10.60.20</code>, San Pedro <code>10.60.30</code>, San Nicolás <code>10.60.40</code>); los 156 con router propio y VPN usan <code>10.60.128.0/20</code></td><td class="num">Zona OT-PaN del firewall de su sede</td></tr>
               </tbody>
             </table>
@@ -908,13 +912,13 @@
               <tr><td>6.1 Enlaces por sede</td><td><span class="badge b-ok">Hecho</span></td><td>—</td><td>—</td></tr>
               <tr><td>7. Tecnologías consideradas</td><td><span class="badge b-ok">Hecho</span></td><td>—</td><td>—</td></tr>
               <tr><td>8.1 Topología física</td><td><span class="badge b-ok">Hecho</span></td><td>Actualizar la figura al final</td><td><strong>Feli</strong></td></tr>
-              <tr><td>8.2 Topología lógica (VLAN)</td><td><span class="badge b-warn">Corregir</span></td><td>«Cinco» por seis VLANs y el rango OT</td><td><strong>Facu</strong></td></tr>
-              <tr><td>8.3 Direccionamiento y enrutamiento</td><td><span class="badge b-warn">Parcial</span></td><td>Regla /24, pasos a nivel y ABR/BGP</td><td><strong>Facu</strong></td></tr>
+              <tr><td>8.2 Topología lógica (VLAN)</td><td><span class="badge b-ok">Hecho</span></td><td>Seis VLANs + 41 de tránsito OT-PaN, DSCP y colas (simulación 4, paso 4)</td><td><strong>Facu</strong></td></tr>
+              <tr><td>8.3 Direccionamiento y enrutamiento</td><td><span class="badge b-ok">Hecho</span></td><td>Regla /24, pasos a nivel, transporte, ABR y BGP (simulación 4, pasos 4 y 5)</td><td><strong>Facu</strong></td></tr>
               <tr><td>8.4 Servicios del data center</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Feli</strong></td></tr>
               <tr><td>8.5.1 LAN Retiro</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Feli</strong></td></tr>
               <tr><td>8.5.2 LAN Rosario</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Trini</strong></td></tr>
-              <tr><td>8.5.3 LAN sede menor</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Facu</strong></td></tr>
-              <tr><td>8.5.4 Paso a nivel OT/SCADA</td><td><span class="badge b-danger">Falta</span></td><td>Todo (cubierto en informe preliminar pp. 16–39)</td><td><strong>Joa</strong></td></tr>
+              <tr><td>8.5.3 LAN sede menor</td><td><span class="badge b-ok">Hecho</span></td><td>LAN tipo, cantidades, PoE, modelos y respaldo de San Pedro (simulación 4)</td><td><strong>Facu</strong></td></tr>
+              <tr><td>8.5.4 Paso a nivel OT/SCADA</td><td><span class="badge b-danger">Falta</span></td><td>Confirmar entrada por puerto ruteado del switch OT + VLAN 41; corregir /29 por /28</td><td><strong>Joa</strong></td></tr>
               <tr><td>8.6 Resiliencia y continuidad</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Trini</strong></td></tr>
               <tr><td>9.1 Presupuesto CAPEX</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Lázaro</strong></td></tr>
               <tr><td>9.2 Presupuesto OPEX</td><td><span class="badge b-danger">Falta</span></td><td>Todo</td><td><strong>Lázaro</strong></td></tr>
@@ -941,7 +945,7 @@
         <article class="card">
           <span class="badge b-ok">Secciones 8.2, 8.3, 8.5.3 · Simulación 4</span>
           <h3>Facu · Sedes menores + Lógico</h3>
-          <p>LAN tipo para Campana, San Pedro y San Nicolás, llegada de 6/8/11 pasos a nivel por fibra (switch de agregación OT, bandeja de fibra, zona OT-PaN del firewall), respaldo 4G/radio en San Pedro, direccionamiento, OSPF ABR + BGP, QoS, BOM y 2 slides.</p>
+          <p>LAN tipo para Campana, San Pedro y San Nicolás con gabinete de andén en las tres, llegada de 6/8/11 pasos a nivel por fibra monomodo, respaldo por radioenlace a Baradero en San Pedro, direccionamiento con transporte, OSPF ABR sobre túneles + eBGP, DSCP y colas, cantidades y PoE, y 2 slides.</p>
           <div class="card-actions">
             <button class="btn btn-sm btn-primary" type="button" onclick="showSection('sedes-menores')">Abrir simulación 4</button>
           </div>

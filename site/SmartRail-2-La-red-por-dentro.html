@@ -540,16 +540,10 @@ button{font-family:inherit}
 </section>
 
 <section aria-labelledby="fig2-title" style="display: flex; flex-direction: column; gap: 16px">
-<div style="display: flex; flex-wrap: wrap; gap: 10px; align-items: center">
-<span style="font-size: 15px; font-weight: 600; color: #4A5661; margin-right: 4px">Estación:</span>
-<sc-for list="{{stationsB}}" as="t" hint-placeholder-count="4">
-<button onClick="{{t.pick}}" aria-pressed="{{t.pressed}}" style="min-height: 44px; padding: 0 16px; border-radius: 10px; border: 2px solid #14202B; background: {{t.bg}}; color: {{t.color}}; font-size: 15px; font-weight: 600; cursor: pointer">{{t.label}}</button>
-</sc-for>
-</div>
 <div style="background: #FBFAF6; border: 1px solid #D9D3C4; border-radius: 16px; padding: 20px 20px 16px; display: flex; flex-direction: column; gap: 12px">
 <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap">
 <span style="font-size: 14px; font-weight: 600; color: #5A6671; letter-spacing: 1px">Fig. 2</span>
-<h2 id="fig2-title" style="margin: 0; font-family: 'Oswald', Arial, sans-serif; font-size: 24px; font-weight: 500">Del switch a la cámara y al sensor: {{stB.label}}</h2>
+<h2 id="fig2-title" style="margin: 0; font-family: 'Oswald', Arial, sans-serif; font-size: 24px; font-weight: 500">Del switch a la cámara y al sensor: estación tipo</h2>
 </div>
 <div style="position: relative; width: 100%; max-width: 980px; margin: 0 auto; aspect-ratio: 837 / 466">
 <img src="assets/fig2-estacion.svg" alt="Figura isométrica del interior de una estación: rack con router, firewall, switch de capa 3, switch PoE y patchera; fibra WAN que baja del techo al rack; cuatro conductos de piso hacia el teléfono IP, la boletería, la cámara sobre poste y, por fibra, el gabinete industrial OT con el sensor del paso a nivel." style="position: absolute; left: 0; top: 0; width: 100%; height: 100%; display: block">
@@ -650,7 +644,7 @@ button{font-family:inherit}
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { svcA: "todos", cut: false, paused: false, st: 0, svcB: "todos", svcC: "todos" };
+    this.state = { svcA: "todos", cut: false, paused: false, svcB: "todos", svcC: "todos" };
   }
 
   renderVals() {
@@ -660,26 +654,25 @@ class Component extends DCLogic {
     const svcCKey = S.svcC || "todos";
     const cut = !!S.cut;
     const paused = !!S.paused;
-    const stIdx = S.st || 0;
 
     const COLORS = { datos: "#1F7A8C", voz: "#E8A33D", video: "#7B5EA7", gestion: "#5A6671", ot: "#C2553A" };
     const LABELS = { todos: "Todos", datos: "Datos", voz: "Voz", video: "Video", gestion: "Gestión", ot: "OT (campo)" };
     const KEYS = ["todos", "datos", "voz", "video", "gestion", "ot"];
 
     const INFO = {
-      datos: { vlan: "VLAN 10", qos: "AF31", proto: "TCP", agg: "85 Mbps agregados en el CCO", dir: "Ida y vuelta entre el data center y cada sede",
+      datos: { vlan: "VLAN 10", qos: "AF21, prioridad media", proto: "TCP", agg: "85 Mbps agregados en el CCO", dir: "Ida y vuelta entre el data center y cada sede",
         uso: "Despacho de trenes, señalización y venta de pasajes. Son aplicaciones del data center que se usan desde la boletería y los puestos de la estación.",
         path: "Fibra WAN → router → firewall → switch capa 3 → switch de acceso → Cat 6 UTP → PC de boletería." },
-      voz: { vlan: "VLAN 20", qos: "EF, prioridad máxima", proto: "UDP (RTP)", agg: "75 llamadas · 6,5 Mbps en el CCO", dir: "Ida y vuelta, siempre primera en la cola",
+      voz: { vlan: "VLAN 20", qos: "EF, prioridad alta", proto: "UDP (RTP)", agg: "75 llamadas · 6,5 Mbps en el CCO", dir: "Ida y vuelta, en cola estricta detrás de OT",
         uso: "Telefonía de despacho y administrativa. Cada llamada G.711 ocupa 87 kbps con encabezados y no tolera retardo ni jitter.",
         path: "Fibra WAN → router → firewall → switch capa 3 → switch PoE → Cat 6 con PoE → teléfono IP, y la respuesta por el camino inverso." },
-      video: { vlan: "VLAN 30", qos: "AF21, prioridad media", proto: "Flujo continuo H.265", agg: "70 cámaras · 140 Mbps hacia el data center", dir: "De cada sede hacia la grabación en el data center y los monitores del CCO",
+      video: { vlan: "VLAN 30", qos: "AF41, prioridad media", proto: "Flujo continuo H.265", agg: "70 cámaras · 140 Mbps hacia el data center", dir: "De cada sede hacia la grabación en el data center y los monitores del CCO",
         uso: "Cámaras de andenes y pasos a nivel. Cada cámara 1080p con H.265 envía unos 2 Mbps; solo el CCO puede verlas.",
         path: "Cámara IP → Cat 6 con PoE → switch PoE → switch capa 3 → firewall → router → fibra WAN hacia el data center." },
       gestion: { vlan: "VLAN 99", qos: "CS2", proto: "SNMP (UDP) y SSH", agg: "Volumen bajo", dir: "Del data center a cada equipo de estaciones y subestaciones",
         uso: "Monitoreo de disponibilidad con SNMP, análisis de tráfico con NetFlow y administración remota por SSH.",
         path: "Fibra WAN → router → firewall → switch capa 3; por fibra llega también al switch del gabinete OT." },
-      ot: { vlan: "VLAN 40 (propuesta)", qos: "Prioridad alta", proto: "MQTT / OPC UA", agg: "≈1,6 Mbps desde los talleres; subestaciones a relevar", dir: "De los talleres, las subestaciones y los pasos a nivel hacia el data center",
+      ot: { vlan: "VLAN 40", qos: "CS5, prioridad crítica", proto: "MQTT / OPC UA", agg: "≈1,6 Mbps desde los talleres; subestaciones a relevar", dir: "De los talleres, las subestaciones y los pasos a nivel hacia el data center",
         uso: "Telemetría de energía, barreras y alarmas. El gateway del gabinete traduce el protocolo del PLC (por ejemplo Modbus) a mensajes que el CCO puede leer.",
         path: "Sensor del paso a nivel → gabinete industrial → fibra OS2 → switch capa 3 → firewall → router → fibra WAN." }
     };
@@ -691,19 +684,19 @@ class Component extends DCLogic {
         path: "La fibra WAN llega al rack; desde ahí, un anillo de fibra une tres switches industriales en la pared de la nave, y cada uno atiende las máquinas y cámaras de su zona.",
         uso: "Mantenimiento predictivo: los sensores miden vibración, temperatura y corriente de cada máquina para anticipar fallas antes de que paren el taller.",
         medio: "Anillo de fibra monomodo entre switches; cobre S/FTP hacia máquinas y sensores, porque la maquinaria genera interferencia; Cat 6 UTP al puesto." },
-      ot: { title: "OT · VLAN 40 (propuesta) · prioridad alta",
+      ot: { title: "OT · VLAN 40 · CS5 · prioridad crítica",
         line1: "≈200 sensores × 1 mensaje/s × 1 KB ≈ 1,6 Mbps",
         line2: "Telemetría por MQTT u OPC UA hacia el data center",
         path: "Sensor de la máquina → switch industrial de su zona → anillo de fibra → rack (switch capa 3 → firewall → router) → fibra WAN.",
         uso: "Vibración, temperatura y corriente del torno de ruedas, el compresor y el banco de pruebas alimentan el mantenimiento predictivo.",
         medio: "Cobre S/FTP blindado de la máquina al switch y fibra en el anillo. Si se corta un tramo del anillo, el tráfico vuelve por el otro lado." },
-      video: { title: "Video · VLAN 30 · AF21",
+      video: { title: "Video · VLAN 30 · AF41",
         line1: "24 cámaras × 2 Mbps = 48 Mbps",
         line2: "Naves, playa de vías y accesos",
         path: "Cámara → switch industrial → anillo de fibra → rack → fibra WAN → grabación en el data center.",
         uso: "Seguridad de las naves y control de maniobras en la playa de vías; solo el CCO puede verlas.",
         medio: "Cable con PoE hasta la cámara (S/FTP en zonas con maquinaria) y fibra en el anillo." },
-      datos: { title: "Datos · VLAN 10 · AF31",
+      datos: { title: "Datos · VLAN 10 · AF21",
         line1: "20 Mbps, telemetría incluida",
         line2: "TCP",
         path: "Fibra WAN → router → firewall → switch capa 3 → Cat 6 UTP → PC del puesto de mantenimiento.",
@@ -723,13 +716,6 @@ class Component extends DCLogic {
         medio: "Viaja por la misma fibra del anillo, aislada en la VLAN 99." }
     };
 
-    const STATIONS = [
-      { label: "Campana", cams: 8, calls: 10, voz: "0,9", data: 10, link: 35 },
-      { label: "San Pedro", cams: 8, calls: 10, voz: "0,9", data: 10, link: 35 },
-      { label: "San Nicolás", cams: 10, calls: 15, voz: "1,3", data: 15, link: 47 },
-      { label: "Rosario", cams: 20, calls: 30, voz: "2,6", data: 30, link: 94 }
-    ];
-    const st = STATIONS[stIdx];
 
     const opFor = (sel) => {
       const o = {};
@@ -761,19 +747,19 @@ class Component extends DCLogic {
     let readB;
     if (svcBKey === "todos") {
       readB = {
-        title: st.label + ": enlace de " + st.link + " Mbps con margen",
-        line1: st.cams + " cámaras · " + st.calls + " llamadas simultáneas · " + st.data + " Mbps de datos",
+        title: "Campana, San Pedro y San Nicolás: MPLS de 50 Mbps",
+        line1: "12 / 10 / 16 cámaras · 8 / 6 / 10 llamadas pico · 6 / 4,8 / 8 Mbps de datos",
         line2: "Cinco servicios separados en VLAN dentro del mismo rack",
         path: "Todo entra y sale por la fibra WAN del techo y atraviesa router, firewall y switch capa 3. Elegí un servicio para ver su camino completo.",
-        uso: "Cada servicio tiene su VLAN y su prioridad: la voz pasa primero, después los datos críticos, el video y la gestión.",
+        uso: "Cada servicio tiene su VLAN y su prioridad: primero OT, después la voz, después video y datos, y al final Internet, que sale local.",
         medio: "Fibra WAN al rack; cobre Cat 6 UTP con PoE a terminales y cámaras (hasta 100 m por canal); fibra OS2 al gabinete OT."
       };
     } else {
       const i = INFO[svcBKey];
       const bw = {
-        datos: st.data + " Mbps de datos en " + st.label,
-        voz: st.calls + " llamadas × 87 kbps = " + st.voz + " Mbps en " + st.label,
-        video: st.cams + " cámaras × 2 Mbps = " + (st.cams * 2) + " Mbps en " + st.label,
+        datos: "6 / 4,8 / 8 Mbps (Campana / San Pedro / San Nicolás)",
+        voz: "8 / 6 / 10 llamadas × 87 kbps = 0,7 / 0,5 / 0,9 Mbps",
+        video: "4 / 4 / 6 cámaras en vivo × 2 Mbps = 8 / 8 / 12 Mbps; el resto graba local",
         gestion: "Tráfico de control, bajo volumen",
         ot: "Telemetría por eventos, volumen a relevar"
       }[svcBKey];
@@ -793,14 +779,6 @@ class Component extends DCLogic {
       svcC: buttons(svcCKey, (k) => this.setState({ svcC: k })),
       opC: opFor(svcCKey),
       readC: TALLER[svcCKey],
-      stationsB: STATIONS.map((s, i) => ({
-        label: s.label,
-        pressed: i === stIdx ? "true" : "false",
-        pick: () => this.setState({ st: i }),
-        bg: i === stIdx ? "#14202B" : "#FBFAF6",
-        color: i === stIdx ? "#F4F1EA" : "#14202B"
-      })),
-      stB: st,
       opA: opFor(svcAKey),
       opB: opFor(svcBKey),
       dispP: (!paused && !cut) ? "inline" : "none",

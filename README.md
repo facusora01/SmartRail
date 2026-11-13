@@ -11,7 +11,7 @@ Portal web y simulación interactiva de la red WAN regional **Smart Rail**, publ
 - `site/SmartRail-4-Sedes-Menores.html`: **4 · Sedes menores** (LAN tipo de Campana, San Pedro y San Nicolás y llegada de los pasos a nivel cercanos).
 - `site/assets/fonts.css`: tipografías IBM Plex Sans y Oswald embebidas, compartidas por el portal y la simulación 4.
 - `site/ABRIR-AQUI.html` y `site/LEEME.txt`: Portada e instrucciones originales de la versión offline.
-- `content/`: Documentación exportada del Drive (`indice-y-estado-tp.md`, `simulacion-link-y-cambios.md`).
+- `content/`: Documentación exportada del Drive (`indice-y-estado-tp.md`, `simulacion-link-y-cambios.md`) y texto de las secciones 8.2, 8.3 y 8.5.3 (`facu-8.2-8.3-8.5.3.md`).
 
 ## GitHub Action y GitHub Pages
 

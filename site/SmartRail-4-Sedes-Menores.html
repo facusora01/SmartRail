@@ -132,7 +132,11 @@
     .dist-lbl { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; font-size: 15px; }
     .dist-track { position: relative; height: 14px; border-radius: 999px; background: var(--soft); }
     .dist-bar { height: 100%; border-radius: 999px; }
-    .dist-limit { position: absolute; top: -4px; bottom: -4px; left: 62.5%; width: 2px; background: var(--navy); }
+    .dist-limit { position: absolute; top: -4px; bottom: -4px; left: 56.25%; width: 2px; background: var(--navy); }
+    .slide table { font-size: 13.5px; }
+    .slide th { background: var(--navy-3); color: #fff; }
+    .slide th, .slide td { border-top-color: var(--navy-3); color: #E3E8EC; padding: 6px 10px; }
+    h4 { font-family: var(--display); font-weight: 500; font-size: 18px; margin: 18px 0 8px; }
 
     /* QoS */
     .qos { display: flex; flex-direction: column; gap: 14px; }
@@ -190,7 +194,7 @@
         <button class="step-pill" data-step="5"><span class="n">5</span>Tablas</button>
         <button class="step-pill" data-step="6"><span class="n">6</span>Slides</button>
       </nav>
-      <div><span class="seg-label">Estación</span><span class="seg" id="sedeSeg">
+      <div id="sedeBox"><span class="seg-label">Estación</span><span class="seg" id="sedeSeg">
         <button data-sede="campana" class="active">Campana</button><button data-sede="sanpedro">San Pedro</button><button data-sede="sannicolas">San Nicolás</button>
       </span></div>
     </div>
@@ -240,7 +244,7 @@
           <text class="s" x="36" y="313" id="tInet">20 Mbps · VLAN 50</text>
           <!-- router -->
           <rect class="bx" x="300" y="105" width="190" height="160" rx="8" style="stroke:var(--amber);stroke-width:2.5"/>
-          <text class="t" x="316" y="134">Router / FW</text>
+          <text class="t" x="316" y="134">FortiGate 80F</text>
           <text class="s" x="316" y="156">SD-WAN · ABR OSPF</text>
           <text class="s" x="316" y="192">Zonas del firewall:</text>
           <text class="s" x="316" y="214" style="fill:var(--ink)">IT · Voz · Video</text>
@@ -363,32 +367,43 @@
     <!-- PASO 3 -->
     <section class="step" id="step-3">
       <div class="step-head">
-        <h2>Andén largo y respaldo de San Pedro</h2>
-        <p>Dos diferencias físicas entre las tres estaciones.</p>
+        <h2>Andén y respaldo de San Pedro</h2>
+        <p>El gabinete de andén y el respaldo de la única sede sin REFEFO.</p>
       </div>
       <div class="grid-2">
         <article class="card">
-          <h3>Cobre hasta 100 m, después fibra</h3>
-          <p>El UTP llega a unos 90–100 m. Si el extremo del andén queda más lejos, se pone un gabinete con switch PoE unido por fibra multimodo OM3.</p>
+          <h3>Gabinete de andén en las tres sedes</h3>
+          <p>El enlace permanente de UTP llega a 90 m (TIA-568). Las distancias del relevamiento son en línea recta; el cable real sigue bandejas y subidas y suma un 15–20 %. Las tres estaciones quedan afuera.</p>
           <div class="dist">
-            <div class="dist-lbl"><strong>Campana · ~130–145 m</strong><span style="color:var(--red)">Gabinete + OM3</span></div>
+            <div class="dist-lbl"><strong>Campana · ~145 m (~170 m de cable)</strong><span style="color:var(--red)">Gabinete + OM3</span></div>
             <div class="dist-track"><div class="dist-bar" style="width:90%;background:var(--red)"></div><div class="dist-limit"></div></div>
           </div>
           <div class="dist">
-            <div class="dist-lbl"><strong>San Nicolás · ~100 m</strong><span style="color:var(--amber-ink)">En el límite, gabinete opcional</span></div>
-            <div class="dist-track"><div class="dist-bar" style="width:62.5%;background:var(--amber)"></div><div class="dist-limit"></div></div>
+            <div class="dist-lbl"><strong>San Nicolás · ~100 m (~120 m de cable)</strong><span style="color:var(--red)">Gabinete + OM3</span></div>
+            <div class="dist-track"><div class="dist-bar" style="width:62.5%;background:var(--red)"></div><div class="dist-limit"></div></div>
           </div>
           <div class="dist">
-            <div class="dist-lbl"><strong>San Pedro · ~95 m</strong><span style="color:var(--green)">UTP directo</span></div>
-            <div class="dist-track"><div class="dist-bar" style="width:59%;background:var(--green)"></div><div class="dist-limit"></div></div>
+            <div class="dist-lbl"><strong>San Pedro · ~95 m (~115 m de cable)</strong><span style="color:var(--red)">Gabinete + OM3</span></div>
+            <div class="dist-track"><div class="dist-bar" style="width:59%;background:var(--red)"></div><div class="dist-limit"></div></div>
           </div>
-          <p style="font-size:14px;color:var(--muted)">La raya vertical marca 100 m. Escala hasta 160 m.</p>
+          <p style="font-size:14px;color:var(--muted)">La raya vertical marca 90 m. Escala hasta 160 m.</p>
+          <div class="note"><strong>Dos fibras en la misma LAN:</strong> multimodo OM3 (1000BASE-SX, hasta 550 m) del rack al gabinete de andén, y monomodo OS2 (1000BASE-LX, hasta 10 km) de los pasos a nivel al switch OT, como fija la 8.5.4.</div>
         </article>
         <article class="card">
-          <h3>San Pedro no tiene nodo REFEFO</h3>
-          <p>Campana y San Nicolás tienen nodo de ARSAT y doble infraestructura fija (fibra y cablemódem). San Pedro no: los nodos más cercanos están en Baradero y Ramallo.</p>
-          <div class="note warn"><strong>Solución:</strong> principal por fibra de un operador local y respaldo por 4G/5G dual-SIM o radioenlace, por un camino físico distinto.</div>
-          <p>Campana y San Nicolás usan de respaldo un cablemódem de otro operador (20 y 30 Mbps) con VPN IPSec manejada por SD-WAN.</p>
+          <h3>Respaldo de San Pedro: 4G/5G o radioenlace</h3>
+          <p>San Pedro no tiene nodo REFEFO; los más cercanos están en Baradero (~21 km) y Ramallo (~38 km). El respaldo tiene que llevar los <strong>17 Mbps críticos</strong> (20 Mbps contratados, Tabla 5.1), casi todo de subida hacia el CCO.</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th></th><th>4G/5G dual-SIM</th><th>Radio a Baradero</th></tr></thead>
+              <tbody>
+                <tr><td>Capacidad</td><td>Variable; 5–15 Mbps de subida por chip</td><td>100+ Mbps fijos</td></tr>
+                <tr><td>Obra</td><td>Router y antena exterior</td><td>Torres de ~30 m en las dos puntas</td></tr>
+                <tr><td>Costo</td><td>Bajo CAPEX, abono mensual por 2 chips</td><td>Alto CAPEX, casi sin abono</td></tr>
+                <tr><td>Riesgo</td><td>Celda compartida con el público</td><td>Línea de vista; depende del acceso en Baradero</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="note warn"><strong>Recomendación:</strong> radioenlace a la estación Baradero, que sí tiene nodo REFEFO, como respaldo, porque es el único que garantiza los 20 Mbps. El 4G/5G dual-SIM se instala igual al inicio, mientras se hace la obra, y después queda como tercer camino y acceso de gestión.</div>
         </article>
       </div>
     </section>
@@ -401,10 +416,14 @@
       </div>
       <div class="grid-2">
         <article class="card">
-          <h3>OSPF por áreas y eBGP</h3>
-          <p>Retiro es el área 0. El router de cada sede es ABR de su área (Campana 1, San Pedro 2, San Nicolás 3) y resume su red <code>10.S.0.0/16</code> y su bloque de pasos a nivel <code>10.60.S.0/24</code> hacia el área 0.</p>
-          <p>Hacia el operador MPLS cada sede habla eBGP con el PE. Si el MPLS cae o sube la latencia, SD-WAN pasa al túnel IPSec.</p>
-          <div class="note"><strong>Ventaja:</strong> un problema dentro de una estación no dispara recálculos en el resto del ramal.</div>
+          <h3>OSPF por áreas sobre túneles, BGP para el transporte</h3>
+          <ul class="list">
+            <li><strong>Área 0:</strong> la LAN del CCO y los túneles SD-WAN entre sedes (la WAN).</li>
+            <li><strong>Áreas 1 a 4:</strong> Campana, San Pedro, San Nicolás y Rosario (5 para Talleres). El FortiGate de cada sede es <strong>ABR</strong> y resume <code>10.S.0.0/16</code> y <code>10.60.S.0/24</code> hacia el área 0.</li>
+            <li><strong>eBGP con el operador MPLS:</strong> cada sede publica solo su loopback (<code>10.255.0.S/32</code>). Es el transporte: lleva los túneles, no las LAN.</li>
+            <li><strong>Dos túneles por sede:</strong> uno sobre el MPLS (<code>172.17.1.0/24</code>, costo OSPF 10) y otro IPSec sobre Internet (<code>172.17.2.0/24</code>, costo 100). SD-WAN mueve el tráfico si cae el MPLS o empeora la latencia.</li>
+          </ul>
+          <div class="note"><strong>Ventaja:</strong> un problema dentro de una estación no dispara recálculos en el resto del ramal, y el operador nunca ve las redes internas.</div>
         </article>
         <article class="card">
           <div class="row">
@@ -420,6 +439,25 @@
           <p id="qNote"></p>
         </article>
       </div>
+      <div class="card" style="margin-top:16px">
+        <h3>Marcas DSCP y colas en la salida WAN</h3>
+        <p>El FortiGate marca por VLAN al entrar y encola al salir. OT y voz van en prioridad estricta; entre las dos suman 30 % del enlace, debajo del tope habitual de 33 %.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Clase</th><th>VLAN</th><th>DSCP</th><th>Cola</th><th class="num">Reserva</th><th>En respaldo</th></tr></thead>
+            <tbody>
+              <tr><td><strong>OT y pasos a nivel</strong></td><td>40, 41</td><td>CS5 (40)</td><td>Estricta, nivel 1</td><td class="num">20 %</td><td>Sigue</td></tr>
+              <tr><td><strong>Voz</strong></td><td>20</td><td>EF (46), señalización CS3</td><td>Estricta, nivel 2</td><td class="num">10 %</td><td>Sigue</td></tr>
+              <tr><td><strong>Video</strong></td><td>30, 41</td><td>Clips AF41 (34), en vivo AF42 (36)</td><td>Ponderada</td><td class="num">35 %</td><td>Solo clips</td></tr>
+              <tr><td><strong>Datos IT</strong></td><td>10</td><td>AF21 (18)</td><td>Ponderada</td><td class="num">20 %</td><td>Sigue</td></tr>
+              <tr><td><strong>Gestión</strong> (Media)</td><td>99</td><td>CS2 (16)</td><td>Ponderada, mínimo garantizado</td><td class="num">5 %</td><td>Sigue</td></tr>
+              <tr><td><strong>Control (OSPF, BGP, IKE)</strong></td><td>—</td><td>CS6 (48)</td><td>Ponderada</td><td class="num">5 %</td><td>Sigue</td></tr>
+              <tr><td><strong>Internet y Wi-Fi</strong></td><td>50</td><td>DF (0)</td><td>No usa la WAN</td><td class="num">—</td><td>Sale local</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="note"><strong>Gestión queda en Media, no en Alta:</strong> la prioridad estricta es solo para OT y voz. Gestión es poco tráfico, pero con un mínimo garantizado de 5 % para que el monitoreo no se pierda en una congestión.</div>
+      </div>
     </section>
 
     <!-- PASO 5 -->
@@ -427,9 +465,9 @@
       <div class="step-head row">
         <div>
           <h2>Tablas</h2>
-          <p>La estación elegida aparece resaltada.</p>
+          <p>Las tres sedes en cada tabla.</p>
         </div>
-        <span class="seg" id="tabSeg"><button data-tab="ip" class="active">Direcciones</button><button data-tab="bom">Equipos</button></span>
+        <span class="seg" id="tabSeg"><button data-tab="ip" class="active">Direcciones</button><button data-tab="tr">Transporte</button><button data-tab="qty">Cantidades</button><button data-tab="bom">Equipos</button></span>
       </div>
 
       <div id="tab-ip" class="tab-panel active table-wrap">
@@ -444,18 +482,51 @@
           </tbody>
         </table>
       </div>
+      <div id="tab-tr" class="tab-panel table-wrap">
+        <table>
+          <thead><tr><th>Sede</th><th>Loopback (router-ID)</th><th>CE–PE MPLS (/30)</th><th>Túnel sobre MPLS</th><th>Túnel IPSec Internet</th><th>AS BGP</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Retiro R1 / R2</strong></td><td><code>10.255.0.10</code> / <code>.11</code></td><td><code>172.16.0.0</code> / <code>.24</code></td><td><code>172.17.1.1</code> / <code>.2</code></td><td><code>172.17.2.1</code> / <code>.2</code></td><td>65010</td></tr>
+            <tr data-sede="campana"><td><strong>Campana</strong></td><td><code>10.255.0.20</code></td><td><code>172.16.0.4</code></td><td><code>172.17.1.20</code></td><td><code>172.17.2.20</code></td><td>65020</td></tr>
+            <tr data-sede="sanpedro"><td><strong>San Pedro</strong></td><td><code>10.255.0.30</code></td><td><code>172.16.0.8</code></td><td><code>172.17.1.30</code></td><td><code>172.17.2.30</code></td><td>65030</td></tr>
+            <tr data-sede="sannicolas"><td><strong>San Nicolás</strong></td><td><code>10.255.0.40</code></td><td><code>172.16.0.12</code></td><td><code>172.17.1.40</code></td><td><code>172.17.2.40</code></td><td>65040</td></tr>
+            <tr><td><strong>Rosario / Talleres</strong></td><td><code>10.255.0.50</code> / <code>.51</code></td><td><code>172.16.0.16</code> / <code>.20</code></td><td><code>172.17.1.50</code> / <code>.51</code></td><td><code>172.17.2.50</code> / <code>.51</code></td><td>65050</td></tr>
+          </tbody>
+        </table>
+        <p style="padding:10px 14px;margin:0;font-size:14px;color:var(--muted)">En cada /30 el PE del operador es <code>.1</code> y nuestro router <code>.2</code>. Los túneles son una red multipunto /24 por camino, con el último octeto igual al de la sede.</p>
+      </div>
+      <div id="tab-qty" class="tab-panel table-wrap">
+        <table>
+          <thead><tr><th>Concepto</th><th class="num">Campana</th><th class="num">San Pedro</th><th class="num">San Nicolás</th><th>Supuesto</th></tr></thead>
+          <tbody>
+            <tr><td>Teléfonos IP</td><td class="num">30</td><td class="num">24</td><td class="num">40</td><td>7 W c/u; la PC se conecta detrás del teléfono</td></tr>
+            <tr><td>PCs</td><td class="num">15</td><td class="num">12</td><td class="num">20</td><td>Una por usuario simultáneo (Tabla 4.1)</td></tr>
+            <tr><td>Cámaras (edificio + andén)</td><td class="num">6 + 6</td><td class="num">6 + 4</td><td class="num">10 + 6</td><td>13 W c/u</td></tr>
+            <tr><td>Access points</td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td>18 W c/u (802.3at)</td></tr>
+            <tr><td>Equipos OT de la estación</td><td class="num">2</td><td class="num">2</td><td class="num">2</td><td>RTU / PLC en VLAN 40</td></tr>
+            <tr><td><strong>Puertos RJ45 en el rack</strong></td><td class="num">42 de 48</td><td class="num">36 de 48</td><td class="num">57 de 72</td><td>+ NVR y uplink al FortiGate</td></tr>
+            <tr><td><strong>PoE en el rack</strong></td><td class="num">324 W</td><td class="num">282 W</td><td class="num">464 W</td><td>Switch de 740 W (+370 W en San Nicolás)</td></tr>
+            <tr><td>Puertos / PoE en el gabinete de andén</td><td class="num">6 · 78 W</td><td class="num">4 · 52 W</td><td class="num">6 · 78 W</td><td>Switch industrial 8 PoE+</td></tr>
+            <tr><td>SFP LX (pasos a nivel)</td><td class="num">6</td><td class="num">8</td><td class="num">11</td><td>Uno por paso a nivel</td></tr>
+            <tr><td>SFP SX (OM3)</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td>Gabinete de andén y uplink del switch OT</td></tr>
+            <tr><td>Grabación 30 días</td><td class="num">7,8 TB</td><td class="num">6,5 TB</td><td class="num">10,4 TB</td><td>2 Mbps por cámara (H.265)</td></tr>
+          </tbody>
+        </table>
+      </div>
       <div id="tab-bom" class="tab-panel table-wrap">
         <table>
-          <thead><tr><th>Equipo</th><th class="num">Campana</th><th class="num">San Pedro</th><th class="num">San Nicolás</th><th>Para qué</th></tr></thead>
+          <thead><tr><th>Equipo (modelo de referencia)</th><th class="num">Campana</th><th class="num">San Pedro</th><th class="num">San Nicolás</th><th>Para qué</th></tr></thead>
           <tbody>
-            <tr><td><strong>Router / firewall SD-WAN</strong></td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>ABR OSPF, eBGP, IPSec, zonas OT y OT-PaN</td></tr>
-            <tr><td><strong>Switch acceso PoE+ 48p</strong></td><td class="num">1</td><td class="num">1</td><td class="num">2</td><td>Teléfonos, cámaras y AP</td></tr>
-            <tr><td><strong>Switch agregación OT 24 SFP</strong></td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>Llegada de los pasos a nivel</td></tr>
+            <tr><td><strong>FortiGate 80F</strong></td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>SD-WAN, ABR OSPF, eBGP, IPSec, zonas OT y OT-PaN; 2 puertos SFP</td></tr>
+            <tr><td><strong>FortiSwitch 148F-FPOE</strong> (48 PoE+, 4 SFP, 740 W)</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>Teléfonos, cámaras del edificio, AP</td></tr>
+            <tr><td><strong>FortiSwitch 124F-FPOE</strong> (24 PoE+, 370 W)</td><td class="num">—</td><td class="num">—</td><td class="num">1</td><td>Puertos que faltan en San Nicolás</td></tr>
+            <tr><td><strong>Switch capa 3 de 24 SFP</strong> (ref. Catalyst 9300-24S)</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>Agregación OT: un puerto ruteado por paso a nivel</td></tr>
             <tr><td><strong>Bandeja de fibra (ODF)</strong></td><td class="num">24 f</td><td class="num">24 f</td><td class="num">48 f</td><td>12 / 16 / 22 fibras en uso</td></tr>
-            <tr><td><strong>SFP 1000BASE-LX</strong></td><td class="num">7</td><td class="num">9</td><td class="num">12</td><td>Un puerto por paso a nivel + uplink</td></tr>
-            <tr><td><strong>Gabinete de andén + OM3</strong></td><td class="num">1</td><td class="num">0</td><td class="num">1 (opc.)</td><td>Andén a más de 100 m</td></tr>
-            <tr><td><strong>Respaldo</strong></td><td class="num">HFC</td><td class="num">4G / radio</td><td class="num">HFC</td><td>San Pedro sin nodo REFEFO</td></tr>
-            <tr><td><strong>Teléfonos / cámaras / AP / UPS</strong></td><td class="num">30 / 12 / 2 / 1</td><td class="num">24 / 10 / 2 / 1</td><td class="num">40 / 16 / 3 / 1</td><td>Terminales y autonomía</td></tr>
+            <tr><td><strong>Gabinete de andén IP65</strong> + switch industrial 8 PoE+</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>Cámaras del extremo del andén, por OM3</td></tr>
+            <tr><td><strong>NVR 4 bahías</strong></td><td class="num">16 can. · 4×4 TB</td><td class="num">16 can. · 4×4 TB</td><td class="num">32 can. · 4×6 TB</td><td>Grabación local 30 días en RAID 5</td></tr>
+            <tr><td><strong>FortiAP 231F</strong></td><td class="num">2</td><td class="num">2</td><td class="num">3</td><td>Wi-Fi en VLAN 50</td></tr>
+            <tr><td><strong>UPS online 1,5 kVA</strong> + rack 24U</td><td class="num">1</td><td class="num">1</td><td class="num">1</td><td>~550 W de carga, 30 min con banco externo</td></tr>
+            <tr><td><strong>Respaldo WAN</strong></td><td class="num">HFC 20 Mbps</td><td class="num">Radio a Baradero + 4G</td><td class="num">HFC 30 Mbps</td><td>San Pedro sin nodo REFEFO</td></tr>
           </tbody>
         </table>
       </div>
@@ -468,23 +539,33 @@
       </div>
       <div class="grid-2">
         <article class="slide">
-          <span class="tag">Slide 1 de 2 · Diseño físico</span>
+          <span class="tag">Slide 1 de 2 · Sede tipo</span>
           <h3>Una LAN para las tres sedes menores</h3>
           <ul>
-            <li><strong>Base común:</strong> router/firewall SD-WAN, switch PoE+ 48p y UPS, para 30 / 24 / 40 teléfonos y 12 / 10 / 16 cámaras.</li>
-            <li><strong>Pasos a nivel:</strong> 6 / 8 / 11 llegan por fibra a un switch de agregación OT de 24 SFP con bandeja de fibra.</li>
-            <li><strong>Andén de más de 100 m (Campana):</strong> gabinete intermedio con fibra OM3.</li>
-            <li><strong>San Pedro sin REFEFO:</strong> respaldo 4G/5G dual-SIM o radioenlace por otro camino.</li>
+            <li><strong>Rack:</strong> FortiGate 80F, switch PoE+ de 48 puertos (740 W), NVR y UPS de 1,5 kVA, para 30 / 24 / 40 teléfonos y 12 / 10 / 16 cámaras.</li>
+            <li><strong>Andén:</strong> gabinete IP65 con switch PoE en las tres sedes, unido por fibra multimodo OM3.</li>
+            <li><strong>Pasos a nivel:</strong> 6 / 8 / 11 llegan por fibra monomodo a un switch OT de 24 SFP, un puerto ruteado por cruce.</li>
+            <li><strong>Respaldo:</strong> cablemódem en Campana y San Nicolás; en San Pedro, sin REFEFO, radioenlace a Baradero más 4G/5G.</li>
           </ul>
         </article>
         <article class="slide">
-          <span class="tag">Slide 2 de 2 · Lógica</span>
-          <h3>Direcciones, ruteo y prioridades</h3>
+          <span class="tag">Slide 2 de 2 · Direcciones y OSPF</span>
+          <h3>Plan 10.S.V.0/24 y una área por sede</h3>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Sede</th><th>S</th><th>Área</th><th>Resumen ABR</th><th>Pasos a nivel</th></tr></thead>
+              <tbody>
+                <tr><td>Retiro</td><td>10</td><td>0</td><td><code>10.10.0.0/16</code></td><td><code>10.60.128.0/20</code></td></tr>
+                <tr><td>Campana</td><td>20</td><td>1</td><td><code>10.20.0.0/16</code></td><td><code>10.60.20.0/24</code></td></tr>
+                <tr><td>San Pedro</td><td>30</td><td>2</td><td><code>10.30.0.0/16</code></td><td><code>10.60.30.0/24</code></td></tr>
+                <tr><td>San Nicolás</td><td>40</td><td>3</td><td><code>10.40.0.0/16</code></td><td><code>10.60.40.0/24</code></td></tr>
+                <tr><td>Rosario</td><td>50</td><td>4 / 5</td><td><code>10.50.0.0/16</code></td><td><code>10.60.50.0/24</code></td></tr>
+              </tbody>
+            </table>
+          </div>
           <ul>
-            <li><strong>Plan IP:</strong> <code>10.S.V.0/24</code> por sede y VLAN; pasos a nivel en <code>10.60.S.0/24</code>, un <code>/28</code> por cruce.</li>
-            <li><strong>OSPF y eBGP:</strong> cada sede es ABR de su área y habla eBGP con el operador MPLS.</li>
-            <li><strong>Firewall:</strong> zona OT-PaN que solo habla con el SCADA y la gestión del CCO.</li>
-            <li><strong>QoS:</strong> OT, después voz, después video y datos, y al final Internet. En respaldo se pausa el video en vivo; los clips de evento siguen.</li>
+            <li><strong>VLAN V:</strong> 10 IT · 20 voz · 30 video · 40 OT · 50 Wi-Fi · 99 gestión; un <code>/28</code> por paso a nivel.</li>
+            <li><strong>Ruteo:</strong> área 0 en el CCO y en los túneles SD-WAN; eBGP con el operador solo para el transporte.</li>
           </ul>
         </article>
       </div>
@@ -510,25 +591,25 @@
       campana: {
         name: 'Campana', s: 20, area: 1, pan: 6, odf: 24, wan: 34.2, link: 50,
         mpls: '50 Mbps · eBGP', bkT: 'Respaldo IPSec', bkS: '20 Mbps · HFC', inet: '20 Mbps · VLAN 50',
-        tel: 30, cam: 12, cab: 'Fibra OM3 · andén >100 m', hasCab: true,
+        tel: 30, cam: 12, cab: 'Fibra OM3 · ~170 m de cable', hasCab: true,
         anden: '~145 m', refefo: 'Sí',
-        note: '<strong>Campana:</strong> el andén llega a unos 130–145 m, más que los 100 m del UTP. Por eso lleva gabinete de andén con fibra OM3.',
+        note: '<strong>Campana:</strong> el andén llega a unos 145 m en línea recta (~170 m de cable), lejos de los 90 m del UTP. Lleva gabinete de andén con fibra OM3.',
         fail: '<strong>MPLS cortado en Campana:</strong> SD-WAN pasa al cablemódem de 20 Mbps con IPSec. OT, voz y clips de evento siguen; el video en vivo se pausa y graba local.'
       },
       sanpedro: {
         name: 'San Pedro', s: 30, area: 2, pan: 8, odf: 24, wan: 32.6, link: 50,
-        mpls: '50 Mbps · operador local', bkT: 'Respaldo 4G / radio', bkS: '20 Mbps · sin REFEFO', inet: '20 Mbps · VLAN 50',
-        tel: 24, cam: 10, cab: 'No hace falta (≤95 m)', hasCab: false,
+        mpls: '50 Mbps · operador local', bkT: 'Respaldo radio / 4G', bkS: '20 Mbps · a Baradero', inet: '20 Mbps · VLAN 50',
+        tel: 24, cam: 10, cab: 'Fibra OM3 · ~115 m de cable', hasCab: true,
         anden: '~95 m', refefo: 'No',
-        note: '<strong>San Pedro:</strong> el andén queda a unos 95 m, alcanza con UTP directo. Es la única sede sin nodo REFEFO.',
-        fail: '<strong>MPLS cortado en San Pedro:</strong> pasa a 4G/5G dual-SIM o radioenlace, por un camino físico distinto al de la fibra.'
+        note: '<strong>San Pedro:</strong> el andén queda a ~95 m en línea recta, pero el cable real ronda los 115 m: también lleva gabinete. Es la única sede sin nodo REFEFO.',
+        fail: '<strong>MPLS cortado en San Pedro:</strong> pasa al radioenlace a Baradero (o al 4G/5G dual-SIM mientras se hace la obra), por un camino físico distinto al de la fibra.'
       },
       sannicolas: {
         name: 'San Nicolás', s: 40, area: 3, pan: 11, odf: 48, wan: 44.2, link: 50,
         mpls: '50 Mbps · eBGP', bkT: 'Respaldo IPSec', bkS: '30 Mbps · HFC o 4G', inet: '30 Mbps · VLAN 50',
-        tel: 40, cam: 16, cab: 'OM3 opcional · ~100 m', hasCab: true,
+        tel: 40, cam: 16, cab: 'Fibra OM3 · ~120 m de cable', hasCab: true,
         anden: '~100 m', refefo: 'Sí',
-        note: '<strong>San Nicolás:</strong> la sede más grande de las tres (40 teléfonos, 16 cámaras, 11 pasos a nivel). El andén está justo en 100 m.',
+        note: '<strong>San Nicolás:</strong> la sede más grande de las tres (40 teléfonos, 16 cámaras, 11 pasos a nivel). El andén está a ~100 m en línea recta (~120 m de cable), así que lleva gabinete.',
         fail: '<strong>MPLS cortado en San Nicolás:</strong> SD-WAN pasa al respaldo IPSec de 30 Mbps. OT y voz siguen con prioridad.'
       }
     };
@@ -552,6 +633,7 @@
       document.querySelectorAll('.step').forEach((s) => s.classList.toggle('active', s.id === 'step-' + n));
       $('prevBtn').hidden = n === 1;
       $('nextBtn').hidden = n === 6;
+      $('sedeBox').hidden = n > 2; // solo los pasos 1 y 2 cambian con la estación
       window.scrollTo({ top: 0 });
     }
 
@@ -647,8 +729,6 @@
       rows.push('<tr><td><code>10.60.' + d.s + '.' + d.pan * 16 + ' a .224</code></td><td>Libres (' + (15 - d.pan) + ' /28)</td></tr>');
       rows.push('<tr><td><code>10.60.' + d.s + '.240/28</code></td><td>Tránsito al firewall (VLAN 41)</td></tr>');
       $('panRows').innerHTML = rows.join('');
-      // paso 5
-      document.querySelectorAll('#tab-ip tr[data-sede]').forEach((r) => r.classList.toggle('hl', r.dataset.sede === sede));
     }
 
     const QOS = {
